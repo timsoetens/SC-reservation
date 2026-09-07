@@ -1,0 +1,133 @@
+{
+  "teamMembers": [
+    {
+      "id": "u1",
+      "name": "Alicia"
+    },
+    {
+      "id": "u2",
+      "name": "Bram"
+    },
+    {
+      "id": "u3",
+      "name": "Chloe"
+    },
+    {
+      "id": "u4",
+      "name": "Daan"
+    },
+    {
+      "id": "u5",
+      "name": "Elise"
+    },
+    {
+      "id": "u6",
+      "name": "Farid"
+    },
+    {
+      "id": "u7",
+      "name": "Gwen"
+    },
+    {
+      "id": "u8",
+      "name": "Hugo"
+    },
+    {
+      "id": "u9",
+      "name": "Imani"
+    },
+    {
+      "id": "u10",
+      "name": "Jasper"
+    },
+    {
+      "id": "u11",
+      "name": "Kato"
+    },
+    {
+      "id": "u12",
+      "name": "Lars"
+    },
+    {
+      "id": "u13",
+      "name": "Mina"
+    },
+    {
+      "id": "u14",
+      "name": "Noah"
+    },
+    {
+      "id": "u15",
+      "name": "Oona"
+    }
+  ],
+  "devices": [
+    {
+      "id": "d1",
+      "name": "PS300-A",
+      "type": "Scanner"
+    },
+    {
+      "id": "d2",
+      "name": "PS300-B",
+      "type": "Scanner"
+    },
+    {
+      "id": "d3",
+      "name": "PS300-C",
+      "type": "Scanner"
+    },
+    {
+      "id": "d4",
+      "name": "iPad-A",
+      "type": "Tablet"
+    },
+    {
+      "id": "d5",
+      "name": "iPad-B",
+      "type": "Tablet"
+    },
+    {
+      "id": "d6",
+      "name": "LCR-meter",
+      "type": "Measurement"
+    },
+    {
+      "id": "d7",
+      "name": "Profometer",
+      "type": "Measurement"
+    },
+    {
+      "id": "d8",
+      "name": "Resipod",
+      "type": "Measurement"
+    }
+  ],
+  "users": [
+    {
+      "id": "auth0|69edca9737b2766ac2c1e3d3",
+      "name": "Onbekende gebruiker",
+      "email": "",
+      "createdAt": "2026-04-26T08:19:36.413Z"
+    },
+    {
+      "id": "google-oauth2|109878178874705663606",
+      "name": "Onbekende gebruiker",
+      "email": "",
+      "createdAt": "2026-04-26T08:24:11.317Z",
+      "role": "user",
+      "isAdmin": false
+    }
+  ],
+  "reservations": [
+    {
+      "id": "r1777187281718",
+      "deviceId": "d5",
+      "memberId": "u3",
+      "start": "2026-04-21T08:00:00.000Z",
+      "end": "2026-04-24T09:00:00.000Z",
+      "note": "",
+      "createdAt": "2026-04-26T07:08:01.718Z"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resource Reservatie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <main class="layout">
+      <header class="hero">
+        <p class="eyebrow">Team Resource Planner</p>
+        <h1>Reservaties voor devices</h1>
+        <p class="intro">
+          Plan eenvoudig resources voor een team van 15 personen met conflictcontrole in real-time.
+        </p>
+      </header>
+
+      <section class="panel auth-panel" id="auth-panel">
+        <h2>Aanmelden</h2>
+        <p class="auth-provider">Meld aan met je Office 365-account.</p>
+        <div class="login-form">
+          <button id="login-btn" type="button">Aanmelden met Office 365</button>
+        </div>
+        <p id="login-message" class="form-message"></p>
+      </section>
+
+      <section class="panel session-panel" id="session-panel" hidden>
+        <p>Ingelogd als <strong id="current-user-label"></strong> <span id="current-user-role" class="role-badge"></span></p>
+        <button id="logout-btn" class="ghost" type="button">Logout</button>
+      </section>
+
+      <section class="panel form-panel" id="form-panel" hidden>
+        <h2>Nieuwe reservatie</h2>
+        <form id="reservation-form">
+          <div class="field-grid">
+            <label>
+              Device
+              <select id="deviceId" required></select>
+            </label>
+
+            <label class="field-span-2">
+              Start en einde
+              <input id="date-range" type="text" placeholder="Selecteer start en einde" required />
+            </label>
+          </div>
+
+          <label>
+            Notitie
+            <input id="note" type="text" maxlength="200" placeholder="Optioneel" />
+          </label>
+
+          <button type="submit">Reservatie toevoegen</button>
+          <p id="form-message" class="form-message"></p>
+        </form>
+      </section>
+
+      <section class="panel list-panel" id="list-panel" hidden>
+        <div class="list-header">
+          <h2>Geplande reservaties</h2>
+          <button id="refresh-btn" class="ghost">Vernieuwen</button>
+        </div>
+        <div id="reservations" class="reservation-list"></div>
+      </section>
+
+      <section class="panel planner-panel" id="planner-panel" hidden>
+        <div class="planner-header">
+          <h2>Visuele planning</h2>
+          <div class="planner-controls">
+            <button id="prev-week-btn" class="ghost" type="button">Vorige week</button>
+            <button id="today-week-btn" class="ghost" type="button">Deze week</button>
+            <button id="next-week-btn" class="ghost" type="button">Volgende week</button>
+            <p id="week-label" class="week-label"></p>
+          </div>
+          <p class="planner-help">Sleep een reservatieblok naar een andere dag of device om aan te passen. Dubbelklik op een dagcel om snel een reservatie te maken.</p>
+        </div>
+
+        <div class="week-shell">
+          <div id="week-axis" class="week-axis"></div>
+          <div id="device-rows" class="device-rows"></div>
+        </div>
+      </section>
+    </main>
+
+    <template id="reservation-item-template">
+      <article class="reservation-item">
+        <div>
+          <h3 class="reservation-device"></h3>
+          <p class="reservation-member"></p>
+          <p class="reservation-time"></p>
+          <p class="reservation-note"></p>
+        </div>
+        <button class="delete-btn" type="button">Verwijderen</button>
+      </article>
+    </template>
+
+    <template id="device-row-template">
+      <article class="device-row">
+        <header class="device-meta">
+          <h3 class="device-name"></h3>
+          <p class="device-type"></p>
+        </header>
+        <div class="device-week-grid"></div>
+      </article>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/@auth0/auth0-spa-js@2/dist/auth0-spa-js.production.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/nl.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
