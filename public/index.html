@@ -105,13 +105,17 @@
           <p class="dialog-period" id="project-period"></p>
           <label for="project-select">Bestaand SC-project</label>
           <select id="project-select"></select>
-          <div class="new-project-row">
-            <label for="new-project-name">Of maak een nieuw project aan</label>
-            <div class="new-project-input"><input id="new-project-name" type="text" placeholder="SC26001" pattern="SC.*" /><button id="create-project-btn" class="ghost" type="button">Nieuw</button></div>
+          <div class="new-project-fields" id="new-project-fields" hidden>
+            <div class="new-project-row">
+            <label for="new-project-name">Projectcode</label>
+            <div class="new-project-input"><input id="new-project-name" type="text" placeholder="SC24025" pattern="SC.*" /></div>
+            </div>
+            <label for="new-project-title">Projectnaam</label>
+            <input id="new-project-title" type="text" placeholder="Koeltoren KTR D4" />
+            <label for="new-project-color">Projectkleur</label>
+            <input id="new-project-color" type="hidden" value="#f3b6b6" />
+            <div id="new-project-palette" class="color-palette" aria-label="Kies een projectkleur"></div>
           </div>
-          <label for="new-project-color">Projectkleur</label>
-          <input id="new-project-color" type="hidden" value="#f3b6b6" />
-          <div id="new-project-palette" class="color-palette" aria-label="Kies een projectkleur"></div>
           <p id="project-message" class="form-message"></p>
           <div class="dialog-actions"><button id="project-submit-btn" type="button">Reservatie aanmaken</button></div>
         </form>
@@ -146,7 +150,17 @@
 
       <section class="panel page-panel information-panel" id="people-panel" data-view="people" hidden>
         <div class="page-heading"><div><p class="eyebrow">People &amp; Resources</p><h2>Team en devices</h2></div></div>
-        <div class="split-data"><div><h3>Teamleden</h3><div id="people-list" class="data-list"></div></div><div><h3>Resources</h3><div id="resource-list" class="resource-list"></div></div></div>
+        <div class="section-tabs" role="tablist" aria-label="People en resources">
+          <button class="section-tab" type="button" data-section-tab="people">Personen</button>
+          <button class="section-tab active" type="button" data-section-tab="resources">Resources</button>
+        </div>
+        <div class="section-tab-panel" data-section-panel="people" hidden><h3>Teamleden</h3><div id="people-list" class="data-list"></div></div>
+        <div class="section-tab-panel" data-section-panel="resources"><h3>Resources</h3><div id="resource-list" class="resource-list"></div></div>
+        <div class="admin-user-tools" id="admin-user-tools" hidden>
+          <h3>Gebruikers beheren</h3>
+          <form id="invite-user-form" class="invite-user-form"><input id="invite-user-email" type="email" placeholder="naam@sanacon.be" required /><button type="submit">Gebruiker uitnodigen</button></form>
+          <p id="invite-user-message" class="form-message"></p>
+        </div>
       </section>
 
       <dialog class="project-dialog resource-dialog" id="resource-dialog">

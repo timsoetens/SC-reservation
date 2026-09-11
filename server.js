@@ -194,6 +194,13 @@ function requireAuth(req, res, next) {
   });
 }
 
+function requireAdmin(req, res, next) {
+  if (!req.authUser?.isAdmin) {
+    return res.status(403).json({ error: "Alleen admins mogen gebruikers beheren." });
+  }
+  return next();
+}
+
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true, message: "API running" });
 });
@@ -225,6 +232,36 @@ app.get("/api/meta", requireAuth, (req, res) => {
     users: db.users,
     currentUser: req.authUser
   });
+});
+
+app.post("/api/users/invitations", requireAuth, requireAdmin, (req, res) => {
+  const email = String(req.body?.email || "").trim().toLowerCase();
+  if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+    return res.status(400).json({ error: "Geef een geldig e-mailadres op." });
+  }
+  const db = readDb();
+  if (!Array.isArray(db.invitations)) {
+    db.invitations = [];
+  }
+  if (!db.invitations.some((invite) => invite.email === email)) {
+    db.invitations.push({ email, role: "user", invitedBy: req.authUser.id, createdAt: new Date().toISOString() });
+    writeDb(db);
+  }
+  return res.status(201).json({ email, role: "user" });
+});
+
+app.put("/api/users/:id/role", requireAuth, requireAdmin, (req, res) => {
+  const role = req.body?.role === "admin" ? "admin" : "user";
+  const db = readDb();
+  ensureUsersCollection(db);
+  const user = db.users.find((item) => item.id === req.params.id);
+  if (!user) {
+    return res.status(404).json({ error: "Gebruiker niet gevonden." });
+  }
+  user.role = role;
+  user.isAdmin = role === "admin";
+  writeDb(db);
+  return res.json(user);
 });
 
 app.put("/api/devices/:id", requireAuth, (req, res) => {
@@ -276,12 +313,16 @@ app.get("/api/projects", requireAuth, (_req, res) => {
 
 app.post("/api/projects", requireAuth, (req, res) => {
   const name = String(req.body?.name || "").trim();
+  const projectName = String(req.body?.projectName || "").trim();
   const color = req.body?.color || "#c23e3f";
   if (!/^SC/i.test(name)) {
     return res.status(400).json({ error: "Een projectnaam moet met SC beginnen." });
   }
   if (!isValidProjectColor(color)) {
     return res.status(400).json({ error: "Kies een geldige projectkleur." });
+  }
+  if (!projectName) {
+    return res.status(400).json({ error: "Geef ook een projectnaam op." });
   }
 
   const db = readDb();
@@ -290,10 +331,14 @@ app.post("/api/projects", requireAuth, (req, res) => {
   if (duplicate) {
     return res.status(409).json({ error: "Dit project bestaat al." });
   }
+  if (db.projects.some((project) => getProjectColor(project).toLowerCase() === color.toLowerCase())) {
+    return res.status(409).json({ error: "Deze kleur is al in gebruik door een ander project." });
+  }
 
   const project = {
     id: `p${Date.now()}`,
     name,
+    projectName,
     color,
     createdBy: req.authUser.id,
     createdAt: new Date().toISOString()
@@ -314,6 +359,9 @@ app.put("/api/projects/:id", requireAuth, (req, res) => {
   const project = db.projects.find((item) => item.id === req.params.id);
   if (!project) {
     return res.status(404).json({ error: "Project niet gevonden." });
+  }
+  if (db.projects.some((item) => item.id !== project.id && getProjectColor(item).toLowerCase() === color.toLowerCase())) {
+    return res.status(409).json({ error: "Deze kleur is al in gebruik door een ander project." });
   }
 
   project.color = color;
@@ -353,6 +401,7 @@ app.get("/api/reservations", requireAuth, (_req, res) => {
         db.teamMembers?.find((m) => m.id === reservation.memberId)?.name ||
         reservation.memberId,
       projectName: db.projects.find((project) => project.id === reservation.projectId)?.name || "",
+      projectTitle: db.projects.find((project) => project.id === reservation.projectId)?.projectName || "",
       projectColor: (() => {
         const project = db.projects.find((item) => item.id === reservation.projectId);
         return project ? getProjectColor(project) : "";

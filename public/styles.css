@@ -295,6 +295,16 @@ button.ghost {
   box-shadow: inset 2px 0 0 var(--accent), inset -2px 0 0 var(--accent), inset 0 2px 0 var(--accent);
 }
 
+.week-axis span.holiday-column,
+.week-cell.holiday-column {
+  background: repeating-linear-gradient(-45deg, rgba(47, 52, 61, 0.04), rgba(47, 52, 61, 0.04) 5px, rgba(47, 52, 61, 0.1) 5px, rgba(47, 52, 61, 0.1) 8px);
+}
+
+.week-axis span.holiday-column {
+  color: var(--text);
+  font-weight: 700;
+}
+
 .device-rows {
   min-width: 2740px;
 }
@@ -377,6 +387,10 @@ button.ghost {
   z-index: 1;
   background: #fff8f8;
   box-shadow: inset 2px 0 0 var(--accent), inset -2px 0 0 var(--accent);
+}
+
+.week-cell.holiday-column.today-column {
+  background: repeating-linear-gradient(-45deg, #fff8f8, #fff8f8 5px, #f7dddd 5px, #f7dddd 8px);
 }
 
 .week-cell.today-column:last-child {
@@ -503,7 +517,7 @@ button.ghost {
 .reservation-block {
   border-radius: 4px;
   background: linear-gradient(120deg, var(--accent) 0%, var(--accent-dark) 100%);
-  color: #fff;
+  color: #2f343d;
   padding: 0.4rem 0.45rem;
   display: grid;
   align-content: start;
@@ -511,6 +525,100 @@ button.ghost {
   overflow: hidden;
   cursor: move;
   box-shadow: 0 2px 5px rgba(150, 47, 52, 0.22);
+}
+
+.reservation-block.reservation-span {
+  position: relative;
+  z-index: 3;
+  width: calc(var(--reservation-days) * 90px - 0.7rem);
+  min-width: calc(90px - 0.7rem);
+}
+
+.reservation-block-actions {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  z-index: 4;
+  display: flex;
+  gap: 0.15rem;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.reservation-block:hover .reservation-block-actions,
+.reservation-block:focus-within .reservation-block-actions {
+  opacity: 1;
+}
+
+.reservation-action {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  color: #2f343d;
+  background: rgba(255, 255, 255, 0.78);
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
+.reservation-action:hover {
+  color: #fff;
+  background: var(--accent);
+}
+
+.reservation-action.delete-action:hover {
+  background: var(--danger);
+}
+
+.reservation-resize-handle {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border: 2px solid #2f343d;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  transform: translateY(-50%);
+  cursor: ew-resize;
+  pointer-events: auto;
+}
+
+.reservation-block:hover .reservation-resize-handle,
+.reservation-resize-handle:focus-visible {
+  opacity: 1;
+}
+
+.reservation-resize-handle:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.reservation-resize-handle.start-handle {
+  left: 0.15rem;
+}
+
+.reservation-resize-handle.end-handle {
+  right: 0.15rem;
+}
+
+.is-resizing-reservation {
+  user-select: none;
+}
+
+.week-cell.resize-target {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
 .reservation-block.is-dragging {
@@ -536,7 +644,7 @@ button.ghost {
 
 .reservation-block small {
   font-size: 0.67rem;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .cell-empty {
@@ -744,6 +852,13 @@ button.ghost {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .workspace {
@@ -1033,6 +1148,99 @@ button.ghost {
   gap: 0.35rem;
 }
 
+.people-tile,
+.resource-card {
+  min-height: 104px;
+}
+
+.people-tile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(47, 52, 61, 0.05);
+}
+
+.people-tile-avatar {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  color: #fff;
+  background-color: #87919c;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.people-tile-details {
+  display: grid;
+  min-width: 0;
+  gap: 0.2rem;
+}
+
+.people-tile-details strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.people-tile-details span,
+.people-tile-details b {
+  overflow: hidden;
+  color: var(--text-soft);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.people-tile-details b {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.people-tile-details select {
+  width: max-content;
+  padding: 0.25rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.68rem;
+}
+
+.admin-user-tools {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.admin-user-tools h3 {
+  margin: 0 0 0.55rem;
+  font-size: 0.9rem;
+}
+
+.invite-user-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.invite-user-form input {
+  min-width: 0;
+  flex: 1;
+}
+
+.invite-user-form button {
+  margin: 0;
+  white-space: nowrap;
+}
+
 .data-row {
   display: flex;
   align-items: center;
@@ -1062,6 +1270,7 @@ button.ghost {
 
 .resource-list {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 0.55rem;
 }
 
@@ -1195,12 +1404,48 @@ button.ghost {
 
 .split-data {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+#people-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.65rem;
 }
 
 .split-data h3 {
   margin: 0 0 0.55rem;
+  font-size: 0.9rem;
+}
+
+.section-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-tab {
+  margin: 0;
+  padding: 0.55rem 0.8rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: var(--text-soft);
+  background: transparent;
+  font-size: 0.78rem;
+}
+
+.section-tab:hover,
+.section-tab.active {
+  color: var(--accent-dark);
+  background: transparent;
+  border-bottom-color: var(--accent);
+}
+
+.section-tab-panel > h3 {
+  margin: 0 0 0.65rem;
   font-size: 0.9rem;
 }
 
@@ -1313,6 +1558,12 @@ button.ghost {
 
 .color-swatch:hover {
   filter: saturate(1.08) brightness(0.98);
+}
+
+.color-swatch:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.35);
+  opacity: 0.35;
 }
 
 .color-swatch.selected {

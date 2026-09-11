@@ -1,4 +1,5 @@
 const WEEK_DAY_COUNT = 28;
+const NAVIGATION_STEP_DAYS = 7;
 const DAY_NAMES = ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"];
 const PROJECT_COLOR_PRESETS = [
   "#f3b6b6", "#f6c4a3", "#f5d79b", "#e8e49f", "#c9df9c", "#a9d8ad",
@@ -22,8 +23,10 @@ const elements = {
   projectPeriod: document.getElementById("project-period"),
   projectSelect: document.getElementById("project-select"),
   newProjectName: document.getElementById("new-project-name"),
+  newProjectTitle: document.getElementById("new-project-title"),
   newProjectColor: document.getElementById("new-project-color"),
   newProjectPalette: document.getElementById("new-project-palette"),
+  newProjectFields: document.getElementById("new-project-fields"),
   createProjectButton: document.getElementById("create-project-btn"),
   projectCancelButton: document.getElementById("project-cancel-btn"),
   projectSubmitButton: document.getElementById("project-submit-btn"),
@@ -43,6 +46,10 @@ const elements = {
   timesheetList: document.getElementById("timesheet-list"),
   peopleList: document.getElementById("people-list"),
   resourceList: document.getElementById("resource-list"),
+  adminUserTools: document.getElementById("admin-user-tools"),
+  inviteUserForm: document.getElementById("invite-user-form"),
+  inviteUserEmail: document.getElementById("invite-user-email"),
+  inviteUserMessage: document.getElementById("invite-user-message"),
   resourceDialog: document.getElementById("resource-dialog"),
   resourceForm: document.getElementById("resource-form"),
   resourceDialogName: document.getElementById("resource-dialog-name"),
@@ -87,6 +94,7 @@ const state = {
   pendingPlannerReservation: null,
   editingReservation: null,
   editingDevice: null,
+  resizingReservation: null,
   scheduleRefreshTimer: null,
   scheduleRefreshInFlight: false,
   dateRangePicker: null,
@@ -209,9 +217,44 @@ function renderTimesheetsPage() {
 }
 
 function renderPeoplePage() {
+  elements.adminUserTools.hidden = !state.currentUser?.isAdmin;
   elements.peopleList.innerHTML = "";
   state.users.forEach((user) => {
-    elements.peopleList.appendChild(createDataRow(user.name, user.email || "Google Workspace-gebruiker", user.isAdmin ? "Admin" : "Gebruiker"));
+    const tile = document.createElement("article");
+    tile.className = "people-tile";
+    const avatar = document.createElement("div");
+    avatar.className = "people-tile-avatar";
+    if (user.picture) {
+      avatar.style.backgroundImage = `url("${user.picture}")`;
+    } else {
+      avatar.textContent = user.name.split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase();
+    }
+    const details = document.createElement("div");
+    details.className = "people-tile-details";
+    const name = document.createElement("strong");
+    name.textContent = user.name;
+    const email = document.createElement("span");
+    email.textContent = user.email || "Google Workspace-gebruiker";
+    const role = document.createElement("b");
+    role.textContent = user.isAdmin ? "Admin" : "Gebruiker";
+    if (state.currentUser?.isAdmin) {
+      const roleSelect = document.createElement("select");
+      roleSelect.innerHTML = "<option value=\"user\">Gebruiker</option><option value=\"admin\">Admin</option>";
+      roleSelect.value = user.isAdmin ? "admin" : "user";
+      roleSelect.addEventListener("change", async () => {
+        try {
+          const updated = await request(`/api/users/${user.id}/role`, { method: "PUT", body: JSON.stringify({ role: roleSelect.value }) });
+          Object.assign(user, updated);
+          renderPeoplePage();
+        } catch (error) {
+          alert(error.message);
+        }
+      });
+      details.appendChild(roleSelect);
+    }
+    details.append(name, email, role);
+    tile.append(avatar, details);
+    elements.peopleList.appendChild(tile);
   });
   elements.resourceList.innerHTML = "";
   state.devices.forEach((device) => {
@@ -343,7 +386,7 @@ async function removeResource(device) {
   }
 }
 
-function renderColorPalette(container, selectedColor, onSelect) {
+function renderColorPalette(container, selectedColor, onSelect, unavailableColors = []) {
   container.innerHTML = "";
   PROJECT_COLOR_PRESETS.forEach((color) => {
     const swatch = document.createElement("button");
@@ -353,6 +396,10 @@ function renderColorPalette(container, selectedColor, onSelect) {
     swatch.dataset.color = color;
     swatch.title = color;
     swatch.setAttribute("aria-label", `Kies kleur ${color}`);
+    swatch.disabled = unavailableColors.some((usedColor) => usedColor.toLowerCase() === color.toLowerCase());
+    if (swatch.disabled) {
+      swatch.title = `${color} is al in gebruik`;
+    }
     swatch.classList.toggle("selected", color.toLowerCase() === selectedColor.toLowerCase());
     swatch.addEventListener("click", () => {
       container.querySelectorAll(".color-swatch.selected").forEach((item) => item.classList.remove("selected"));
@@ -377,7 +424,7 @@ function renderProjectsPage() {
     const card = document.createElement("article");
     card.className = "project-card";
     card.innerHTML = "<span>PROJECT</span><h3></h3><p></p><div class=\"project-color-row\"><div class=\"color-picker\"><button class=\"color-preview\" type=\"button\" aria-label=\"Open projectkleuren\"></button><div class=\"color-palette\" aria-label=\"Kies een projectkleur\" hidden></div></div><button class=\"ghost\" type=\"button\">Kleur opslaan</button></div>";
-    card.querySelector("h3").textContent = project.name;
+    card.querySelector("h3").textContent = project.projectName ? `${project.name} - ${project.projectName}` : project.name;
     const reservationCount = state.reservations.filter((reservation) => reservation.projectId === project.id).length;
     card.querySelector("p").textContent = `${reservationCount} reservaties`;
     let selectedColor = project.color || PROJECT_COLOR_PRESETS[0];
@@ -388,11 +435,15 @@ function renderProjectsPage() {
     preview.addEventListener("click", () => {
       palette.hidden = !palette.hidden;
     });
+    const usedByOtherProjects = state.projects
+      .filter((item) => item.id !== project.id)
+      .map((item) => item.color)
+      .filter(Boolean);
     renderColorPalette(palette, selectedColor, (color) => {
       selectedColor = color;
       preview.style.backgroundColor = color;
       palette.hidden = true;
-    });
+    }, usedByOtherProjects);
     saveButton.addEventListener("click", async () => {
       saveButton.disabled = true;
       try {
@@ -497,7 +548,47 @@ function getWeekEndExclusive() {
 }
 
 function getDateKey(date) {
-  return toStartOfDay(date).toISOString().slice(0, 10);
+  const localDate = toStartOfDay(date);
+  const year = localDate.getFullYear();
+  const month = String(localDate.getMonth() + 1).padStart(2, "0");
+  const day = String(localDate.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function getEasterSunday(year) {
+  const goldenNumber = year % 19;
+  const century = Math.floor(year / 100);
+  const yearInCentury = year % 100;
+  const leapCentury = Math.floor(century / 4);
+  const centuryRemainder = century % 4;
+  const correction = Math.floor((century + 8) / 25);
+  const lunarCorrection = Math.floor((century - correction + 1) / 3);
+  const epact = (19 * goldenNumber + century - leapCentury - lunarCorrection + 15) % 30;
+  const weekdayCorrection = (32 + 2 * centuryRemainder + 2 * Math.floor(yearInCentury / 4) - epact - yearInCentury % 4) % 7;
+  const monthOffset = Math.floor((goldenNumber + 11 * epact + 22 * weekdayCorrection) / 451);
+  const month = Math.floor((epact + weekdayCorrection - 7 * monthOffset + 114) / 31);
+  const day = ((epact + weekdayCorrection - 7 * monthOffset + 114) % 31) + 1;
+  return new Date(year, month - 1, day);
+}
+
+function getBelgianHoliday(date) {
+  const year = date.getFullYear();
+  const easterSunday = getEasterSunday(year);
+  const holidays = [
+    [new Date(year, 0, 1), "Nieuwjaar"],
+    [addDays(easterSunday, 1), "Paasmaandag"],
+    [new Date(year, 4, 1), "Dag van de Arbeid"],
+    [addDays(easterSunday, 39), "Hemelvaart"],
+    [addDays(easterSunday, 50), "Pinkstermaandag"],
+    [new Date(year, 6, 21), "Nationale feestdag"],
+    [new Date(year, 7, 15), "Onze-Lieve-Vrouw-Hemelvaart"],
+    [new Date(year, 10, 1), "Allerheiligen"],
+    [new Date(year, 10, 11), "Wapenstilstand"],
+    [new Date(year, 11, 25), "Kerstmis"]
+  ];
+  const dateKey = getDateKey(date);
+  const holiday = holidays.find(([holidayDate]) => getDateKey(holidayDate) === dateKey);
+  return holiday?.[1] || "";
 }
 
 function getDefaultRange(baseDate = new Date()) {
@@ -683,11 +774,20 @@ function renderCurrentUser() {
   }
   const sidebarAvatar = document.getElementById("sidebar-user-avatar");
   if (sidebarAvatar) {
-    sidebarAvatar.textContent = userName.split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase();
+    const initials = userName.split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase();
+    sidebarAvatar.textContent = initials;
     sidebarAvatar.style.backgroundImage = "";
+    sidebarAvatar.replaceChildren();
     if (state.currentUser?.picture) {
       sidebarAvatar.textContent = "";
-      sidebarAvatar.style.backgroundImage = `url("${state.currentUser.picture}")`;
+      const image = document.createElement("img");
+      image.src = state.currentUser.picture;
+      image.alt = userName;
+      image.addEventListener("error", () => {
+        image.remove();
+        sidebarAvatar.textContent = initials;
+      });
+      sidebarAvatar.appendChild(image);
     }
   }
   elements.currentUserRole.textContent = state.currentUser?.isAdmin ? "Admin" : "Gebruiker";
@@ -734,7 +834,7 @@ function openEditDialog(reservation) {
   state.projects.forEach((project) => {
     const option = document.createElement("option");
     option.value = project.id;
-    option.textContent = project.name;
+    option.textContent = project.projectName ? `${project.name} - ${project.projectName}` : project.name;
     option.selected = project.id === reservation.projectId;
     elements.editProjectSelect.appendChild(option);
   });
@@ -903,21 +1003,22 @@ async function finishPlannerSelection() {
 
 function renderProjectOptions() {
   elements.projectSelect.innerHTML = "";
-  if (!state.projects.length) {
-    const emptyOption = document.createElement("option");
-    emptyOption.textContent = "Nog geen SC-projecten - maak er hieronder een aan";
-    emptyOption.disabled = true;
-    emptyOption.selected = true;
-    elements.projectSelect.appendChild(emptyOption);
-    return;
-  }
-
   state.projects.forEach((project) => {
     const option = document.createElement("option");
     option.value = project.id;
-    option.textContent = project.name;
+    option.textContent = project.projectName ? `${project.name} - ${project.projectName}` : project.name;
     elements.projectSelect.appendChild(option);
   });
+  const newOption = document.createElement("option");
+  newOption.value = "__new_project__";
+  newOption.textContent = "Nieuw project...";
+  elements.projectSelect.appendChild(newOption);
+}
+
+function updateNewProjectVisibility() {
+  const isNewProject = elements.projectSelect.value === "__new_project__";
+  elements.newProjectFields.hidden = !isNewProject;
+  elements.newProjectName.required = isNewProject;
 }
 
 function openProjectDialog() {
@@ -933,11 +1034,16 @@ function openProjectDialog() {
   elements.projectMessage.className = "form-message";
   const defaultProjectName = `SC${new Date(pending.start).toISOString().slice(0, 10).replace(/-/g, "")}`;
   elements.newProjectName.value = state.projects.length ? "" : defaultProjectName;
-  elements.newProjectColor.value = PROJECT_COLOR_PRESETS[0];
+  elements.newProjectTitle.value = "";
+  const usedProjectColors = state.projects.map((project) => project.color).filter(Boolean);
+  const firstAvailableColor = PROJECT_COLOR_PRESETS.find((color) => !usedProjectColors.includes(color)) || PROJECT_COLOR_PRESETS[0];
+  elements.newProjectColor.value = firstAvailableColor;
   renderColorPalette(elements.newProjectPalette, elements.newProjectColor.value, (color) => {
     elements.newProjectColor.value = color;
-  });
+  }, usedProjectColors);
   renderProjectOptions();
+  elements.projectSelect.value = state.projects.length ? state.projects[0].id : "__new_project__";
+  updateNewProjectVisibility();
   if (typeof elements.projectDialog.showModal === "function") {
     elements.projectDialog.showModal();
   } else {
@@ -995,6 +1101,11 @@ function renderPlanner() {
     if (dayDate.getDay() === 0 || dayDate.getDay() === 6) {
       day.classList.add("weekend-column");
     }
+    const holidayName = getBelgianHoliday(dayDate);
+    if (holidayName) {
+      day.classList.add("holiday-column");
+      day.title = `Belgische feestdag: ${holidayName}`;
+    }
     day.textContent = `${DAY_NAMES[index % DAY_NAMES.length]} ${formatDateLabel(dayDate)}`;
     elements.weekAxis.appendChild(day);
   });
@@ -1040,6 +1151,11 @@ function renderPlanner() {
       }
       if (dayDate.getDay() === 0 || dayDate.getDay() === 6) {
         cell.classList.add("weekend-column");
+      }
+      const holidayName = getBelgianHoliday(dayDate);
+      if (holidayName) {
+        cell.classList.add("holiday-column");
+        cell.title = `Belgische feestdag: ${holidayName}`;
       }
 
       cell.addEventListener("mousedown", (event) => {
@@ -1091,7 +1207,7 @@ function renderPlanner() {
       const dayStart = new Date(dayDate);
       const dayEnd = addDays(dayStart, 1);
 
-      const reservationItems = state.reservations
+      const overlappingReservations = state.reservations
         .filter((reservation) => reservation.deviceId === device.id)
         .filter((reservation) => {
           const reservationStart = new Date(reservation.start);
@@ -1104,7 +1220,14 @@ function renderPlanner() {
           return reservationEnd > weekStart && reservationStart < weekEndExclusive;
         });
 
-      if (!reservationItems.length) {
+      const firstVisibleDateKey = getDateKey(weekStart);
+      const reservationItems = overlappingReservations.filter((reservation) => {
+        const reservationDateKey = getDateKey(new Date(reservation.start));
+        return reservationDateKey === cell.dataset.date ||
+          (reservationDateKey < cell.dataset.date && cell.dataset.date === firstVisibleDateKey);
+      });
+
+      if (!overlappingReservations.length) {
         const empty = document.createElement("span");
         empty.className = "cell-empty";
         empty.textContent = "-";
@@ -1113,7 +1236,14 @@ function renderPlanner() {
 
       reservationItems.forEach((reservation) => {
         const block = document.createElement("div");
-        block.className = "reservation-block";
+        block.className = "reservation-block reservation-span";
+        const reservationStart = new Date(reservation.start);
+        const reservationEnd = new Date(reservation.end);
+        const spanDays = weekDays.filter((visibleDay) => {
+          const visibleDayEnd = addDays(visibleDay, 1);
+          return reservationStart < visibleDayEnd && reservationEnd > visibleDay;
+        }).length;
+        block.style.setProperty("--reservation-days", String(Math.max(1, spanDays)));
         if (reservation.projectColor) {
           block.style.background = reservation.projectColor;
           block.style.borderLeft = `4px solid ${reservation.projectColor}`;
@@ -1131,7 +1261,9 @@ function renderPlanner() {
 
         const project = document.createElement("strong");
         project.className = "reservation-project";
-        project.textContent = reservation.projectName || "Zonder project";
+        project.textContent = reservation.projectTitle
+          ? `${reservation.projectName} - ${reservation.projectTitle}`
+          : reservation.projectName || "Zonder project";
 
         const member = document.createElement("small");
         member.className = "reservation-member-label";
@@ -1143,6 +1275,66 @@ function renderPlanner() {
         block.appendChild(project);
         block.appendChild(member);
         block.appendChild(timing);
+
+        const startHandle = document.createElement("span");
+        startHandle.className = "reservation-resize-handle start-handle";
+        startHandle.title = "Sleep om start aan te passen";
+        startHandle.addEventListener("mousedown", (event) => event.stopPropagation());
+        startHandle.addEventListener("pointerdown", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          state.resizingReservation = { reservation, edge: "start", originalStart: reservation.start, originalEnd: reservation.end, targetDate: getDateKey(new Date(reservation.start)) };
+          document.body.classList.add("is-resizing-reservation");
+          startHandle.setPointerCapture?.(event.pointerId);
+        });
+        startHandle.addEventListener("pointermove", updateReservationResizeTarget);
+
+        const endHandle = document.createElement("span");
+        endHandle.className = "reservation-resize-handle end-handle";
+        endHandle.title = "Sleep om einde aan te passen";
+        endHandle.addEventListener("mousedown", (event) => event.stopPropagation());
+        endHandle.addEventListener("pointerdown", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          state.resizingReservation = { reservation, edge: "end", originalStart: reservation.start, originalEnd: reservation.end, targetDate: getDateKey(new Date(reservation.end)) };
+          document.body.classList.add("is-resizing-reservation");
+          endHandle.setPointerCapture?.(event.pointerId);
+        });
+        endHandle.addEventListener("pointermove", updateReservationResizeTarget);
+
+        block.append(startHandle, endHandle);
+
+        if (canManageReservation) {
+          const blockActions = document.createElement("span");
+          blockActions.className = "reservation-block-actions";
+
+          const editButton = document.createElement("button");
+          editButton.type = "button";
+          editButton.className = "reservation-action edit-action";
+          editButton.textContent = "✎";
+          editButton.title = "Reservatie bewerken";
+          editButton.setAttribute("aria-label", "Reservatie bewerken");
+          editButton.addEventListener("mousedown", (event) => event.stopPropagation());
+          editButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+            openEditDialog(reservation);
+          });
+
+          const deleteButton = document.createElement("button");
+          deleteButton.type = "button";
+          deleteButton.className = "reservation-action delete-action";
+          deleteButton.textContent = "🗑";
+          deleteButton.title = "Reservatie verwijderen";
+          deleteButton.setAttribute("aria-label", "Reservatie verwijderen");
+          deleteButton.addEventListener("mousedown", (event) => event.stopPropagation());
+          deleteButton.addEventListener("click", async (event) => {
+            event.stopPropagation();
+            await deleteReservation(reservation);
+          });
+
+          blockActions.append(editButton, deleteButton);
+          block.appendChild(blockActions);
+        }
 
         if (canManageReservation) {
           block.addEventListener("dragstart", (event) => {
@@ -1229,6 +1421,7 @@ async function moveReservationByDrop(reservation, targetDeviceId, targetDateKey)
         deviceId: targetDeviceId,
         start: newStart.toISOString(),
         end: newEnd.toISOString(),
+        projectId: reservation.projectId || "",
         note: reservation.note || ""
       })
     });
@@ -1237,6 +1430,95 @@ async function moveReservationByDrop(reservation, targetDeviceId, targetDateKey)
     await loadReservations();
   } catch (error) {
     showMessage(error.message, "error");
+  }
+}
+
+async function resizeReservationByDay(reservation, edge, direction) {
+  if (!state.currentUser || (!state.currentUser.isAdmin && reservation.memberId !== state.currentUser.id)) {
+    showMessage("Je hebt geen rechten om deze reservatie aan te passen.", "error");
+    return;
+  }
+
+  const start = new Date(reservation.start);
+  const end = new Date(reservation.end);
+  if (edge === "start") {
+    start.setDate(start.getDate() + direction);
+  } else {
+    end.setDate(end.getDate() + direction);
+  }
+
+  if (start >= end) {
+    showMessage("De reservatieperiode moet minstens één dag lang zijn.", "error");
+    return;
+  }
+
+  try {
+    await request(`/api/reservations/${reservation.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        deviceId: reservation.deviceId,
+        start: start.toISOString(),
+        end: end.toISOString(),
+        projectId: reservation.projectId || "",
+        note: reservation.note || ""
+      })
+    });
+    await loadReservations();
+  } catch (error) {
+    showMessage(error.message, "error");
+  }
+}
+
+async function finishReservationResize() {
+  const resize = state.resizingReservation;
+  state.resizingReservation = null;
+  document.body.classList.remove("is-resizing-reservation");
+  if (!resize?.targetDate) {
+    return;
+  }
+
+  const start = new Date(resize.originalStart);
+  const end = new Date(resize.originalEnd);
+  const targetDate = new Date(`${resize.targetDate}T00:00:00`);
+  if (resize.edge === "start") {
+    start.setHours(8, 0, 0, 0);
+    start.setFullYear(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
+  } else {
+    end.setHours(16, 0, 0, 0);
+    end.setFullYear(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
+  }
+
+  if (start >= end) {
+    showMessage("Het begin moet vóór het einde van de reservatie blijven.", "error");
+    return;
+  }
+
+  try {
+    await request(`/api/reservations/${resize.reservation.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        deviceId: resize.reservation.deviceId,
+        start: start.toISOString(),
+        end: end.toISOString(),
+        projectId: resize.reservation.projectId || "",
+        note: resize.reservation.note || ""
+      })
+    });
+    await loadReservations();
+  } catch (error) {
+    showMessage(error.message, "error");
+  }
+}
+
+function updateReservationResizeTarget(event) {
+  if (!state.resizingReservation) {
+    return;
+  }
+  const cell = document.elementsFromPoint(event.clientX, event.clientY).find((item) => item.classList?.contains("week-cell"));
+  if (cell && cell.dataset.deviceId === state.resizingReservation.reservation.deviceId) {
+    state.resizingReservation.targetDate = cell.dataset.date;
+    document.querySelectorAll(".week-cell.resize-target").forEach((item) => item.classList.remove("resize-target"));
+    cell.classList.add("resize-target");
   }
 }
 
@@ -1296,8 +1578,11 @@ elements.projectCancelButton.addEventListener("click", () => {
   closeProjectDialog();
 });
 
-elements.createProjectButton.addEventListener("click", () => {
-  elements.newProjectName.focus();
+elements.projectSelect.addEventListener("change", () => {
+  updateNewProjectVisibility();
+  if (elements.projectSelect.value === "__new_project__") {
+    elements.newProjectName.focus();
+  }
 });
 
 async function handleProjectSubmit() {
@@ -1309,10 +1594,13 @@ async function handleProjectSubmit() {
   try {
     let projectId = elements.projectSelect.value;
     const newProjectName = elements.newProjectName.value.trim();
-    if (newProjectName) {
+    if (projectId === "__new_project__") {
+      if (!newProjectName) {
+        throw new Error("Geef een SC-projectnummer op.");
+      }
       const project = await request("/api/projects", {
         method: "POST",
-        body: JSON.stringify({ name: newProjectName, color: elements.newProjectColor.value })
+        body: JSON.stringify({ name: newProjectName, projectName: elements.newProjectTitle.value.trim(), color: elements.newProjectColor.value })
       });
       state.projects = [...state.projects, project].sort((first, second) => first.name.localeCompare(second.name));
       renderProjectOptions();
@@ -1363,8 +1651,25 @@ elements.resourceForm.addEventListener("submit", (event) => {
   void saveResource();
 });
 
+elements.inviteUserForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  elements.inviteUserMessage.textContent = "";
+  try {
+    await request("/api/users/invitations", {
+      method: "POST",
+      body: JSON.stringify({ email: elements.inviteUserEmail.value.trim() })
+    });
+    elements.inviteUserMessage.textContent = "Uitnodiging geregistreerd. De gebruiker kan aanmelden via Google Workspace.";
+    elements.inviteUserMessage.className = "form-message success";
+    elements.inviteUserForm.reset();
+  } catch (error) {
+    elements.inviteUserMessage.textContent = error.message;
+    elements.inviteUserMessage.className = "form-message error";
+  }
+});
+
 elements.prevWeekButton.addEventListener("click", () => {
-  state.weekStart = addDays(state.weekStart, -WEEK_DAY_COUNT);
+  state.weekStart = addDays(state.weekStart, -NAVIGATION_STEP_DAYS);
   renderPlanner();
 });
 
@@ -1374,12 +1679,17 @@ elements.todayWeekButton.addEventListener("click", () => {
 });
 
 elements.nextWeekButton.addEventListener("click", () => {
-  state.weekStart = addDays(state.weekStart, WEEK_DAY_COUNT);
+  state.weekStart = addDays(state.weekStart, NAVIGATION_STEP_DAYS);
   renderPlanner();
 });
 
 document.addEventListener("mouseup", () => {
   void finishPlannerSelection();
+});
+
+document.addEventListener("pointermove", updateReservationResizeTarget);
+document.addEventListener("pointerup", () => {
+  void finishReservationResize();
 });
 
 document.querySelectorAll("[data-page]").forEach((link) => {
@@ -1391,6 +1701,16 @@ document.querySelectorAll("[data-page]").forEach((link) => {
     const page = link.dataset.page;
     window.history.replaceState({}, "", `#${page}`);
     setPage(page, true);
+  });
+});
+
+document.querySelectorAll("[data-section-tab]").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const selectedTab = tab.dataset.sectionTab;
+    document.querySelectorAll("[data-section-tab]").forEach((item) => item.classList.toggle("active", item === tab));
+    document.querySelectorAll("[data-section-panel]").forEach((panel) => {
+      panel.hidden = panel.dataset.sectionPanel !== selectedTab;
+    });
   });
 });
 
