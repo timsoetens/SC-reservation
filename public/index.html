@@ -14,72 +14,80 @@
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
 
-    <main class="layout">
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Hoofdnavigatie">
+        <div class="sidebar-brand">
+          <img src="sanacon-logo-kleur.svg" alt="Sanacon" />
+        </div>
+        <nav class="sidebar-nav">
+          <a href="#dashboard" class="nav-item active" data-page="dashboard">Dashboard</a>
+          <a href="#schedule" class="nav-item" data-page="schedule">Schedule</a>
+          <a href="#timesheets" class="nav-item" data-page="timesheets">Timesheets</a>
+          <a href="#people" class="nav-item" data-page="people">People &amp; Resources</a>
+          <a href="#projects" class="nav-item" data-page="projects">Projects &amp; Clients</a>
+          <a href="#reports" class="nav-item" data-page="reports">Reports</a>
+        </nav>
+        <div class="sidebar-footer">
+          <section class="panel session-panel" id="session-panel" hidden>
+            <p>Ingelogd als <strong id="current-user-label"></strong> <span id="current-user-role" class="role-badge"></span></p>
+            <button id="logout-btn" class="ghost" type="button">Logout</button>
+          </section>
+
+          <a href="#help" class="nav-item" data-page="help">Help</a>
+          <div class="sidebar-user"><span class="user-avatar" id="sidebar-user-avatar">TS</span><span id="sidebar-user-label">Tim Soetens</span></div>
+        </div>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <div class="topbar-view">Views <span class="chevron">v</span></div>
+          <button id="today-week-btn" class="topbar-date toolbar-text-button" type="button">Today <span class="chevron">v</span></button>
+          <div class="topbar-actions">
+            <button id="prev-week-btn" class="toolbar-button" type="button" aria-label="Vorige week">&lt;</button>
+            <button id="next-week-btn" class="toolbar-button" type="button" aria-label="Volgende week">&gt;</button>
+            <span class="zoom-label">-</span>
+            <span class="zoom-track"><span class="zoom-thumb"></span></span>
+            <span class="zoom-label">+</span>
+          </div>
+          <div class="topbar-project">Project <span class="chevron">v</span></div>
+          <div class="topbar-filter">All <span class="chevron">v</span></div>
+        </header>
+
+        <main class="layout">
       <header class="hero">
         <p class="eyebrow">Team Resource Planner</p>
         <h1>Reservaties voor devices</h1>
-        <p class="intro">
-          Plan eenvoudig resources voor een team van 15 personen met conflictcontrole in real-time.
-        </p>
       </header>
 
       <section class="panel auth-panel" id="auth-panel">
         <h2>Aanmelden</h2>
-        <p class="auth-provider">Meld aan met je Office 365-account.</p>
+        <p class="auth-provider">Meld aan met je Google Workspace-account.</p>
         <div class="login-form">
-          <button id="login-btn" type="button">Aanmelden met Office 365</button>
+          <button id="login-btn" type="button">Aanmelden met Google Workspace</button>
         </div>
         <p id="login-message" class="form-message"></p>
       </section>
 
-      <section class="panel session-panel" id="session-panel" hidden>
-        <p>Ingelogd als <strong id="current-user-label"></strong> <span id="current-user-role" class="role-badge"></span></p>
-        <button id="logout-btn" class="ghost" type="button">Logout</button>
-      </section>
-
-      <section class="panel form-panel" id="form-panel" hidden>
-        <h2>Nieuwe reservatie</h2>
-        <form id="reservation-form">
-          <div class="field-grid">
-            <label>
-              Device
-              <select id="deviceId" required></select>
-            </label>
-
-            <label class="field-span-2">
-              Start en einde
-              <input id="date-range" type="text" placeholder="Selecteer start en einde" required />
-            </label>
+      <section class="panel dashboard-panel page-panel" id="dashboard-panel" data-view="dashboard" hidden>
+        <div class="dashboard-header">
+          <div>
+            <p class="eyebrow">Overview</p>
+            <h2>Uw reservaties</h2>
           </div>
-
-          <label>
-            Notitie
-            <input id="note" type="text" maxlength="200" placeholder="Optioneel" />
-          </label>
-
-          <button type="submit">Reservatie toevoegen</button>
-          <p id="form-message" class="form-message"></p>
-        </form>
-      </section>
-
-      <section class="panel list-panel" id="list-panel" hidden>
-        <div class="list-header">
-          <h2>Geplande reservaties</h2>
-          <button id="refresh-btn" class="ghost">Vernieuwen</button>
+          <p class="dashboard-period">Komende 4 weken</p>
         </div>
-        <div id="reservations" class="reservation-list"></div>
+        <div id="dashboard-summary" class="dashboard-summary"></div>
+        <div id="dashboard-reservations" class="dashboard-reservations"></div>
       </section>
 
-      <section class="panel planner-panel" id="planner-panel" hidden>
+      <section class="panel planner-panel page-panel" id="planner-panel" data-view="schedule" hidden>
         <div class="planner-header">
           <h2>Visuele planning</h2>
           <div class="planner-controls">
-            <button id="prev-week-btn" class="ghost" type="button">Vorige week</button>
-            <button id="today-week-btn" class="ghost" type="button">Deze week</button>
-            <button id="next-week-btn" class="ghost" type="button">Volgende week</button>
             <p id="week-label" class="week-label"></p>
           </div>
-          <p class="planner-help">Sleep een reservatieblok naar een andere dag of device om aan te passen. Dubbelklik op een dagcel om snel een reservatie te maken.</p>
+          <p class="planner-help">Klik en sleep over dagen om meteen een reservatieperiode te maken. Sleep bestaande blokken naar een andere dag of device om ze aan te passen.</p>
+          <p id="schedule-message" class="form-message"></p>
         </div>
 
         <div class="week-shell">
@@ -87,19 +95,91 @@
           <div id="device-rows" class="device-rows"></div>
         </div>
       </section>
-    </main>
 
-    <template id="reservation-item-template">
-      <article class="reservation-item">
-        <div>
-          <h3 class="reservation-device"></h3>
-          <p class="reservation-member"></p>
-          <p class="reservation-time"></p>
-          <p class="reservation-note"></p>
-        </div>
-        <button class="delete-btn" type="button">Verwijderen</button>
-      </article>
-    </template>
+      <dialog class="project-dialog" id="project-dialog">
+        <form id="project-form">
+          <div class="dialog-header">
+            <div><p class="eyebrow">Nieuwe reservatie</p><h2>Kies een project</h2></div>
+            <button id="project-cancel-btn" class="dialog-close" type="button" aria-label="Annuleren">x</button>
+          </div>
+          <p class="dialog-period" id="project-period"></p>
+          <label for="project-select">Bestaand SC-project</label>
+          <select id="project-select"></select>
+          <div class="new-project-row">
+            <label for="new-project-name">Of maak een nieuw project aan</label>
+            <div class="new-project-input"><input id="new-project-name" type="text" placeholder="SC26001" pattern="SC.*" /><button id="create-project-btn" class="ghost" type="button">Nieuw</button></div>
+          </div>
+          <label for="new-project-color">Projectkleur</label>
+          <input id="new-project-color" type="hidden" value="#f3b6b6" />
+          <div id="new-project-palette" class="color-palette" aria-label="Kies een projectkleur"></div>
+          <p id="project-message" class="form-message"></p>
+          <div class="dialog-actions"><button id="project-submit-btn" type="button">Reservatie aanmaken</button></div>
+        </form>
+      </dialog>
+
+      <dialog class="project-dialog edit-dialog" id="edit-dialog">
+        <form id="edit-form">
+          <div class="dialog-header">
+            <div><p class="eyebrow">Reservatie</p><h2>Reservatie aanpassen</h2></div>
+            <button id="edit-cancel-btn" class="dialog-close" type="button" aria-label="Annuleren">x</button>
+          </div>
+          <label for="edit-device-select">Device</label>
+          <select id="edit-device-select"></select>
+          <label for="edit-start">Start</label>
+          <input id="edit-start" type="datetime-local" required />
+          <label for="edit-end">Einde</label>
+          <input id="edit-end" type="datetime-local" required />
+          <label for="edit-project-select">Project</label>
+          <select id="edit-project-select"></select>
+          <label for="edit-note">Notitie</label>
+          <input id="edit-note" type="text" maxlength="200" />
+          <p id="edit-message" class="form-message"></p>
+          <div class="dialog-actions edit-actions"><button id="edit-delete-btn" class="delete-btn" type="button">Verwijderen</button><button id="edit-save-btn" type="submit">Wijzigingen opslaan</button></div>
+        </form>
+      </dialog>
+
+      <section class="panel page-panel information-panel" id="timesheets-panel" data-view="timesheets" hidden>
+        <div class="page-heading"><div><p class="eyebrow">Timesheets</p><h2>Gewerkte reservatietijd</h2></div><span class="page-badge">Deze periode</span></div>
+        <div id="timesheet-summary" class="metric-grid"></div>
+        <div id="timesheet-list" class="data-list"></div>
+      </section>
+
+      <section class="panel page-panel information-panel" id="people-panel" data-view="people" hidden>
+        <div class="page-heading"><div><p class="eyebrow">People &amp; Resources</p><h2>Team en devices</h2></div></div>
+        <div class="split-data"><div><h3>Teamleden</h3><div id="people-list" class="data-list"></div></div><div><h3>Resources</h3><div id="resource-list" class="resource-list"></div></div></div>
+      </section>
+
+      <dialog class="project-dialog resource-dialog" id="resource-dialog">
+        <form id="resource-form">
+          <div class="dialog-header"><div><p class="eyebrow">Resource</p><h2>Resource aanpassen</h2></div><button id="resource-cancel-btn" class="dialog-close" type="button">x</button></div>
+          <p id="resource-dialog-name" class="dialog-period"></p>
+          <label for="resource-photo-file">Foto uploaden</label>
+          <input id="resource-photo-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+          <label for="resource-status-select">Status</label>
+          <select id="resource-status-select"><option value="available">Beschikbaar</option><option value="out_of_use">Out of use</option><option value="defect">Defect</option></select>
+          <p id="resource-message" class="form-message"></p>
+          <div class="dialog-actions edit-actions"><button id="resource-remove-btn" class="delete-btn" type="button">Remove</button><button id="resource-save-btn" type="submit">Opslaan</button></div>
+        </form>
+      </dialog>
+
+      <section class="panel page-panel information-panel" id="projects-panel" data-view="projects" hidden>
+        <div class="page-heading"><div><p class="eyebrow">Projects &amp; Clients</p><h2>Resource planning</h2></div></div>
+        <div id="project-list" class="project-grid"></div>
+      </section>
+
+      <section class="panel page-panel information-panel" id="reports-panel" data-view="reports" hidden>
+        <div class="page-heading"><div><p class="eyebrow">Reports</p><h2>Planningrapport</h2></div><span class="page-badge">Live data</span></div>
+        <div id="report-summary" class="metric-grid"></div>
+        <div id="report-list" class="data-list"></div>
+      </section>
+
+      <section class="panel page-panel information-panel help-panel" id="help-panel" data-view="help" hidden>
+        <div class="page-heading"><div><p class="eyebrow">Help</p><h2>Werken met Resource Planner</h2></div></div>
+        <div class="help-grid"><article><h3>Reservatie maken</h3><p>Kies Schedule, selecteer een device en stel start en einde in. Je reservatie verschijnt meteen in de planning.</p></article><article><h3>Planning wijzigen</h3><p>Sleep je eigen reservatie naar een andere dag of device. Dubbelklik op een dagcel om snel een reservatie te maken.</p></article><article><h3>Beheerrechten</h3><p>Beheerders kunnen alle reservaties bekijken, verplaatsen en verwijderen. Andere gebruikers beheren alleen hun eigen reservaties.</p></article></div>
+      </section>
+        </main>
+      </div>
+    </div>
 
     <template id="device-row-template">
       <article class="device-row">

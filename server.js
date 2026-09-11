@@ -14,13 +14,14 @@ const AUTH0_DOMAIN = process.env.AUTH0_DOMAIN || "";
 const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID || "";
 const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE || "";
 const AUTH0_ISSUER_BASE_URL = process.env.AUTH0_ISSUER_BASE_URL || (AUTH0_DOMAIN ? `https://${AUTH0_DOMAIN}` : "");
-const AUTH0_CONNECTION = process.env.AUTH0_CONNECTION || "";
+const AUTH0_CONNECTION = process.env.AUTH0_CONNECTION || "google-oauth2";
 const ADMIN_EMAILS = new Set(
   (process.env.ADMIN_EMAILS || "")
     .split(",")
     .map((email) => email.trim().toLowerCase())
     .filter(Boolean)
 );
+  const PROJECT_COLORS = ["#c23e3f", "#2f6f95", "#3f8060", "#b2762c", "#76539b", "#3d7880"];
 
 const authConfigured = Boolean(AUTH0_DOMAIN && AUTH0_CLIENT_ID && AUTH0_AUDIENCE && AUTH0_ISSUER_BASE_URL);
 
@@ -32,8 +33,12 @@ const verifyJwt = authConfigured
     })
   : null;
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json({ limit: "4mb" }));
+app.use(express.static(path.join(__dirname, "public"), {
+  setHeaders(res) {
+    res.setHeader("Cache-Control", "no-store");
+  }
+}));
 
 function readDb() {
   const raw = fs.readFileSync(DB_PATH, "utf8");
@@ -48,6 +53,32 @@ function ensureUsersCollection(db) {
   if (!Array.isArray(db.users)) {
     db.users = [];
   }
+}
+
+function ensureProjectsCollection(db) {
+  if (!Array.isArray(db.projects)) {
+    db.projects = [];
+  }
+}
+
+function normalizeDevice(device) {
+  return {
+    ...device,
+    status: device.status || "available",
+    photoUrl: device.photoUrl || ""
+  };
+}
+
+function getProjectColor(project) {
+  if (project.color) {
+    return project.color;
+  }
+  const hash = [...project.name].reduce((total, character) => total + character.charCodeAt(0), 0);
+  return PROJECT_COLORS[hash % PROJECT_COLORS.length];
+}
+
+function isValidProjectColor(color) {
+  return typeof color === "string" && /^#[0-9a-f]{6}$/i.test(color);
 }
 
 function overlaps(startA, endA, startB, endB) {
@@ -85,13 +116,15 @@ function authConfigRequired(req, res, next) {
   return next();
 }
 
-function upsertAuthenticatedUser(claims) {
+function upsertAuthenticatedUser(claims, profile = {}) {
   const db = readDb();
   ensureUsersCollection(db);
 
   const subject = claims.sub;
-  const displayName = claims.name || claims.nickname || claims.email || "Onbekende gebruiker";
-  const email = (claims.email || claims.preferred_username || "").toLowerCase();
+  const existingUser = db.users.find((item) => item.id === subject);
+  const displayName = profile.name || profile.nickname || claims.name || claims.nickname || claims.email || existingUser?.name || "Onbekende gebruiker";
+  const email = (profile.email || profile.preferred_username || claims.email || claims.preferred_username || existingUser?.email || "").toLowerCase();
+  const picture = profile.picture || claims.picture || existingUser?.picture || "";
   const isAdmin = ADMIN_EMAILS.has(email);
 
   let user = db.users.find((item) => item.id === subject);
@@ -100,6 +133,7 @@ function upsertAuthenticatedUser(claims) {
       id: subject,
       name: displayName,
       email,
+      picture,
       role: isAdmin ? "admin" : "user",
       isAdmin,
       createdAt: new Date().toISOString()
@@ -116,6 +150,10 @@ function upsertAuthenticatedUser(claims) {
   }
   if (email && user.email !== email) {
     user.email = email;
+    changed = true;
+  }
+  if (picture && user.picture !== picture) {
+    user.picture = picture;
     changed = true;
   }
   if (user.role !== (isAdmin ? "admin" : "user")) {
@@ -174,15 +212,113 @@ app.get("/api/auth/me", requireAuth, (req, res) => {
   res.json({ currentUser: req.authUser });
 });
 
+app.post("/api/auth/profile", requireAuth, (req, res) => {
+  res.json({ currentUser: upsertAuthenticatedUser(req.auth.payload, req.body || {}) });
+});
+
 app.get("/api/meta", requireAuth, (req, res) => {
   const db = readDb();
   ensureUsersCollection(db);
 
   res.json({
-    devices: db.devices,
+    devices: db.devices.map(normalizeDevice),
     users: db.users,
     currentUser: req.authUser
   });
+});
+
+app.put("/api/devices/:id", requireAuth, (req, res) => {
+  const allowedStatuses = ["available", "out_of_use", "defect"];
+  const status = String(req.body?.status || "available");
+  const photoUrl = String(req.body?.photoUrl || "").trim();
+  if (!allowedStatuses.includes(status)) {
+    return res.status(400).json({ error: "Ongeldige resource status." });
+  }
+  if (photoUrl && !/^https?:\/\//i.test(photoUrl) && !/^data:image\/(png|jpeg|jpg|webp|gif);base64,/i.test(photoUrl)) {
+    return res.status(400).json({ error: "Gebruik een afbeeldingsbestand of geldige foto-URL." });
+  }
+  if (photoUrl.length > 3_000_000) {
+    return res.status(400).json({ error: "De foto mag maximaal 2 MB groot zijn." });
+  }
+
+  const db = readDb();
+  const device = db.devices.find((item) => item.id === req.params.id);
+  if (!device) {
+    return res.status(404).json({ error: "Resource niet gevonden." });
+  }
+  device.status = status;
+  device.photoUrl = photoUrl;
+  writeDb(db);
+  return res.json(normalizeDevice(device));
+});
+
+app.delete("/api/devices/:id", requireAuth, (req, res) => {
+  const db = readDb();
+  const deviceIndex = db.devices.findIndex((item) => item.id === req.params.id);
+  if (deviceIndex === -1) {
+    return res.status(404).json({ error: "Resource niet gevonden." });
+  }
+  if (db.reservations.some((reservation) => reservation.deviceId === req.params.id)) {
+    return res.status(409).json({ error: "Deze resource heeft reservaties en kan niet verwijderd worden." });
+  }
+  db.devices.splice(deviceIndex, 1);
+  writeDb(db);
+  return res.status(204).end();
+});
+
+app.get("/api/projects", requireAuth, (_req, res) => {
+  const db = readDb();
+  ensureProjectsCollection(db);
+  res.json(db.projects
+    .filter((project) => project.name.toUpperCase().startsWith("SC"))
+    .map((project) => ({ ...project, color: getProjectColor(project) })));
+});
+
+app.post("/api/projects", requireAuth, (req, res) => {
+  const name = String(req.body?.name || "").trim();
+  const color = req.body?.color || "#c23e3f";
+  if (!/^SC/i.test(name)) {
+    return res.status(400).json({ error: "Een projectnaam moet met SC beginnen." });
+  }
+  if (!isValidProjectColor(color)) {
+    return res.status(400).json({ error: "Kies een geldige projectkleur." });
+  }
+
+  const db = readDb();
+  ensureProjectsCollection(db);
+  const duplicate = db.projects.find((project) => project.name.toLowerCase() === name.toLowerCase());
+  if (duplicate) {
+    return res.status(409).json({ error: "Dit project bestaat al." });
+  }
+
+  const project = {
+    id: `p${Date.now()}`,
+    name,
+    color,
+    createdBy: req.authUser.id,
+    createdAt: new Date().toISOString()
+  };
+  db.projects.push(project);
+  writeDb(db);
+  return res.status(201).json(project);
+});
+
+app.put("/api/projects/:id", requireAuth, (req, res) => {
+  const color = req.body?.color;
+  if (!isValidProjectColor(color)) {
+    return res.status(400).json({ error: "Kies een geldige projectkleur." });
+  }
+
+  const db = readDb();
+  ensureProjectsCollection(db);
+  const project = db.projects.find((item) => item.id === req.params.id);
+  if (!project) {
+    return res.status(404).json({ error: "Project niet gevonden." });
+  }
+
+  project.color = color;
+  writeDb(db);
+  return res.json(project);
 });
 
 function requireOwnerOrAdmin(req, res, next) {
@@ -204,6 +340,7 @@ function requireOwnerOrAdmin(req, res, next) {
 app.get("/api/reservations", requireAuth, (_req, res) => {
   const db = readDb();
   ensureUsersCollection(db);
+  ensureProjectsCollection(db);
 
   const reservations = db.reservations
     .slice()
@@ -214,7 +351,12 @@ app.get("/api/reservations", requireAuth, (_req, res) => {
       memberName:
         db.users.find((u) => u.id === reservation.memberId)?.name ||
         db.teamMembers?.find((m) => m.id === reservation.memberId)?.name ||
-        reservation.memberId
+        reservation.memberId,
+      projectName: db.projects.find((project) => project.id === reservation.projectId)?.name || "",
+      projectColor: (() => {
+        const project = db.projects.find((item) => item.id === reservation.projectId);
+        return project ? getProjectColor(project) : "";
+      })()
     }));
 
   res.json(reservations);
@@ -229,12 +371,21 @@ app.post("/api/reservations", requireAuth, (req, res) => {
   const db = readDb();
   ensureUsersCollection(db);
 
-  const { deviceId, start, end, note } = req.body;
+  const { deviceId, start, end, note, projectId } = req.body;
   const memberId = req.authUser.id;
 
-  const deviceExists = db.devices.some((d) => d.id === deviceId);
-  if (!deviceExists) {
+  const device = db.devices.find((item) => item.id === deviceId);
+  if (!device) {
     return res.status(404).json({ error: "Device niet gevonden." });
+  }
+  if ((device.status || "available") !== "available") {
+    return res.status(409).json({ error: "Deze resource is tijdelijk niet boekbaar." });
+  }
+
+  const dbProjectStore = readDb();
+  ensureProjectsCollection(dbProjectStore);
+  if (projectId && !dbProjectStore.projects.some((project) => project.id === projectId && project.name.toUpperCase().startsWith("SC"))) {
+    return res.status(404).json({ error: "Project niet gevonden." });
   }
 
   const startDate = dayjs(start);
@@ -246,22 +397,16 @@ app.post("/api/reservations", requireAuth, (req, res) => {
   );
 
   if (deviceConflict) {
-    return res.status(409).json({ error: "Dit device is al gereserveerd in deze periode." });
-  }
-
-  const memberConflict = db.reservations.find((reservation) =>
-    reservation.memberId === memberId &&
-    overlaps(startDate, endDate, dayjs(reservation.start), dayjs(reservation.end))
-  );
-
-  if (memberConflict) {
-    return res.status(409).json({ error: "Je hebt al een reservatie in deze periode." });
+    return res.status(409).json({
+      error: `${device.name} is al gereserveerd van ${dayjs(deviceConflict.start).format("DD/MM/YYYY HH:mm")} tot ${dayjs(deviceConflict.end).format("DD/MM/YYYY HH:mm")}.`
+    });
   }
 
   const newReservation = {
     id: `r${Date.now()}`,
     deviceId,
     memberId,
+    projectId: projectId || "",
     start: startDate.toISOString(),
     end: endDate.toISOString(),
     note: note?.trim() || "",
@@ -289,12 +434,21 @@ app.put("/api/reservations/:id", requireAuth, requireOwnerOrAdmin, (req, res) =>
     return res.status(404).json({ error: "Reservatie niet gevonden." });
   }
 
-  const { deviceId, start, end, note } = req.body;
+  const { deviceId, start, end, note, projectId } = req.body;
   const memberId = req.authUser.isAdmin ? currentReservation.memberId : req.authUser.id;
 
-  const deviceExists = db.devices.some((d) => d.id === deviceId);
-  if (!deviceExists) {
+  const device = db.devices.find((item) => item.id === deviceId);
+  if (!device) {
     return res.status(404).json({ error: "Device niet gevonden." });
+  }
+  if ((device.status || "available") !== "available") {
+    return res.status(409).json({ error: "Deze resource is tijdelijk niet boekbaar." });
+  }
+
+  const projectStore = readDb();
+  ensureProjectsCollection(projectStore);
+  if (projectId && !projectStore.projects.some((project) => project.id === projectId && project.name.toUpperCase().startsWith("SC"))) {
+    return res.status(404).json({ error: "Project niet gevonden." });
   }
 
   const startDate = dayjs(start);
@@ -307,17 +461,9 @@ app.put("/api/reservations/:id", requireAuth, requireOwnerOrAdmin, (req, res) =>
   );
 
   if (deviceConflict) {
-    return res.status(409).json({ error: "Dit device is al gereserveerd in deze periode." });
-  }
-
-  const memberConflict = db.reservations.find((reservation) =>
-    reservation.id !== reservationId &&
-    reservation.memberId === memberId &&
-    overlaps(startDate, endDate, dayjs(reservation.start), dayjs(reservation.end))
-  );
-
-  if (memberConflict) {
-    return res.status(409).json({ error: "Je hebt al een reservatie in deze periode." });
+    return res.status(409).json({
+      error: `${device.name} is al gereserveerd van ${dayjs(deviceConflict.start).format("DD/MM/YYYY HH:mm")} tot ${dayjs(deviceConflict.end).format("DD/MM/YYYY HH:mm")}.`
+    });
   }
 
   currentReservation.deviceId = deviceId;
@@ -325,6 +471,7 @@ app.put("/api/reservations/:id", requireAuth, requireOwnerOrAdmin, (req, res) =>
   currentReservation.start = startDate.toISOString();
   currentReservation.end = endDate.toISOString();
   currentReservation.note = note?.trim() || "";
+  currentReservation.projectId = projectId || "";
 
   writeDb(db);
 
