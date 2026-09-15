@@ -1,4 +1,4 @@
-require("dotenv").config({ path: require("path").join(__dirname, ".env"), override: true });
+require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 
 const express = require("express");
 const { auth: auth0Jwt } = require("express-oauth2-jwt-bearer");
@@ -9,7 +9,7 @@ const dayjs = require("dayjs");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DB_PATH = path.join(__dirname, "data", "db.json");
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, "data", "db.json");
 
 const AUTH0_DOMAIN = process.env.AUTH0_DOMAIN || "";
 const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID || "";
