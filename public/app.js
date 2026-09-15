@@ -685,7 +685,7 @@ async function initializeLocalSession() {
       auth: {
         clientId: state.auth0Config.clientId,
         authority: state.auth0Config.authority || `https://login.microsoftonline.com/${state.auth0Config.tenantId}`,
-        redirectUri: state.auth0Config.redirectUri || window.location.origin
+        redirectUri: window.location.origin
       },
       cache: {
         cacheLocation: "sessionStorage",
@@ -762,7 +762,7 @@ async function loginWithAuth0(screenHint) {
       auth: {
         clientId: config.clientId,
         authority: config.authority || `https://login.microsoftonline.com/${config.tenantId}`,
-        redirectUri: config.redirectUri || window.location.origin
+        redirectUri: window.location.origin
       },
       cache: {
         cacheLocation: "sessionStorage",
