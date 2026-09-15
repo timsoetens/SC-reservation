@@ -1,9 +1,6 @@
 name: Deploy Node.js app to Azure Web App
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
