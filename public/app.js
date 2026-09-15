@@ -77,6 +77,7 @@ const elements = {
   nextWeekButton: document.getElementById("next-week-btn"),
   weekLabel: document.getElementById("week-label"),
   weekAxis: document.getElementById("week-axis"),
+  weekShell: document.querySelector(".week-shell"),
   deviceRows: document.getElementById("device-rows"),
   deviceRowTemplate: document.getElementById("device-row-template")
 };
@@ -95,6 +96,10 @@ const state = {
   editingReservation: null,
   editingDevice: null,
   resizingReservation: null,
+  plannerScrollAdjusting: false,
+  plannerLastScrollLeft: 0,
+  plannerScrollCooldownUntil: 0,
+  plannerScrollEdgeLock: "",
   scheduleRefreshTimer: null,
   scheduleRefreshInFlight: false,
   dateRangePicker: null,
@@ -102,6 +107,8 @@ const state = {
   auth0Config: null,
   auth0Client: null,
   auth0User: null,
+  msalConfig: null,
+  msalClient: null,
   accessToken: "",
   currentPage: "dashboard"
 };
@@ -670,81 +677,143 @@ async function loadAuthConfig() {
   return request("/api/auth/config", {}, false);
 }
 
-async function initializeAuth0() {
+async function initializeLocalSession() {
   state.auth0Config = await loadAuthConfig();
-  if (!state.auth0Config.enabled) {
-    showLoginMessage("Auth0 is nog niet geconfigureerd. Vul eerst de .env in op de server.", "error");
-    return false;
-  }
 
-  state.auth0Client = await window.auth0.createAuth0Client({
-    domain: state.auth0Config.domain,
-    clientId: state.auth0Config.clientId,
-    authorizationParams: {
-      audience: state.auth0Config.audience,
-      ...(state.auth0Config.connection ? { connection: state.auth0Config.connection } : {}),
-      redirect_uri: window.location.origin
-    },
-    cacheLocation: "memory"
-  });
+  if (state.auth0Config.provider === "azure" && window.msal && state.auth0Config.clientId) {
+    const msalConfig = {
+      auth: {
+        clientId: state.auth0Config.clientId,
+        authority: state.auth0Config.authority || `https://login.microsoftonline.com/${state.auth0Config.tenantId}`,
+        redirectUri: state.auth0Config.redirectUri || window.location.origin
+      },
+      cache: {
+        cacheLocation: "sessionStorage",
+        storeAuthStateInCookie: false
+      }
+    };
 
-  const params = new URLSearchParams(window.location.search);
-  if (params.has("code") && params.has("state")) {
-    await state.auth0Client.handleRedirectCallback();
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
+    state.msalClient = new window.msal.PublicClientApplication(msalConfig);
+    state.msalConfig = {
+      scopes: state.auth0Config.apiScope ? [state.auth0Config.apiScope] : [state.auth0Config.apiAudience || "User.Read"]
+    };
 
-  const isAuthenticated = await state.auth0Client.isAuthenticated();
-  if (!isAuthenticated) {
-    return false;
-  }
-
-  state.accessToken = await state.auth0Client.getTokenSilently({
-    authorizationParams: {
-      audience: state.auth0Config.audience
+    const redirectResult = await state.msalClient.handleRedirectPromise();
+    if (redirectResult?.account) {
+      state.msalClient.setActiveAccount(redirectResult.account);
     }
-  });
-  state.auth0User = await state.auth0Client.getUser();
 
-  return true;
-}
-
-async function loginWithAuth0(screenHint) {
-  try {
-    if (!state.auth0Client) {
-      const ok = await initializeAuth0();
-      if (!ok && !state.auth0Client) {
-        showLoginMessage("Kon Auth0 niet laden. Controleer de server en .env.", "error");
-        return;
+    const accounts = state.msalClient.getAllAccounts();
+    if (accounts.length > 0) {
+      try {
+        const account = accounts[0];
+        const email = (account.username || "").toLowerCase();
+        if (state.auth0Config.allowedEmailDomain && !email.endsWith(`@${state.auth0Config.allowedEmailDomain}`)) {
+          await state.msalClient.logoutRedirect({ account, postLogoutRedirectUri: window.location.origin });
+          return false;
+        }
+        state.msalClient.setActiveAccount(account);
+        const silentResult = await state.msalClient.acquireTokenSilent({
+          account,
+          scopes: state.msalConfig.scopes
+        });
+        state.accessToken = silentResult.accessToken;
+        state.currentUser = {
+          id: account.homeAccountId || account.localAccountId,
+          name: account.name || account.username,
+          email,
+          role: "admin",
+          isAdmin: true,
+          picture: ""
+        };
+        state.auth0User = state.currentUser;
+        showLoginMessage("Microsoft Entra ID sessie hersteld.", "success");
+        return true;
+      } catch {
+        state.msalClient = null;
       }
     }
 
-    const authorizationParams = {
-      audience: state.auth0Config.audience,
-      ...(state.auth0Config.connection ? { connection: state.auth0Config.connection } : {}),
-      redirect_uri: window.location.origin
-    };
-
-    if (screenHint) {
-      authorizationParams.screen_hint = screenHint;
-    }
-
-    await state.auth0Client.loginWithRedirect({ authorizationParams });
-  } catch (err) {
-    showLoginMessage("Auth0 fout: " + err.message, "error");
+    return false;
   }
+
+  if (!state.auth0Config.enabled) {
+    state.accessToken = "local-demo-token";
+    state.currentUser = {
+      id: "local-demo-admin",
+      name: "Demo Admin",
+      email: "admin@local.test",
+      role: "admin",
+      isAdmin: true,
+      picture: ""
+    };
+    state.auth0User = state.currentUser;
+    showLoginMessage("Geen Entra-config gevonden; lokale demo-sessie actief.", "success");
+    return true;
+  }
+
+  return false;
 }
 
-async function logoutFromAuth0() {
-  if (!state.auth0Client) {
+async function loginWithAuth0(screenHint) {
+  const config = await loadAuthConfig();
+  if (config.provider === "azure" && window.msal && config.clientId) {
+    const msalConfig = {
+      auth: {
+        clientId: config.clientId,
+        authority: config.authority || `https://login.microsoftonline.com/${config.tenantId}`,
+        redirectUri: config.redirectUri || window.location.origin
+      },
+      cache: {
+        cacheLocation: "sessionStorage",
+        storeAuthStateInCookie: false
+      }
+    };
+
+    state.msalClient = new window.msal.PublicClientApplication(msalConfig);
+    state.msalConfig = {
+      scopes: config.apiScope ? [config.apiScope] : [config.apiAudience || "User.Read"]
+    };
+
+    try {
+      await state.msalClient.loginRedirect(state.msalConfig);
+      return;
+    } catch (error) {
+      showLoginMessage("Microsoft login fout: " + error.message, "error");
+      return;
+    }
+  }
+
+  const localSession = await initializeLocalSession();
+  if (localSession) {
+    setAuthenticatedView(true);
+    await syncAuthenticatedProfile();
+    await loadMeta();
+    await loadProjects();
+    await loadReservations();
     return;
   }
 
-  state.auth0Client.logout({
-    logoutParams: {
-      returnTo: window.location.origin
+  showLoginMessage("Er is geen externe login-provider actief. Gebruik de lokale demo-sessie.", "error");
+}
+
+async function logoutFromAuth0() {
+  if (state.msalClient) {
+    try {
+      const account = state.msalClient.getActiveAccount() || state.msalClient.getAllAccounts()[0];
+      await state.msalClient.logoutRedirect({ account, postLogoutRedirectUri: window.location.origin });
+      return;
+    } catch {
+      // ignore redirect logout issues when there is no active session
     }
-  });
+  }
+
+  state.accessToken = "";
+  state.currentUser = null;
+  state.auth0User = null;
+  state.msalClient = null;
+  setAuthenticatedView(false);
+  showLoginMessage("Uitgelogd uit de Microsoft/Entra of demo-sessie.", "success");
 }
 
 function fillSelect(selectEl, items, placeholder) {
@@ -1086,6 +1155,55 @@ function renderPlanner() {
   const weekEndExclusive = getWeekEndExclusive();
 
   elements.weekAxis.innerHTML = "";
+  elements.weekShell.onscroll = () => {
+    if (state.plannerScrollAdjusting) {
+      return;
+    }
+    if (Date.now() < state.plannerScrollCooldownUntil) {
+      return;
+    }
+    const currentScrollLeft = elements.weekShell.scrollLeft;
+    if (currentScrollLeft === state.plannerLastScrollLeft) {
+      return;
+    }
+    state.plannerLastScrollLeft = currentScrollLeft;
+    const edgeDistance = 80;
+    const maxScrollLeft = elements.weekShell.scrollWidth - elements.weekShell.clientWidth;
+    if (maxScrollLeft <= 0) {
+      return;
+    }
+
+    const atStartEdge = currentScrollLeft <= edgeDistance;
+    const atEndEdge = currentScrollLeft >= maxScrollLeft - edgeDistance;
+    if (!atStartEdge && !atEndEdge) {
+      state.plannerScrollEdgeLock = "";
+    }
+
+    const columnWidth = Math.max(60, (elements.weekAxis.scrollWidth - 220) / WEEK_DAY_COUNT);
+    if (atStartEdge && state.plannerScrollEdgeLock !== "start") {
+      state.plannerScrollEdgeLock = "start";
+      state.plannerScrollAdjusting = true;
+      state.weekStart = addDays(state.weekStart, -NAVIGATION_STEP_DAYS);
+      renderPlanner();
+      elements.weekShell.scrollLeft = currentScrollLeft + NAVIGATION_STEP_DAYS * columnWidth;
+      state.plannerLastScrollLeft = elements.weekShell.scrollLeft;
+      state.plannerScrollCooldownUntil = Date.now() + 350;
+      window.setTimeout(() => {
+        state.plannerScrollAdjusting = false;
+      }, 350);
+    } else if (atEndEdge && state.plannerScrollEdgeLock !== "end") {
+      state.plannerScrollEdgeLock = "end";
+      state.plannerScrollAdjusting = true;
+      state.weekStart = addDays(state.weekStart, NAVIGATION_STEP_DAYS);
+      renderPlanner();
+      elements.weekShell.scrollLeft = Math.max(0, currentScrollLeft - NAVIGATION_STEP_DAYS * columnWidth);
+      state.plannerLastScrollLeft = elements.weekShell.scrollLeft;
+      state.plannerScrollCooldownUntil = Date.now() + 350;
+      window.setTimeout(() => {
+        state.plannerScrollAdjusting = false;
+      }, 350);
+    }
+  };
   const labelLead = document.createElement("span");
   labelLead.textContent = "Devices";
   elements.weekAxis.appendChild(labelLead);
@@ -1659,7 +1777,7 @@ elements.inviteUserForm.addEventListener("submit", async (event) => {
       method: "POST",
       body: JSON.stringify({ email: elements.inviteUserEmail.value.trim() })
     });
-    elements.inviteUserMessage.textContent = "Uitnodiging geregistreerd. De gebruiker kan aanmelden via Google Workspace.";
+    elements.inviteUserMessage.textContent = "Uitnodiging geregistreerd. De gebruiker kan aanmelden met Microsoft Entra ID.";
     elements.inviteUserMessage.className = "form-message success";
     elements.inviteUserForm.reset();
   } catch (error) {
@@ -1723,7 +1841,7 @@ async function start() {
   }
 
   try {
-    const authenticated = await initializeAuth0();
+    const authenticated = await initializeLocalSession();
     setAuthenticatedView(authenticated);
 
     if (!authenticated) {

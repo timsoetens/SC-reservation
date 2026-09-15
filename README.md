@@ -19,25 +19,57 @@ Eenvoudige webapp om 10 devices te reserveren voor een team van 15 personen.
 npm install
 ```
 
-## Auth0 configureren
+### Architectuur die ik zou kiezen
+
+**Frontend**
+
+- React / Vue / Vanilla JS
+- Hosting op Azure Static Web Apps, Vercel of Cloudflare Pages
+
+**Authenticatie**
+
+- Microsoft Entra ID
+- MSAL.js library
+
+**Backend**
+
+- Azure Function / Node.js API
+- JWT validatie via Entra ID
+
+**Database**
+
+- SharePoint List
+- Dataverse
+- Supabase
+- PostgreSQL
+
+## Microsoft Entra ID configureren
 
 1. Kopieer .env.example naar .env
-2. Vul je Auth0 gegevens in:
+2. Vul de Azure / Microsoft Entra-waarden in:
 
-- AUTH0_DOMAIN
-- AUTH0_CLIENT_ID
-- AUTH0_AUDIENCE
-- AUTH0_ISSUER_BASE_URL
-- AUTH0_CONNECTION (standaard `google-oauth2`, of de naam van je eigen Auth0 Google connection)
-- ADMIN_EMAILS (komma-gescheiden Google Workspace-e-mailadressen van admins)
+- AZURE_TENANT_ID
+- AZURE_CLIENT_ID
+- AZURE_AUTHORITY
+- AZURE_REDIRECT_URI
+- AZURE_API_AUDIENCE
+- AZURE_API_SCOPE
+- ADMIN_EMAILS (komma-gescheiden Microsoft 365-e-mailadressen van admins)
 
-3. Zorg dat in Auth0 voor je SPA-app deze URLs zijn toegestaan:
+3. Maak in Microsoft Entra ID een App Registration aan voor de frontend (SPA) met:
 
-- Allowed Callback URLs: http://localhost:3000
-- Allowed Logout URLs: http://localhost:3000
-- Allowed Web Origins: http://localhost:3000
+- Redirect URI: http://localhost:3000
+- Allowed redirect URL in the frontend MSAL config
 
-4. Gebruik dezelfde Audience als AUTH0_AUDIENCE in je API-config in Auth0
+4. Maak indien nodig ook een API-app registratie aan voor de backend en exposeer een scope zoals:
+
+- api://<api-app-id-uri>/access_as_user
+
+5. Gebruik dezelfde audience/scope in de frontend MSAL scope-config en in de backend JWT-validatie.
+
+6. Voor een echte productie-opzet is het nodig om de juiste app registrations, redirect URIs en API permissions te verbinden met het juiste Microsoft 365-tenant.
+
+> De huidige app draait in demo-modus als er geen echte Entra-config staat. Voor live Azure/Microsoft authenticatie moeten deze tenant-waarden wel worden ingevuld.
 
 ## Starten
 

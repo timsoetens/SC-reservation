@@ -1,7 +1,8 @@
-require("dotenv").config();
+require("dotenv").config({ path: require("path").join(__dirname, ".env"), override: true });
 
 const express = require("express");
 const { auth: auth0Jwt } = require("express-oauth2-jwt-bearer");
+const { createRemoteJWKSet, jwtVerify } = require("jose");
 const fs = require("fs");
 const path = require("path");
 const dayjs = require("dayjs");
@@ -15,23 +16,40 @@ const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID || "";
 const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE || "";
 const AUTH0_ISSUER_BASE_URL = process.env.AUTH0_ISSUER_BASE_URL || (AUTH0_DOMAIN ? `https://${AUTH0_DOMAIN}` : "");
 const AUTH0_CONNECTION = process.env.AUTH0_CONNECTION || "google-oauth2";
+const AZURE_TENANT_ID = process.env.AZURE_TENANT_ID || "";
+const AZURE_CLIENT_ID = process.env.AZURE_CLIENT_ID || "";
+const AZURE_AUTHORITY = process.env.AZURE_AUTHORITY || (AZURE_TENANT_ID ? `https://login.microsoftonline.com/${AZURE_TENANT_ID}` : "");
+const AZURE_ISSUER = `${AZURE_AUTHORITY.replace(/\/$/, "")}/v2.0`;
+const AZURE_LEGACY_ISSUER = `https://sts.windows.net/${AZURE_TENANT_ID}/`;
+const AZURE_JWKS_URI = AZURE_TENANT_ID
+  ? `https://login.microsoftonline.com/${AZURE_TENANT_ID}/discovery/v2.0/keys`
+  : "";
+const AZURE_REDIRECT_URI = process.env.AZURE_REDIRECT_URI || "http://localhost:3000";
+const AZURE_API_AUDIENCE = process.env.AZURE_API_AUDIENCE || "";
+const AZURE_API_SCOPE = process.env.AZURE_API_SCOPE || "";
+const AZURE_ALLOWED_EMAIL_DOMAIN = (process.env.AZURE_ALLOWED_EMAIL_DOMAIN || "sanacon.be").trim().toLowerCase().replace(/^@/, "");
 const ADMIN_EMAILS = new Set(
   (process.env.ADMIN_EMAILS || "")
     .split(",")
     .map((email) => email.trim().toLowerCase())
     .filter(Boolean)
 );
-  const PROJECT_COLORS = ["#c23e3f", "#2f6f95", "#3f8060", "#b2762c", "#76539b", "#3d7880"];
+const PROJECT_COLORS = ["#c23e3f", "#2f6f95", "#3f8060", "#b2762c", "#76539b", "#3d7880"];
 
-const authConfigured = Boolean(AUTH0_DOMAIN && AUTH0_CLIENT_ID && AUTH0_AUDIENCE && AUTH0_ISSUER_BASE_URL);
+const azureConfigured = Boolean(AZURE_TENANT_ID && AZURE_CLIENT_ID && AZURE_API_AUDIENCE);
+const auth0Configured = Boolean(AUTH0_DOMAIN && AUTH0_CLIENT_ID && AUTH0_AUDIENCE && AUTH0_ISSUER_BASE_URL);
+const authConfigured = azureConfigured || auth0Configured;
 
 const verifyJwt = authConfigured
   ? auth0Jwt({
-      issuerBaseURL: AUTH0_ISSUER_BASE_URL,
-      audience: AUTH0_AUDIENCE,
+      ...(azureConfigured
+        ? { issuer: AZURE_ISSUER, jwksUri: AZURE_JWKS_URI }
+        : { issuerBaseURL: AUTH0_ISSUER_BASE_URL }),
+      audience: azureConfigured ? AZURE_API_AUDIENCE : AUTH0_AUDIENCE,
       tokenSigningAlg: "RS256"
     })
   : null;
+const azureJwks = azureConfigured ? createRemoteJWKSet(new URL(AZURE_JWKS_URI)) : null;
 
 app.use(express.json({ limit: "4mb" }));
 app.use(express.static(path.join(__dirname, "public"), {
@@ -42,7 +60,32 @@ app.use(express.static(path.join(__dirname, "public"), {
 
 function readDb() {
   const raw = fs.readFileSync(DB_PATH, "utf8");
-  return JSON.parse(raw);
+  const db = JSON.parse(raw);
+  const resipod = db.devices.find((device) => device.name === "Resipod");
+  const hasResipodA = db.devices.some((device) => device.name === "Resipod-A");
+  const hasResipodB = db.devices.some((device) => device.name === "Resipod-B");
+
+  if (resipod && !hasResipodA) {
+    resipod.name = "Resipod-A";
+  }
+
+  if (!hasResipodB) {
+    const resipodA = db.devices.find((device) => device.name === "Resipod-A");
+    if (resipodA) {
+      db.devices.push({ ...resipodA, id: "d9", name: "Resipod-B" });
+    }
+  }
+
+  if ((resipod && !hasResipodA) || !hasResipodB) {
+    writeDb(db);
+  }
+
+  const scheduleChanged = ensureScreenshotSchedule(db);
+  if (scheduleChanged) {
+    writeDb(db);
+  }
+
+  return db;
 }
 
 function writeDb(db) {
@@ -59,6 +102,78 @@ function ensureProjectsCollection(db) {
   if (!Array.isArray(db.projects)) {
     db.projects = [];
   }
+}
+
+function ensureScreenshotSchedule(db) {
+  ensureUsersCollection(db);
+  ensureProjectsCollection(db);
+  if (!Array.isArray(db.reservations)) {
+    db.reservations = [];
+  }
+
+  const memberId = "google-oauth2|109878178874705663606";
+  const projects = [
+    ["p-screenshot-sc26007", "SC26007 - Rodi"],
+    ["p-screenshot-sc26078", "SC26078 - North"],
+    ["p-screenshot-sc25141", "SC25141 (SX31) - Milcobel"],
+    ["p-screenshot-sc26171", "SC26171"]
+  ];
+  let changed = false;
+
+  for (const [id, name] of projects) {
+    if (!db.projects.some((project) => project.id === id)) {
+      db.projects.push({ id, name, color: getProjectColor({ name }), createdBy: memberId, createdAt: new Date().toISOString() });
+      changed = true;
+    }
+  }
+
+  const bookings = [
+    ["d4", "2026-09-07", "2026-09-10", "Walteren Rok"],
+    ["d4", "2026-09-15", "2026-09-16", "SC26078 - North", "p-screenshot-sc26078"],
+    ["d6", "2026-09-16", "2026-09-17", "Janssens"],
+    ["d7", "2026-09-04", "2026-09-05", "SC231..."],
+    ["d7", "2026-09-17", "2026-09-18", "SC26007 - Rodi", "p-screenshot-sc26007"],
+    ["d1", "2026-08-31", "2026-09-05", "GSP (GX90)"],
+    ["d1", "2026-09-07", "2026-09-09", "Walteren Rok"],
+    ["d1", "2026-09-09", "2026-09-10", "SC26007"],
+    ["d1", "2026-09-10", "2026-09-11", "SC25141"],
+    ["d1", "2026-09-14", "2026-09-15", "SC25141"],
+    ["d1", "2026-09-16", "2026-09-17", "Janssens"],
+    ["d1", "2026-09-17", "2026-09-22", "SC26007 - Rodi", "p-screenshot-sc26007"],
+    ["d1", "2026-09-22", "2026-09-23", "GSP (GX90)"],
+    ["d1", "2026-09-24", "2026-09-25", "Janssens"],
+    ["d1", "2026-09-25", "2026-09-26", "SC26007"],
+    ["d1", "2026-09-29", "2026-09-30", "Pijlstra"],
+    ["d2", "2026-09-10", "2026-09-15", "SC25141 (SX31) | Milcobel", "p-screenshot-sc25141"],
+    ["d2", "2026-09-25", "2026-09-26", "SC26007 - Rodi", "p-screenshot-sc26007"],
+    ["d2", "2026-09-26", "2026-09-27", "SC26171", "p-screenshot-sc26171"],
+    ["d3", "2026-09-07", "2026-09-08", "Walteren Rok"],
+    ["d3", "2026-09-08", "2026-09-09", "SC26007"],
+    ["d3", "2026-09-17", "2026-09-18", "SC26007 - Rodi", "p-screenshot-sc26007"],
+    ["d3", "2026-09-22", "2026-09-23", "GSP (GX90)"],
+    ["d3", "2026-09-25", "2026-09-26", "SC26007 - Rodi", "p-screenshot-sc26007"],
+    ["d3", "2026-09-29", "2026-09-30", "Pijlstra"]
+  ];
+
+  for (const [deviceId, startDate, endDate, note, projectId = ""] of bookings) {
+    const id = `screenshot-${deviceId}-${startDate}`;
+    if (db.reservations.some((reservation) => reservation.id === id)) {
+      continue;
+    }
+    db.reservations.push({
+      id,
+      deviceId,
+      memberId,
+      projectId,
+      start: `${startDate}T08:00:00.000Z`,
+      end: `${endDate}T16:00:00.000Z`,
+      note,
+      createdAt: new Date().toISOString()
+    });
+    changed = true;
+  }
+
+  return changed;
 }
 
 function normalizeDevice(device) {
@@ -111,9 +226,17 @@ function validateReservationInput(payload) {
 
 function authConfigRequired(req, res, next) {
   if (!authConfigured) {
-    return res.status(503).json({ error: "Auth0 is nog niet geconfigureerd op de server." });
+    return res.status(503).json({ error: "Microsoft Entra ID / Auth0 is nog niet geconfigureerd op de server." });
   }
   return next();
+}
+
+function getClaimEmail(claims) {
+  return String(claims.email || claims.preferred_username || claims.upn || "").trim().toLowerCase();
+}
+
+function isAllowedAzureEmail(email) {
+  return Boolean(email) && email.endsWith(`@${AZURE_ALLOWED_EMAIL_DOMAIN}`);
 }
 
 function upsertAuthenticatedUser(claims, profile = {}) {
@@ -172,10 +295,73 @@ function upsertAuthenticatedUser(claims, profile = {}) {
   return user;
 }
 
+function getLocalDemoUser() {
+  const db = readDb();
+  ensureUsersCollection(db);
+
+  let user = db.users.find((item) => item.id === "local-demo-admin");
+  if (!user) {
+    user = {
+      id: "local-demo-admin",
+      name: "Demo Admin",
+      email: "admin@local.test",
+      picture: "",
+      role: "admin",
+      isAdmin: true,
+      createdAt: new Date().toISOString()
+    };
+    db.users.push(user);
+    writeDb(db);
+  }
+
+  if (!user.isAdmin || user.role !== "admin") {
+    user.role = "admin";
+    user.isAdmin = true;
+    writeDb(db);
+  }
+
+  return user;
+}
+
 function requireAuth(req, res, next) {
-  return authConfigRequired(req, res, (configError) => {
+  if (!authConfigured) {
+    req.authUser = getLocalDemoUser();
+    return next();
+  }
+
+  return authConfigRequired(req, res, async (configError) => {
     if (configError) {
       return;
+    }
+
+    if (azureConfigured) {
+      const token = req.headers.authorization?.replace(/^Bearer\s+/i, "");
+      if (!token) {
+        return res.status(401).json({ error: "Aanmelding vereist." });
+      }
+
+      try {
+        const verified = await jwtVerify(token, azureJwks, {
+          issuer: [AZURE_ISSUER, AZURE_LEGACY_ISSUER],
+          audience: [AZURE_API_AUDIENCE, AZURE_CLIENT_ID]
+        });
+        req.auth = { payload: verified.payload };
+      } catch (error) {
+        console.error("Microsoft token validation failed:", error.code || error.name, error.message);
+        return res.status(401).json({ error: "Ongeldige Microsoft-aanmelding." });
+      }
+
+      const claims = req.auth.payload;
+      if (!claims?.sub) {
+        return res.status(401).json({ error: "Token bevat geen geldige gebruiker." });
+      }
+
+      if (!isAllowedAzureEmail(getClaimEmail(claims))) {
+        return res.status(403).json({ error: `Alleen @${AZURE_ALLOWED_EMAIL_DOMAIN}-accounts hebben toegang.` });
+      }
+
+      req.authUser = upsertAuthenticatedUser(claims);
+      return next();
     }
 
     return verifyJwt(req, res, (jwtError) => {
@@ -186,6 +372,10 @@ function requireAuth(req, res, next) {
       const claims = req.auth?.payload;
       if (!claims?.sub) {
         return res.status(401).json({ error: "Token bevat geen geldige gebruiker." });
+      }
+
+      if (azureConfigured && !isAllowedAzureEmail(getClaimEmail(claims))) {
+        return res.status(403).json({ error: `Alleen @${AZURE_ALLOWED_EMAIL_DOMAIN}-accounts hebben toegang.` });
       }
 
       req.authUser = upsertAuthenticatedUser(claims);
@@ -208,10 +398,18 @@ app.get("/api/health", (_req, res) => {
 app.get("/api/auth/config", (_req, res) => {
   res.json({
     enabled: authConfigured,
+    localMode: !authConfigured,
+    provider: azureConfigured ? "azure" : auth0Configured ? "auth0" : "local-demo",
     domain: AUTH0_DOMAIN,
-    clientId: AUTH0_CLIENT_ID,
-    audience: AUTH0_AUDIENCE,
-    connection: AUTH0_CONNECTION
+    clientId: azureConfigured ? AZURE_CLIENT_ID : AUTH0_CLIENT_ID,
+    audience: azureConfigured ? AZURE_API_AUDIENCE : AUTH0_AUDIENCE,
+    connection: AUTH0_CONNECTION,
+    tenantId: AZURE_TENANT_ID,
+    authority: AZURE_AUTHORITY,
+    redirectUri: AZURE_REDIRECT_URI,
+    apiAudience: AZURE_API_AUDIENCE,
+    apiScope: AZURE_API_SCOPE,
+    allowedEmailDomain: AZURE_ALLOWED_EMAIL_DOMAIN
   });
 });
 
@@ -220,6 +418,9 @@ app.get("/api/auth/me", requireAuth, (req, res) => {
 });
 
 app.post("/api/auth/profile", requireAuth, (req, res) => {
+  if (!req.auth?.payload) {
+    return res.json({ currentUser: req.authUser });
+  }
   res.json({ currentUser: upsertAuthenticatedUser(req.auth.payload, req.body || {}) });
 });
 
@@ -238,6 +439,9 @@ app.post("/api/users/invitations", requireAuth, requireAdmin, (req, res) => {
   const email = String(req.body?.email || "").trim().toLowerCase();
   if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
     return res.status(400).json({ error: "Geef een geldig e-mailadres op." });
+  }
+  if (!isAllowedAzureEmail(email)) {
+    return res.status(400).json({ error: `Gebruik een @${AZURE_ALLOWED_EMAIL_DOMAIN}-adres.` });
   }
   const db = readDb();
   if (!Array.isArray(db.invitations)) {
@@ -502,12 +706,17 @@ app.put("/api/reservations/:id", requireAuth, requireOwnerOrAdmin, (req, res) =>
 
   const startDate = dayjs(start);
   const endDate = dayjs(end);
+  const scheduleUnchanged = currentReservation.deviceId === deviceId &&
+    dayjs(currentReservation.start).toISOString() === startDate.toISOString() &&
+    dayjs(currentReservation.end).toISOString() === endDate.toISOString();
 
-  const deviceConflict = db.reservations.find((reservation) =>
-    reservation.id !== reservationId &&
-    reservation.deviceId === deviceId &&
-    overlaps(startDate, endDate, dayjs(reservation.start), dayjs(reservation.end))
-  );
+  const deviceConflict = scheduleUnchanged
+    ? null
+    : db.reservations.find((reservation) =>
+        reservation.id !== reservationId &&
+        reservation.deviceId === deviceId &&
+        overlaps(startDate, endDate, dayjs(reservation.start), dayjs(reservation.end))
+      );
 
   if (deviceConflict) {
     return res.status(409).json({
