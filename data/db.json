@@ -128,15 +128,6 @@
   ],
   "users": [
     {
-      "id": "google-oauth2|109878178874705663606",
-      "name": "Tim Soetens",
-      "email": "tim.soetens@sanacon.be",
-      "createdAt": "2026-04-26T08:24:11.317Z",
-      "role": "admin",
-      "isAdmin": true,
-      "picture": "https://lh3.googleusercontent.com/a/ACg8ocJ7Fnx0k_cJwMgcs6YtlR6yQTQZKhvk2Ppn8EMPQFVmgoXGfgCfwA=s96-c"
-    },
-    {
       "id": "local-demo-admin",
       "name": "Demo Admin",
       "email": "admin@local.test",
@@ -149,10 +140,10 @@
       "id": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "name": "Tim Soetens",
       "email": "tim.soetens@sanacon.be",
-      "picture": "",
+      "picture": "https://lh3.googleusercontent.com/a/ACg8ocJ7Fnx0k_cJwMgcs6YtlR6yQTQZKhvk2Ppn8EMPQFVmgoXGfgCfwA=s96-c",
       "role": "admin",
       "isAdmin": true,
-      "createdAt": "2026-09-15T18:20:39.766Z"
+      "createdAt": "2026-04-26T08:24:11.317Z"
     },
     {
       "id": "pending-annelies.dewit",
@@ -312,7 +303,7 @@
     {
       "id": "r1789119156789",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "p1789111559686",
       "start": "2026-11-06T07:00:00.000Z",
       "end": "2026-11-08T15:00:00.000Z",
@@ -322,7 +313,7 @@
     {
       "id": "screenshot-d4-2026-09-07",
       "deviceId": "d4",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-07T08:00:00.000Z",
       "end": "2026-09-10T16:00:00.000Z",
@@ -332,7 +323,7 @@
     {
       "id": "screenshot-d4-2026-09-15",
       "deviceId": "d4",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "p-screenshot-sc26078",
       "start": "2026-09-15T08:00:00.000Z",
       "end": "2026-09-16T16:00:00.000Z",
@@ -342,7 +333,7 @@
     {
       "id": "screenshot-d6-2026-09-16",
       "deviceId": "d6",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-16T08:00:00.000Z",
       "end": "2026-09-17T16:00:00.000Z",
@@ -352,7 +343,7 @@
     {
       "id": "screenshot-d7-2026-09-04",
       "deviceId": "d7",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-04T08:00:00.000Z",
       "end": "2026-09-05T16:00:00.000Z",
@@ -362,7 +353,7 @@
     {
       "id": "screenshot-d7-2026-09-17",
       "deviceId": "d7",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "p-screenshot-sc26007",
       "start": "2026-09-17T08:00:00.000Z",
       "end": "2026-09-18T16:00:00.000Z",
@@ -372,7 +363,7 @@
     {
       "id": "screenshot-d1-2026-08-31",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-08-31T08:00:00.000Z",
       "end": "2026-09-05T16:00:00.000Z",
@@ -382,7 +373,7 @@
     {
       "id": "screenshot-d1-2026-09-07",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-07T08:00:00.000Z",
       "end": "2026-09-09T16:00:00.000Z",
@@ -392,7 +383,7 @@
     {
       "id": "screenshot-d1-2026-09-09",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-09T08:00:00.000Z",
       "end": "2026-09-10T16:00:00.000Z",
@@ -402,7 +393,7 @@
     {
       "id": "screenshot-d1-2026-09-10",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-10T08:00:00.000Z",
       "end": "2026-09-11T16:00:00.000Z",
@@ -412,7 +403,7 @@
     {
       "id": "screenshot-d1-2026-09-14",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-14T08:00:00.000Z",
       "end": "2026-09-15T16:00:00.000Z",
@@ -422,7 +413,7 @@
     {
       "id": "screenshot-d1-2026-09-16",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-16T08:00:00.000Z",
       "end": "2026-09-17T16:00:00.000Z",
@@ -432,7 +423,7 @@
     {
       "id": "screenshot-d1-2026-09-17",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "p-screenshot-sc26007",
       "start": "2026-09-17T08:00:00.000Z",
       "end": "2026-09-22T16:00:00.000Z",
@@ -442,7 +433,7 @@
     {
       "id": "screenshot-d1-2026-09-22",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-22T08:00:00.000Z",
       "end": "2026-09-23T16:00:00.000Z",
@@ -452,7 +443,7 @@
     {
       "id": "screenshot-d1-2026-09-24",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-24T08:00:00.000Z",
       "end": "2026-09-25T16:00:00.000Z",
@@ -462,7 +453,7 @@
     {
       "id": "screenshot-d1-2026-09-25",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-25T08:00:00.000Z",
       "end": "2026-09-26T16:00:00.000Z",
@@ -472,7 +463,7 @@
     {
       "id": "screenshot-d1-2026-09-29",
       "deviceId": "d1",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-29T08:00:00.000Z",
       "end": "2026-09-30T16:00:00.000Z",
@@ -482,7 +473,7 @@
     {
       "id": "screenshot-d2-2026-09-10",
       "deviceId": "d2",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "p-screenshot-sc25141",
       "start": "2026-09-10T08:00:00.000Z",
       "end": "2026-09-15T16:00:00.000Z",
@@ -492,7 +483,7 @@
     {
       "id": "screenshot-d2-2026-09-25",
       "deviceId": "d2",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "p-screenshot-sc26007",
       "start": "2026-09-25T08:00:00.000Z",
       "end": "2026-09-26T16:00:00.000Z",
@@ -502,7 +493,7 @@
     {
       "id": "screenshot-d2-2026-09-26",
       "deviceId": "d2",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "p-screenshot-sc26171",
       "start": "2026-09-26T08:00:00.000Z",
       "end": "2026-09-27T16:00:00.000Z",
@@ -512,7 +503,7 @@
     {
       "id": "screenshot-d3-2026-09-07",
       "deviceId": "d3",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-07T08:00:00.000Z",
       "end": "2026-09-08T16:00:00.000Z",
@@ -522,7 +513,7 @@
     {
       "id": "screenshot-d3-2026-09-08",
       "deviceId": "d3",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-08T08:00:00.000Z",
       "end": "2026-09-09T16:00:00.000Z",
@@ -532,7 +523,7 @@
     {
       "id": "screenshot-d3-2026-09-17",
       "deviceId": "d3",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "p-screenshot-sc26007",
       "start": "2026-09-17T08:00:00.000Z",
       "end": "2026-09-18T16:00:00.000Z",
@@ -542,7 +533,7 @@
     {
       "id": "screenshot-d3-2026-09-22",
       "deviceId": "d3",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-22T08:00:00.000Z",
       "end": "2026-09-23T16:00:00.000Z",
@@ -552,7 +543,7 @@
     {
       "id": "screenshot-d3-2026-09-25",
       "deviceId": "d3",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "p-screenshot-sc26007",
       "start": "2026-09-25T08:00:00.000Z",
       "end": "2026-09-26T16:00:00.000Z",
@@ -562,7 +553,7 @@
     {
       "id": "screenshot-d3-2026-09-29",
       "deviceId": "d3",
-      "memberId": "google-oauth2|109878178874705663606",
+      "memberId": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "projectId": "",
       "start": "2026-09-29T08:00:00.000Z",
       "end": "2026-09-30T16:00:00.000Z",
@@ -575,49 +566,49 @@
       "id": "p1789111559686",
       "name": "SC25022",
       "color": "#e5b9d4",
-      "createdBy": "google-oauth2|109878178874705663606",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "createdAt": "2026-09-11T07:25:59.686Z"
     },
     {
       "id": "p1789112138318",
       "name": "SC26221",
       "color": "#f8d6be",
-      "createdBy": "google-oauth2|109878178874705663606",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "createdAt": "2026-09-11T07:35:38.318Z"
     },
     {
       "id": "p1789120651984",
       "name": "SC26111",
       "color": "#efb8c1",
-      "createdBy": "google-oauth2|109878178874705663606",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "createdAt": "2026-09-11T09:57:31.984Z"
     },
     {
       "id": "p-screenshot-sc26007",
       "name": "SC26007 - Rodi",
       "color": "#e8e49f",
-      "createdBy": "google-oauth2|109878178874705663606",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "createdAt": "2026-09-15T16:27:00.052Z"
     },
     {
       "id": "p-screenshot-sc26078",
       "name": "SC26078 - North",
       "color": "#2f6f95",
-      "createdBy": "google-oauth2|109878178874705663606",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "createdAt": "2026-09-15T16:27:00.052Z"
     },
     {
       "id": "p-screenshot-sc25141",
       "name": "SC25141 (SX31) - Milcobel",
       "color": "#3d7880",
-      "createdBy": "google-oauth2|109878178874705663606",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "createdAt": "2026-09-15T16:27:00.052Z"
     },
     {
       "id": "p-screenshot-sc26171",
       "name": "SC26171",
       "color": "#3d7880",
-      "createdBy": "google-oauth2|109878178874705663606",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "createdAt": "2026-09-15T16:27:00.052Z"
     }
   ],
