@@ -176,6 +176,18 @@
         </form>
       </dialog>
 
+      <dialog class="project-dialog resource-dialog" id="user-dialog">
+        <form id="user-form">
+          <div class="dialog-header"><div><p class="eyebrow">Gebruiker</p><h2>Gebruiker aanpassen</h2></div><button id="user-cancel-btn" class="dialog-close" type="button">x</button></div>
+          <label for="user-name-input">Naam</label>
+          <input id="user-name-input" type="text" required />
+          <label for="user-email-input">E-mailadres</label>
+          <input id="user-email-input" type="email" />
+          <p id="user-message" class="form-message"></p>
+          <div class="dialog-actions edit-actions"><button id="user-remove-btn" class="delete-btn" type="button">Verwijderen</button><button id="user-save-btn" type="submit">Opslaan</button></div>
+        </form>
+      </dialog>
+
       <section class="panel page-panel information-panel" id="projects-panel" data-view="projects" hidden>
         <div class="page-heading"><div><p class="eyebrow">Projects &amp; Clients</p><h2>Resource planning</h2></div></div>
         <div id="project-list" class="project-grid"></div>

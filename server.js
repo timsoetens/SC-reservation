@@ -492,6 +492,52 @@ app.put("/api/users/:id/role", requireAuth, requireAdmin, (req, res) => {
   return res.json(user);
 });
 
+app.put("/api/users/:id", requireAuth, requireAdmin, (req, res) => {
+  const name = String(req.body?.name || "").trim();
+  const email = String(req.body?.email || "").trim().toLowerCase();
+  if (!name) {
+    return res.status(400).json({ error: "Naam is verplicht." });
+  }
+  if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+    return res.status(400).json({ error: "Geef een geldig e-mailadres op." });
+  }
+
+  const db = readDb();
+  ensureUsersCollection(db);
+  const user = db.users.find((item) => item.id === req.params.id);
+  if (!user) {
+    return res.status(404).json({ error: "Gebruiker niet gevonden." });
+  }
+  if (email && db.users.some((item) => item.id !== user.id && item.email?.toLowerCase() === email)) {
+    return res.status(400).json({ error: "Er bestaat al een gebruiker met dit e-mailadres." });
+  }
+  user.name = name;
+  if (email) {
+    user.email = email;
+  }
+  writeDb(db);
+  return res.json(user);
+});
+
+app.delete("/api/users/:id", requireAuth, requireAdmin, (req, res) => {
+  const db = readDb();
+  ensureUsersCollection(db);
+  const user = db.users.find((item) => item.id === req.params.id);
+  if (!user) {
+    return res.status(404).json({ error: "Gebruiker niet gevonden." });
+  }
+  if (user.id === req.authUser.id) {
+    return res.status(400).json({ error: "Je kan jezelf niet verwijderen." });
+  }
+  const remainingAdmins = db.users.filter((item) => item.isAdmin && item.id !== user.id).length;
+  if (user.isAdmin && remainingAdmins === 0) {
+    return res.status(400).json({ error: "Er moet minstens \u00e9\u00e9n admin overblijven." });
+  }
+  db.users = db.users.filter((item) => item.id !== user.id);
+  writeDb(db);
+  return res.status(204).end();
+});
+
 app.put("/api/devices/:id", requireAuth, (req, res) => {
   const allowedStatuses = ["available", "out_of_use", "defect"];
   const status = String(req.body?.status || "available");

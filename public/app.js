@@ -59,6 +59,14 @@ const elements = {
   resourceCancelButton: document.getElementById("resource-cancel-btn"),
   resourceRemoveButton: document.getElementById("resource-remove-btn"),
   resourceSaveButton: document.getElementById("resource-save-btn"),
+  userDialog: document.getElementById("user-dialog"),
+  userForm: document.getElementById("user-form"),
+  userNameInput: document.getElementById("user-name-input"),
+  userEmailInput: document.getElementById("user-email-input"),
+  userMessage: document.getElementById("user-message"),
+  userCancelButton: document.getElementById("user-cancel-btn"),
+  userRemoveButton: document.getElementById("user-remove-btn"),
+  userSaveButton: document.getElementById("user-save-btn"),
   projectList: document.getElementById("project-list"),
   reportSummary: document.getElementById("report-summary"),
   reportList: document.getElementById("report-list"),
@@ -95,6 +103,7 @@ const state = {
   pendingPlannerReservation: null,
   editingReservation: null,
   editingDevice: null,
+  editingUser: null,
   resizingReservation: null,
   plannerScrollAdjusting: false,
   plannerLastScrollLeft: 0,
@@ -258,6 +267,21 @@ function renderPeoplePage() {
         }
       });
       details.appendChild(roleSelect);
+
+      const actions = document.createElement("div");
+      actions.className = "resource-actions";
+      const editButton = document.createElement("button");
+      editButton.className = "ghost";
+      editButton.type = "button";
+      editButton.textContent = "Edit";
+      editButton.addEventListener("click", () => openUserDialog(user));
+      const removeButton = document.createElement("button");
+      removeButton.className = "ghost";
+      removeButton.type = "button";
+      removeButton.textContent = "Remove";
+      removeButton.addEventListener("click", () => removeUser(user));
+      actions.append(editButton, removeButton);
+      details.appendChild(actions);
     }
     details.append(name, email, role);
     tile.append(avatar, details);
@@ -388,6 +412,66 @@ async function removeResource(device) {
     state.devices = state.devices.filter((item) => item.id !== device.id);
     renderPeoplePage();
     renderPlanner();
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+function openUserDialog(user) {
+  state.editingUser = user;
+  elements.userNameInput.value = user.name || "";
+  elements.userEmailInput.value = user.email || "";
+  elements.userMessage.textContent = "";
+  elements.userMessage.className = "form-message";
+  if (typeof elements.userDialog.showModal === "function") {
+    elements.userDialog.showModal();
+  } else {
+    elements.userDialog.setAttribute("open", "open");
+  }
+}
+
+function closeUserDialog() {
+  state.editingUser = null;
+  if (typeof elements.userDialog.close === "function") {
+    elements.userDialog.close();
+  } else {
+    elements.userDialog.removeAttribute("open");
+  }
+}
+
+async function saveUser() {
+  if (!state.editingUser) {
+    return;
+  }
+  elements.userSaveButton.disabled = true;
+  elements.userMessage.textContent = "";
+  try {
+    const updated = await request(`/api/users/${state.editingUser.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        name: elements.userNameInput.value.trim(),
+        email: elements.userEmailInput.value.trim()
+      })
+    });
+    Object.assign(state.editingUser, updated);
+    closeUserDialog();
+    renderPeoplePage();
+  } catch (error) {
+    elements.userMessage.textContent = error.message;
+    elements.userMessage.className = "form-message error";
+  } finally {
+    elements.userSaveButton.disabled = false;
+  }
+}
+
+async function removeUser(user) {
+  if (!window.confirm(`${user.name} verwijderen?`)) {
+    return;
+  }
+  try {
+    await request(`/api/users/${user.id}`, { method: "DELETE" });
+    state.users = state.users.filter((item) => item.id !== user.id);
+    renderPeoplePage();
   } catch (error) {
     alert(error.message);
   }
@@ -1767,6 +1851,22 @@ elements.resourceCancelButton.addEventListener("click", () => {
 elements.resourceForm.addEventListener("submit", (event) => {
   event.preventDefault();
   void saveResource();
+});
+
+elements.userCancelButton.addEventListener("click", () => {
+  closeUserDialog();
+});
+
+elements.userForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  void saveUser();
+});
+
+elements.userRemoveButton.addEventListener("click", async () => {
+  if (state.editingUser) {
+    await removeUser(state.editingUser);
+    closeUserDialog();
+  }
 });
 
 elements.inviteUserForm.addEventListener("submit", async (event) => {
