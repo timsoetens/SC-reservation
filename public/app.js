@@ -72,6 +72,8 @@ const elements = {
   userCancelButton: document.getElementById("user-cancel-btn"),
   userRemoveButton: document.getElementById("user-remove-btn"),
   userSaveButton: document.getElementById("user-save-btn"),
+  syncGrippButton: document.getElementById("sync-gripp-btn"),
+  syncGrippMessage: document.getElementById("sync-gripp-message"),
   projectList: document.getElementById("project-list"),
   reportSummary: document.getElementById("report-summary"),
   reportList: document.getElementById("report-list"),
