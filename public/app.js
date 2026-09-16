@@ -512,6 +512,7 @@ function renderColorPalette(container, selectedColor, onSelect, unavailableColor
 }
 
 function renderProjectsPage() {
+  elements.syncGrippButton.hidden = !state.currentUser?.isAdmin || !state.auth0Config?.grippSyncConfigured;
   elements.projectList.innerHTML = "";
   if (!state.projects.length) {
     const empty = document.createElement("p");
@@ -1934,6 +1935,24 @@ elements.syncPhotosButton.addEventListener("click", async () => {
     elements.syncPhotosMessage.className = "form-message error";
   } finally {
     elements.syncPhotosButton.disabled = false;
+  }
+});
+
+elements.syncGrippButton.addEventListener("click", async () => {
+  elements.syncGrippButton.disabled = true;
+  elements.syncGrippMessage.textContent = "Synchroniseren met Gripp...";
+  elements.syncGrippMessage.className = "form-message";
+  try {
+    const result = await request("/api/projects/sync-gripp", { method: "POST" });
+    elements.syncGrippMessage.textContent = `${result.createdCount} nieuwe en ${result.updatedCount} bijgewerkte projecten (van ${result.totalGrippProjects} lopende Gripp-projecten).`;
+    elements.syncGrippMessage.className = "form-message success";
+    await loadProjects();
+    renderProjectsPage();
+  } catch (error) {
+    elements.syncGrippMessage.textContent = error.message;
+    elements.syncGrippMessage.className = "form-message error";
+  } finally {
+    elements.syncGrippButton.disabled = false;
   }
 });
 

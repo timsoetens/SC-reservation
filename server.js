@@ -29,6 +29,9 @@ const AZURE_REDIRECT_URI = process.env.AZURE_REDIRECT_URI || "http://localhost:3
 const AZURE_API_AUDIENCE = process.env.AZURE_API_AUDIENCE || "";
 const AZURE_API_SCOPE = process.env.AZURE_API_SCOPE || "";
 const AZURE_ALLOWED_EMAIL_DOMAIN = (process.env.AZURE_ALLOWED_EMAIL_DOMAIN || "sanacon.be").trim().toLowerCase().replace(/^@/, "");
+const GRIPP_API_TOKEN = process.env.GRIPP_API_TOKEN || "";
+const GRIPP_API_URL = "https://api.gripp.com/public/api3.php";
+const grippConfigured = Boolean(GRIPP_API_TOKEN);
 const ADMIN_EMAILS = new Set(
   (process.env.ADMIN_EMAILS || "")
     .split(",")
@@ -398,6 +401,95 @@ async function syncUserPhotosFromGraph() {
   return { updatedCount, totalUsers: db.users.length };
 }
 
+async function callGripp(method, params) {
+  const response = await fetch(GRIPP_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${GRIPP_API_TOKEN}`
+    },
+    body: JSON.stringify([{ method, params, id: 1 }])
+  });
+
+  if (!response.ok) {
+    throw new Error(`Gripp API-fout (${response.status}): ${await response.text()}`);
+  }
+
+  const [result] = await response.json();
+  if (result?.error) {
+    throw new Error(`Gripp API-fout: ${result.error.message || JSON.stringify(result.error)}`);
+  }
+
+  return result?.result;
+}
+
+async function fetchGrippActiveProjects() {
+  const pageSize = 250;
+  const filters = [{ field: "project.archived", operator: "equals", value: false }];
+  const projects = [];
+  let offset = 0;
+
+  while (true) {
+    const page = await callGripp("project.get", [
+      filters,
+      { paging: { firstresult: offset, maxresults: pageSize }, orderings: [{ field: "project.number", direction: "asc" }] }
+    ]);
+    const rows = page?.rows || [];
+    projects.push(...rows);
+    if (rows.length < pageSize) {
+      break;
+    }
+    offset += pageSize;
+  }
+
+  return projects;
+}
+
+async function syncProjectsFromGripp(adminUserId) {
+  if (!grippConfigured) {
+    throw new Error("Gripp is niet geconfigureerd (GRIPP_API_TOKEN ontbreekt).");
+  }
+
+  const grippProjects = await fetchGrippActiveProjects();
+  const db = readDb();
+  ensureProjectsCollection(db);
+
+  let createdCount = 0;
+  let updatedCount = 0;
+
+  for (const grippProject of grippProjects) {
+    const grippName = String(grippProject.name || "").trim();
+    const isPreCoded = /^SC/i.test(grippName);
+    const name = isPreCoded ? grippName : `SC${grippProject.number}`;
+    const projectName = isPreCoded ? (grippProject.company?.searchname || "") : (grippName || grippProject.company?.searchname || "");
+
+    const existing = db.projects.find((project) => project.name.toLowerCase() === name.toLowerCase());
+    if (existing) {
+      if (projectName && existing.projectName !== projectName) {
+        existing.projectName = projectName;
+        updatedCount += 1;
+      }
+      continue;
+    }
+
+    db.projects.push({
+      id: `p-gripp-${grippProject.id}`,
+      name,
+      projectName,
+      color: getProjectColor({ name }),
+      createdBy: adminUserId,
+      createdAt: new Date().toISOString()
+    });
+    createdCount += 1;
+  }
+
+  if (createdCount > 0 || updatedCount > 0) {
+    writeDb(db);
+  }
+
+  return { createdCount, updatedCount, totalGrippProjects: grippProjects.length };
+}
+
 function getLocalDemoUser() {
   const db = readDb();
   ensureUsersCollection(db);
@@ -513,7 +605,8 @@ app.get("/api/auth/config", (_req, res) => {
     apiAudience: AZURE_API_AUDIENCE,
     apiScope: AZURE_API_SCOPE,
     allowedEmailDomain: AZURE_ALLOWED_EMAIL_DOMAIN,
-    photoSyncConfigured: graphPhotoSyncConfigured
+    photoSyncConfigured: graphPhotoSyncConfigured,
+    grippSyncConfigured: grippConfigured
   });
 });
 
@@ -731,6 +824,16 @@ app.put("/api/projects/:id", requireAuth, (req, res) => {
   project.color = color;
   writeDb(db);
   return res.json(project);
+});
+
+app.post("/api/projects/sync-gripp", requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const result = await syncProjectsFromGripp(req.authUser.id);
+    return res.json(result);
+  } catch (error) {
+    console.error("Gripp-synchronisatie mislukt:", error.message);
+    return res.status(500).json({ error: error.message });
+  }
 });
 
 function requireOwnerOrAdmin(req, res, next) {
