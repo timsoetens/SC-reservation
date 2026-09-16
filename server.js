@@ -252,6 +252,30 @@ function upsertAuthenticatedUser(claims, profile = {}) {
 
   let user = db.users.find((item) => item.id === subject);
   if (!user) {
+    // Adopt a pre-seeded placeholder (invited/imported by email) instead of creating a duplicate.
+    const placeholder = email ? db.users.find((item) => item.id !== subject && item.email?.toLowerCase() === email) : null;
+    if (placeholder) {
+      const oldId = placeholder.id;
+      placeholder.id = subject;
+      placeholder.name = displayName;
+      placeholder.email = email;
+      placeholder.picture = picture || placeholder.picture;
+      placeholder.role = isAdmin ? "admin" : placeholder.role || "user";
+      placeholder.isAdmin = isAdmin || Boolean(placeholder.isAdmin);
+      db.reservations.forEach((reservation) => {
+        if (reservation.memberId === oldId) {
+          reservation.memberId = subject;
+        }
+      });
+      db.projects.forEach((project) => {
+        if (project.createdBy === oldId) {
+          project.createdBy = subject;
+        }
+      });
+      writeDb(db);
+      return placeholder;
+    }
+
     user = {
       id: subject,
       name: displayName,

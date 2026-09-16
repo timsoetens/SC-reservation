@@ -153,6 +153,150 @@
       "role": "admin",
       "isAdmin": true,
       "createdAt": "2026-09-15T18:20:39.766Z"
+    },
+    {
+      "id": "pending-annelies.dewit",
+      "name": "Annelies De Wit",
+      "email": "annelies.dewit@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-beryl.sinoy",
+      "name": "Beryl Sinoy",
+      "email": "beryl.sinoy@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-bjorn.vanbelleghem",
+      "name": "Bjorn Van Belleghem",
+      "email": "bjorn.vanbelleghem@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-britt.vanbrempt",
+      "name": "Britt Van Brempt",
+      "email": "britt.vanbrempt@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-emile.godefroidt",
+      "name": "Emile Godefroidt",
+      "email": "emile.godefroidt@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-jan-jasper.dhaene",
+      "name": "Jan-Jasper Dhaene",
+      "email": "jan-jasper.dhaene@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-justine.debrabandere",
+      "name": "Justine De Brabandere",
+      "email": "justine.debrabandere@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-karlien.clarys",
+      "name": "Karlien Clarys",
+      "email": "karlien.clarys@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-kim.jolie",
+      "name": "Kim Jolie",
+      "email": "kim.jolie@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-lander.vasseur",
+      "name": "Lander Vasseur",
+      "email": "lander.vasseur@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-lara.selis",
+      "name": "Lara Selis",
+      "email": "lara.selis@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-liesbet.dewinter",
+      "name": "Liesbet De Winter",
+      "email": "liesbet.dewinter@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-mathias.maes",
+      "name": "Mathias Maes",
+      "email": "mathias.maes@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-nele.vandenbuverie",
+      "name": "Nele Van den Buverie",
+      "email": "nele.vandenbuverie@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-nele.vanimpe",
+      "name": "Nele Van Impe",
+      "email": "nele.vanimpe@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "pending-sven.snauwaert",
+      "name": "Sven Snauwaert",
+      "email": "sven.snauwaert@sanacon.be",
+      "picture": "",
+      "role": "user",
+      "isAdmin": false,
+      "createdAt": "2026-09-16T00:00:00.000Z"
     }
   ],
   "reservations": [
