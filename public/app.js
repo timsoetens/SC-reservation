@@ -1956,7 +1956,7 @@ elements.syncGrippButton.addEventListener("click", async () => {
   elements.syncGrippMessage.className = "form-message";
   try {
     const result = await request("/api/projects/sync-gripp", { method: "POST" });
-    elements.syncGrippMessage.textContent = `${result.createdCount} nieuwe en ${result.updatedCount} bijgewerkte projecten (van ${result.totalGrippProjects} lopende Gripp-projecten).`;
+    elements.syncGrippMessage.textContent = `${result.createdCount} nieuwe en ${result.updatedCount} bijgewerkte projecten (van ${result.totalGrippProjects} lopende Gripp-projecten, ${result.skippedCount} zonder SC-code overgeslagen).`;
     elements.syncGrippMessage.className = "form-message success";
     await loadProjects();
     renderProjectsPage();

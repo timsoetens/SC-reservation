@@ -456,12 +456,19 @@ async function syncProjectsFromGripp(adminUserId) {
 
   let createdCount = 0;
   let updatedCount = 0;
+  let skippedCount = 0;
 
   for (const grippProject of grippProjects) {
     const grippName = String(grippProject.name || "").trim();
-    const isPreCoded = /^SC/i.test(grippName);
-    const name = isPreCoded ? grippName : `SC${grippProject.number}`;
-    const projectName = isPreCoded ? (grippProject.company?.searchname || "") : (grippName || grippProject.company?.searchname || "");
+    if (!/^SC/i.test(grippName)) {
+      skippedCount += 1;
+      continue;
+    }
+
+    // code is the first whitespace-separated token, optionally followed by "- " before the description
+    const match = grippName.match(/^(\S+)\s*-?\s*(.*)$/);
+    const name = (match ? match[1] : grippName).replace(/[:,]+$/, "");
+    const projectName = match ? match[2].trim() : "";
 
     const existing = db.projects.find((project) => project.name.toLowerCase() === name.toLowerCase());
     if (existing) {
@@ -487,7 +494,7 @@ async function syncProjectsFromGripp(adminUserId) {
     writeDb(db);
   }
 
-  return { createdCount, updatedCount, totalGrippProjects: grippProjects.length };
+  return { createdCount, updatedCount, skippedCount, totalGrippProjects: grippProjects.length };
 }
 
 function getLocalDemoUser() {

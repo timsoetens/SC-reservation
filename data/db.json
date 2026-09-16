@@ -128,15 +128,6 @@
   ],
   "users": [
     {
-      "id": "local-demo-admin",
-      "name": "Demo Admin",
-      "email": "admin@local.test",
-      "picture": "",
-      "role": "admin",
-      "isAdmin": true,
-      "createdAt": "2026-09-15T16:16:41.780Z"
-    },
-    {
       "id": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
       "name": "Tim Soetens",
       "email": "tim.soetens@sanacon.be",
@@ -609,7 +600,2920 @@
       "name": "SC26171",
       "color": "#3d7880",
       "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
-      "createdAt": "2026-09-15T16:27:00.052Z"
+      "createdAt": "2026-09-15T16:27:00.052Z",
+      "projectName": "KB-studie Zwijnaardekasteelbrug"
+    },
+    {
+      "id": "p-gripp-217",
+      "name": "SC21079",
+      "projectName": "PWO KB",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.858Z"
+    },
+    {
+      "id": "p-gripp-419",
+      "name": "SC22330",
+      "projectName": "De Kring Poperinge",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-1100",
+      "name": "SC23056",
+      "projectName": "Parking Toison d'Or",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-583",
+      "name": "SC22098-B",
+      "projectName": "Controleberekening Schouw Mirom",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-443",
+      "name": "SC23061-A",
+      "projectName": "Dossierstudie",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-422",
+      "name": "SC23058",
+      "projectName": "Opmaak  bestek en meetstaat",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-341",
+      "name": "SC21234-B",
+      "projectName": "PB Leiner - Screening hal ACIDULATIE",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-345",
+      "name": "SC23085",
+      "projectName": "Testen WAI op \"peperkoek\"",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-424",
+      "name": "SC23043",
+      "projectName": "Sokkels KTR D4",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-425",
+      "name": "SC23045-A",
+      "projectName": "Waterleidingen Koude Toevoer KTR D4",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-368",
+      "name": "SC19018",
+      "projectName": "Betonnen gevelpanelen",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-595",
+      "name": "SC23067",
+      "projectName": "Fase 3 - Advies herstel-/onderhoudsplan",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-809",
+      "name": "SC23066",
+      "projectName": "Testvloer Warringtonfire",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-381",
+      "name": "SC22109-C",
+      "projectName": "Koeltoren B0 - Advies",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-390",
+      "name": "SC22334-Fase",
+      "projectName": "3E - Renovatiedossier - UM - Werfopvolging",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-426",
+      "name": "SC23045-B",
+      "projectName": "Uitstortstructuren D4 - 2026 - Controle uitvoering KB-installatie",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-588",
+      "name": "SC23080",
+      "projectName": "Onderzoek brandschade",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-472",
+      "name": "SC23074",
+      "projectName": "Lessen KB cursus Betonvereniging 2023-2026",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-904",
+      "name": "SC22205-B",
+      "projectName": "Resistiviteit GUN 172 mortel",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-428",
+      "name": "SC19193-C",
+      "projectName": "Leonardtunnel - Advies bij uitvoering",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-432",
+      "name": "SC22176",
+      "projectName": "Buitenverharding brandweerkazerne - bijstand expertise",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-447",
+      "name": "SC23076",
+      "projectName": "Europabrug - Trafiroad",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-457",
+      "name": "SC22208",
+      "projectName": "Scheuren WZI - fase 3",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-1010",
+      "name": "SC22008-C",
+      "projectName": "Parking Budabrug - Scheuren",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-584",
+      "name": "SC23079",
+      "projectName": "Onderzoek dakplaat DUR en STAB",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-548",
+      "name": "SC23092-A",
+      "projectName": "RWZI Gent Tank 2 - Interventie op locatie",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-594",
+      "name": "SC22322",
+      "projectName": "Sporthal 1 Ieper",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-552",
+      "name": "SC22243",
+      "projectName": "– Kantoorgebouw Antwerpen - Structureel onderzoek",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-511",
+      "name": "SC22008-B",
+      "projectName": "Parking Budabrug (KB-ontwerp)",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-564",
+      "name": "SC22001-B",
+      "projectName": "Haalbaarheid herstel 12T-hal",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-576",
+      "name": "SC23100",
+      "projectName": "",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-798",
+      "name": "SC22143-A",
+      "projectName": "res. casino Gebouw C",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.860Z"
+    },
+    {
+      "id": "p-gripp-827",
+      "name": "SC22144-A",
+      "projectName": "res. Casino Gebouw D",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-555",
+      "name": "SC21052-B",
+      "projectName": "",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-638",
+      "name": "SC22206",
+      "projectName": "Fase 5 - ZW Strop KB - Werfopvolging",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-582",
+      "name": "SC22271-B",
+      "projectName": "Uitgebreid onderzoek balkons",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-563",
+      "name": "SC22263",
+      "projectName": "Dakranden VUB",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-735",
+      "name": "SC23113",
+      "projectName": "Proefbelasting KUL",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-808",
+      "name": "SC23120",
+      "projectName": "Draagstructuur Domo (het Depot Leuven)",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-835",
+      "name": "SC21067-B",
+      "projectName": "Woning Meldert - Technische bijstand in GE",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-586",
+      "name": "SC22132-B",
+      "projectName": "Betononderzoek fase 2 gebouw 84",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-704",
+      "name": "SC23092-B",
+      "projectName": "RWZI Gent - Tank 2 - Proevenprogramma",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-592",
+      "name": "SC22330-B",
+      "projectName": "De Kring Poperinge",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-673",
+      "name": "SC21222-D",
+      "projectName": "Aanvullend onderzoek voorgevel deel 1",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-626",
+      "name": "SC23100-B",
+      "projectName": "",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1117",
+      "name": "SC23109",
+      "projectName": "Globaal onderzoek hal BRUG 10T (dur en stab) -V2",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-634",
+      "name": "SC20135",
+      "projectName": "Drones",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-636",
+      "name": "SC22128",
+      "projectName": "PhD Neel Renne",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-640",
+      "name": "SC22001",
+      "projectName": "BRUG 12T - FASE 1 - Bijkomende prestaties",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1027",
+      "name": "SC23112",
+      "projectName": "Onderzoek Preflexliggers Louizatunnel",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-884",
+      "name": "SC23132",
+      "projectName": "Visuele inspectie Kelder/Parking",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-779",
+      "name": "SC23084",
+      "projectName": "Fase B: Destructief onderzoek",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-663",
+      "name": "SC22201",
+      "projectName": "KB-Kenniscentrum",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-977",
+      "name": "SC23045-A",
+      "projectName": "Potentiaalmapping Buitenzijde CW Leiding KTR D4",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-978",
+      "name": "SC23118",
+      "projectName": "Buitenzijde Ringbalk KTR D4",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-955",
+      "name": "SC23119",
+      "projectName": "Vloerplaat Kelder MAZ D4",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-834",
+      "name": "SC23114",
+      "projectName": "Proefbelasting \"COCON\"",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-887",
+      "name": "SC23127",
+      "projectName": "Fase 1 - controle eisen bestek",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-753",
+      "name": "SC22034",
+      "projectName": "R&D - Scheurwijdtemetingen",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-765",
+      "name": "SC19064-B",
+      "projectName": "Monitoring RV plafondplaat kelder (Thiepval)",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1215",
+      "name": "SC23130",
+      "projectName": "Jubileumcomplex studie vloerplaat Zoo",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-861",
+      "name": "Scheur",
+      "projectName": "gewelven Beringen",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1005",
+      "name": "SC23188",
+      "projectName": "VME Museumstraat Antwerpen",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-918",
+      "name": "SC21234-C",
+      "projectName": "Veiligstelling ACIDULATIE",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-3213",
+      "name": "SC23116-B",
+      "projectName": "Analyse impact trillingen op gebouw",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-881",
+      "name": "SC23165",
+      "projectName": "Scheuren Vloerplaat - Van Marcke Rekkem - Plaatsbezoek",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-807",
+      "name": "SC22088",
+      "projectName": "B - dekkingsmeting + advies scheuren dakplaat",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-956",
+      "name": "SC23150",
+      "projectName": "DEEL 2 - Werfopvolging",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-819",
+      "name": "SC19021",
+      "projectName": "Expertise Buitenverharding (Dandoy)",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-820",
+      "name": "SC22095",
+      "projectName": "Brigitte Becue Zwembad",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-927",
+      "name": "SC23151",
+      "projectName": "Onderzoek looprand nabezinktanks",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-971",
+      "name": "SC22115-E",
+      "projectName": "Periodieke inspectie (korte termijn)",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-855",
+      "name": "SC22298",
+      "projectName": "Fase 5 - Studie Herstelscenario's Rijpingszalen",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1324",
+      "name": "SC23161-B",
+      "projectName": "Noodopvangtank Rookgaswassing",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-902",
+      "name": "SC23166",
+      "projectName": "DBM Premetro Antwerpen",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-880",
+      "name": "SC21277-C",
+      "projectName": "SF² DOEL - interpretatie EN 206 - conformiteit BETON",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-896",
+      "name": "SC22241",
+      "projectName": "Bijkomende vraag over prefab beton",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1065",
+      "name": "SC23162",
+      "projectName": "Silo's betoncentrale",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1019",
+      "name": "SC23184",
+      "projectName": "Fundering Aurubis",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-941",
+      "name": "SC23178",
+      "projectName": "Scheuren sandwichpanelen",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1230",
+      "name": "SC23172",
+      "projectName": "Heliport 1 Brussel",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-962",
+      "name": "SC23176",
+      "projectName": "Gepolierde betonvloeren",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1203",
+      "name": "SC23186A",
+      "projectName": "Mouterij  Albert 1",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1156",
+      "name": "SC23185-A",
+      "projectName": "DUR - RWZI Kortenberg",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-990",
+      "name": "SC20141-B",
+      "projectName": "Stab. balken Waregem",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1094",
+      "name": "SC20212-C",
+      "projectName": "Mantel KT Zandvliet - Onderhoudsplan",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-986",
+      "name": "SC22329",
+      "projectName": "Stadhuis Roeselare",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-987",
+      "name": "SC22319",
+      "projectName": "Kasteel Boekenberg (brandschade)",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1007",
+      "name": "SC23084-C",
+      "projectName": "Toelichting",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1157",
+      "name": "SC23045-C",
+      "projectName": "Potentiaalmapping CW Leiding KTR D3",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1078",
+      "name": "SC22243-B",
+      "projectName": "Advisering betonherstel",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.861Z"
+    },
+    {
+      "id": "p-gripp-1220",
+      "name": "SC24013",
+      "projectName": "Fietstunnel West The Loop Gent",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1107",
+      "name": "SC24018",
+      "projectName": "Scheurvorming vrachtwagenparking",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1202",
+      "name": "SC23186B",
+      "projectName": "Mouterij Albert  3",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1109",
+      "name": "SC23053",
+      "projectName": "Vloerplaat C310 - Fase 3",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1408",
+      "name": "SC23045-D",
+      "projectName": "DUR - Overloopkanaal + slibuitlaat",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1296",
+      "name": "SC22296-Fase",
+      "projectName": "3: draagvermogen bepalen bestaande oude vloer (ZW Wauterbos)",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1195",
+      "name": "SC24042",
+      "projectName": "Top off - Adviesnota visuele inspectie",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1403",
+      "name": "SC19179-B",
+      "projectName": "BKR EA-tanks",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1415",
+      "name": "SC23043-B&C",
+      "projectName": "Bijkomend onderzoek Sokkels",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1655",
+      "name": "SC24027-A",
+      "projectName": "GCP I",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1404",
+      "name": "SC24027-B",
+      "projectName": "Hypothesenota - Toevoerkanaal van het GCP II",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1416",
+      "name": "SC24028-A",
+      "projectName": "Betonstructuren Tranfo's 380 kV - Doel 4",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1417",
+      "name": "SC24028-B",
+      "projectName": "– Betonstructuur hulptransfo’s (150 kV) Doel 4",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1413",
+      "name": "SC24029",
+      "projectName": "Slibkanaal - Betononderzoek huidige toestand",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1418",
+      "name": "SC24030-A",
+      "projectName": "Stijgkanalen KTR D4",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1410",
+      "name": "SC24031",
+      "projectName": "RGB - Nota corrosie",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1191",
+      "name": "SC24045",
+      "projectName": "Ondergrondse garages in gebouw Witger",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1197",
+      "name": "SC24041",
+      "projectName": "Advies betonherstel P5 P20",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1186",
+      "name": "SC24044",
+      "projectName": "Expertise betonvloer - Plaatsbezoek",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1187",
+      "name": "SC24025",
+      "projectName": "Drone-inspectie gevels D4",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1710",
+      "name": "SC23079-C",
+      "projectName": "Haalbaarheidsstudie en noodzaak KB",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1241",
+      "name": "SC24043",
+      "projectName": "Bepaling draagvermogen vloerplaat",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1222",
+      "name": "SC24048",
+      "projectName": "Afbrokkelen betontrap DRONGEN",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1229",
+      "name": "SC22109-D",
+      "projectName": "Koeltoren B0 - Extra onderzoek CEL E",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1258",
+      "name": "SC24054",
+      "projectName": "VIAMAR Zele - Second opinion hersteladvies",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1269",
+      "name": "SC19064-C",
+      "projectName": "Monitoring T-RV Thiepval Memorial",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1297",
+      "name": "SC24065",
+      "projectName": "Visuele inspectie en adviesnota (KMO-park Heidester)",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1373",
+      "name": "SC24066",
+      "projectName": "Embuild gevel - Werfopvolging",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1285",
+      "name": "SC24062",
+      "projectName": "Voorstudie opgelijmde wapening zwembad",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1350",
+      "name": "SC24061",
+      "projectName": "Studie draagvermogen vloer",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1605",
+      "name": "SC23158",
+      "projectName": "Opvolging werking KB (3 jaar)",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1519",
+      "name": "SC25059",
+      "projectName": "Nieuw Raamcontract Afdeling Kust",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1468",
+      "name": "SC23156",
+      "projectName": "Toelichting bij opstart expertise",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1851",
+      "name": "SC24091",
+      "projectName": "Kraanbalk Insteekdok",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1356",
+      "name": "SC24046-B",
+      "projectName": "Advies toepassing fib 80",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1641",
+      "name": "SC23079-B",
+      "projectName": "Uitvoeringsdossier herstellingen",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1564",
+      "name": "SC24085-A",
+      "projectName": "NBT 1 en 2 RWZI Arendonk",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1374",
+      "name": "SC20010",
+      "projectName": "Fase 4 - R4WO - Restlevensduuranalyse en onderhoudsstrategie",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1814",
+      "name": "SC24082-A",
+      "projectName": "Vuurtoren Blankenberge",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1463",
+      "name": "SC23067-B",
+      "projectName": "Deel 3 - WERF - KB-systeem koelbassin",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1438",
+      "name": "SC24084",
+      "projectName": "Technische bijstand in expertise",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1469",
+      "name": "SC24093",
+      "projectName": "Plafond Delhaize niv +2 BAC",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1520",
+      "name": "SC24101",
+      "projectName": "Advies m.b.t. Betonherstellingen apron",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1610",
+      "name": "SC24114",
+      "projectName": "Fase 1b - Restlevensduur - Gevels administratief gebouw",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1552",
+      "name": "SC24099",
+      "projectName": "Europahaven Rotterdam - Kaaimuren Delta 1 en Delta 2",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1929",
+      "name": "SC24119",
+      "projectName": "Analyse toestand \"loods 66\"",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1517",
+      "name": "SC23119-B",
+      "projectName": "Kolommen Kelder MAZ D4",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1530",
+      "name": "SC24031-B",
+      "projectName": "RGB - Extra staalnames cf. TRACTEBEL",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-2738",
+      "name": "SC24115",
+      "projectName": "Conditiebepaling 9271",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1758",
+      "name": "SC24116",
+      "projectName": "Uitvoeringsdossier",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1544",
+      "name": "SC24122",
+      "projectName": "Betonexpertise Residentie De Graanmarkt",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1590",
+      "name": "SC24130",
+      "projectName": "Scheurvorming nieuwbouw mestopslag",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1614",
+      "name": "SC24128",
+      "projectName": "Technisch uitvoeringsdossier versterking balkons",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1557",
+      "name": "SC23127-B",
+      "projectName": "Technische bijstand bij expertise",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1613",
+      "name": "SC24124",
+      "projectName": "Bijstand in expertise m.b.t. Vorst-Dooi-Schade",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-2755",
+      "name": "SC25005",
+      "projectName": "Galerij Centrale Vilvoorde",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1607",
+      "name": "SC23055-B",
+      "projectName": "technische bijstand bij expertise",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1826",
+      "name": "SC24135",
+      "projectName": "PB - Scheurvorming Betonvloer",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1946",
+      "name": "SC22311-C",
+      "projectName": "Begeleiding en werfopvolging KB Res. Relaxie",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1649",
+      "name": "SC23185-B",
+      "projectName": "STAB - Studie Wand NBT 2",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1879",
+      "name": "SC24139",
+      "projectName": "Onderzoek capaciteit tanksokkel",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1651",
+      "name": "SC23087",
+      "projectName": "Gevels Talud - Werfopvolging",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-2058",
+      "name": "SC25058",
+      "projectName": "Bibliotheek Sint-Niklaas",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1720",
+      "name": "SC24124-B",
+      "projectName": "Onderzoek ASR",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-2153",
+      "name": "SC23055-C",
+      "projectName": "Scheuren: monitoring en omvangbepaling",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1799",
+      "name": "SC25003",
+      "projectName": "Schade aan gevelpanelen",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-2756",
+      "name": "SC25011",
+      "projectName": "Jan Breydel",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1852",
+      "name": "SC25008",
+      "projectName": "ACP Aurore 9",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1954",
+      "name": "SC24066-Fase",
+      "projectName": "2",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1809",
+      "name": "SC24060-D",
+      "projectName": "Sportdoze vochtsensoren",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1886",
+      "name": "SC25037",
+      "projectName": "FASE 4 - Opmaak Ontwerp-en uitvoeringsdossier",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-2011",
+      "name": "SC25038-B",
+      "projectName": "Expertise parking Nike ELC (advies)",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1806",
+      "name": "SC25014",
+      "projectName": "Nazicht opening draagmuur",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1865",
+      "name": "SC21130-C",
+      "projectName": "Visuele controle 09-2025",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-1783",
+      "name": "SC24129",
+      "projectName": "Fase 4b - Werfopvolging",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.862Z"
+    },
+    {
+      "id": "p-gripp-2926",
+      "name": "SC25031-A",
+      "projectName": "2026 - Opvolging monitoring KB-systeem Kolommen KTR D4",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-2109",
+      "name": "SC23118-B",
+      "projectName": "Boven- en binnenzijde Ringbalk KTR D4",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1850",
+      "name": "SC25026-A",
+      "projectName": "Betononderzoek Kroonbalken CT2 en CT3",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-2181",
+      "name": "SC25051",
+      "projectName": "Studie Watertorens Oost- en West-Vlaanderen",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1947",
+      "name": "SC25040-A-01",
+      "projectName": "HAMON 3 - Fase 1 en 2 - Betonstudie Koeltorens - Gent-Noord",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-2080",
+      "name": "SC22109-E",
+      "projectName": "Werfopvolging",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1817",
+      "name": "SC24082",
+      "projectName": "Vuurtorens - Overkoepelend - Algemeen",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1871",
+      "name": "SC23185-C",
+      "projectName": "KB - NBT 1+ NBT 2 RWZI Kortenberg",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1921",
+      "name": "SC22315-B",
+      "projectName": "Gericht onderzoek naar tand-nok oplegging",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1877",
+      "name": "SC25045",
+      "projectName": "Verlorenkostbrug CFRP",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1872",
+      "name": "SC25042",
+      "projectName": "Aanbesteding - Nota Monitoring",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1994",
+      "name": "SC20042-E",
+      "projectName": "Knippegroen - Opvolging herstellingen 2025",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1917",
+      "name": "SC25046",
+      "projectName": "Advies en tussenkomst in gerechtsexpertise",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1948",
+      "name": "SC25048",
+      "projectName": "MONITORING - Fase 3 - Opvolging Resultaten",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-2096",
+      "name": "SC25054",
+      "projectName": "De Oogappel (Bisdomkaai)",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1906",
+      "name": "SC25031",
+      "projectName": "Overkoepelende aanpak e.d.",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1915",
+      "name": "SC24082-B",
+      "projectName": "Vuurtoren Oostende",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-1916",
+      "name": "SC24082-C",
+      "projectName": "Vuurtoren Nieuwpoort",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-2027",
+      "name": "SC25060",
+      "projectName": "Jan De Vostunnel",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-2692",
+      "name": "SC24095",
+      "projectName": "Betonstudie Passerelle - Fase 2: Lastenboek",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.863Z"
+    },
+    {
+      "id": "p-gripp-2559",
+      "name": "SC22008-D",
+      "projectName": "STAB - Budabrug - Onderzoek",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2028",
+      "name": "SC25082",
+      "projectName": "Vloer Roeselare MG Real Estate",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2125",
+      "name": "SC25087",
+      "projectName": "Ivago Proeftuinstraat (buitenzijde)",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2010",
+      "name": "SC24098-B",
+      "projectName": "Nabezinktank ST06",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2049",
+      "name": "SC25070",
+      "projectName": "Incendie Avenue de Roovere (Logement Molenbeekois)",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2352",
+      "name": "SC25027-A",
+      "projectName": "Afvalbunker 1",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2150",
+      "name": "SC25101",
+      "projectName": "Stabiliteitscontrole balken afdek gelijkvloers",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2356",
+      "name": "SC25191",
+      "projectName": "AANBESTEDING - R0ZA - R0 Noord Zaventem",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2069",
+      "name": "SC21078-B",
+      "projectName": "Second opinion onderzoek wapening",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2952",
+      "name": "SC25099-A",
+      "projectName": "Bijstand gerechtelijke expertise",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2071",
+      "name": "SC23079-D",
+      "projectName": "Veiligstelling t/m 2030",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2166",
+      "name": "SC21214-H",
+      "projectName": "Controle en opvolging KB kelder KTR D4",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2527",
+      "name": "SC23115-C",
+      "projectName": "Ontwerp herstel en werfopvolging",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2176",
+      "name": "SC23043-D",
+      "projectName": "Voorontwerp KB sokkels KTR D4",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2177",
+      "name": "SC23118-C",
+      "projectName": "Voorontwerp KB buitenzijde ringbalk KTR D4",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2167",
+      "name": "SC25064",
+      "projectName": "Nougat Vital - Versterkingsstudie",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2374",
+      "name": "SC25097",
+      "projectName": "Berekening capaciteit vloer",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2154",
+      "name": "SC19179-C",
+      "projectName": "Vervolgonderzoek EA/EF-tanks",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2584",
+      "name": "SC25161",
+      "projectName": "Res. Conscience Kortrijk",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2250",
+      "name": "SC25127",
+      "projectName": "Souverain 100 - Studie opgelijmde wapening",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2307",
+      "name": "SC25138",
+      "projectName": "Onderzoek + advies kelder",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2981",
+      "name": "SC25133",
+      "projectName": "Koeltoren HOA + HOB",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2151",
+      "name": "SC25111",
+      "projectName": "VME Charles de Kerchove: aanstelling stabiliteitsingenieur",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2241",
+      "name": "SC25110",
+      "projectName": "Expertise Res. THALASSA Nieuwpoort",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2403",
+      "name": "SC25168",
+      "projectName": "Viaduct Vilvoorde monitoring",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2722",
+      "name": "SC25137",
+      "projectName": "Toeritspiraal Parking BPost Brussel",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2342",
+      "name": "SC25119",
+      "projectName": "WAB/SITE -  Visuele inspectie gevels",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2420",
+      "name": "SC22315-C",
+      "projectName": "Versterking tand-nok (32T) tot 2030",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2182",
+      "name": "SC24098-C",
+      "projectName": "Bekken voorneutralisatie",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2183",
+      "name": "SC24098-D",
+      "projectName": "Bekken vijzelgemaal A-Trap",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2331",
+      "name": "SC25120",
+      "projectName": "Betonnen bufferbekkens waterzuivering",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2364",
+      "name": "SC25130",
+      "projectName": "Bijstand bij de werken (verankering panelen)",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2383",
+      "name": "SC25089-B",
+      "projectName": "Betononderzoek (controle druk- en treksterkte)",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2244",
+      "name": "SC25134",
+      "projectName": "Paalfundering Agristo Escaudoeuvres",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2538",
+      "name": "SC24025-C",
+      "projectName": "Gevels D4 - KB-ontwerp",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2688",
+      "name": "SC19092",
+      "projectName": "Opmaak aanbestedingsdossier",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2552",
+      "name": "SC25143",
+      "projectName": "VOORONDERZOEK - Tunnelrenovatie Metro Antwerpen",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2317",
+      "name": "SC21130-D",
+      "projectName": "Bijkomende destructieve controle",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2285",
+      "name": "SC24024",
+      "projectName": "Lessen AJ 25-26",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2805",
+      "name": "SC24082-B-03",
+      "projectName": "Stabiliteitsstudie Oostende",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2505",
+      "name": "SC24037-D",
+      "projectName": "Beverentunnel - Monitoring d.m.v. sensoren",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2691",
+      "name": "SC25196-A",
+      "projectName": "Schade Betonwanden Manutti Waregem",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2405",
+      "name": "SC20024-B",
+      "projectName": "Uitbreiding onderzoek Mouterij 3",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2678",
+      "name": "SC25040-A-02",
+      "projectName": "Betonstudie Koeltorens - Gent-Noord - HAMON 3",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2677",
+      "name": "SC25040-B",
+      "projectName": "Betonstudie Koeltorens - Gent-Noord - HAMON 1-2",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2708",
+      "name": "SC25171",
+      "projectName": "Delaminatie Pré-muren",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2406",
+      "name": "SC25172",
+      "projectName": "Bepaling staalvezelgehalte - Vloerplaat Loeters, Oostende",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.864Z"
+    },
+    {
+      "id": "p-gripp-2729",
+      "name": "SC25073-C",
+      "projectName": "REO - Fase 3 - Betononderzoek",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2392",
+      "name": "SC25156",
+      "projectName": "Studie terrassen Blok A",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2462",
+      "name": "SC25166",
+      "projectName": "Scheuren betonvloer magazijn",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2684",
+      "name": "SC25101-B",
+      "projectName": "Bijkomend onderzoek & advies",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2450",
+      "name": "SC25174",
+      "projectName": "Studie draagvermogen magazijnvloer",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2590",
+      "name": "SC24058-G",
+      "projectName": "BR2 hoofdgebouw binnenzijde - FASE 1 - PVA",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2593",
+      "name": "SC25184",
+      "projectName": "Parking Jumbo Bilzen",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2604",
+      "name": "SC25148",
+      "projectName": "Nazichtsberekening betonstructuur Pijlstraat 5-7",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2451",
+      "name": "SC22115-G",
+      "projectName": "3D-Opmeting kelder + technieken",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2655",
+      "name": "SC25194-A",
+      "projectName": "Conditiebepaling t.h.v. scheuren in kuip",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2592",
+      "name": "SC25029-B",
+      "projectName": "Nazicht vloerplaat op holtes - Imeldaziekenhuis",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2556",
+      "name": "SC25193-A",
+      "projectName": "Schade beton na brand Vanheede",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2906",
+      "name": "SC25071",
+      "projectName": "Duurzaamheidsonderzoek koker Molenvaardeken",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2545",
+      "name": "SC25180",
+      "projectName": "Advies herstelling voorgespannen ligger",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2566",
+      "name": "SC25197-A",
+      "projectName": "Buitenkolommen - Werf STOLAA",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2636",
+      "name": "SC25129",
+      "projectName": "Verkennend onderzoek",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2500",
+      "name": "SC25141",
+      "projectName": "FASE 3 - Betonstudie DUR/STAB - Oud gebouw + KB1",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2705",
+      "name": "SC22296",
+      "projectName": "Fase 4: Scenario's en budgetraming",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2680",
+      "name": "SC25151",
+      "projectName": "D0 -  (Drone)inspectie gevels - Deel 1",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2594",
+      "name": "SC25038B",
+      "projectName": "Nike ELC - Dringend onderzoek",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2871",
+      "name": "SC22324",
+      "projectName": "Opvolging + advies KB-systemen Covestro 2026",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2572",
+      "name": "SC18172-L",
+      "projectName": "Nazicht indieningen deel 2",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2695",
+      "name": "SC26017-A",
+      "projectName": "Betonverharding - RB De Brabanter",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2613",
+      "name": "SC26008-A",
+      "projectName": "Gevelpanelen KBC Real Estate Milmort",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2704",
+      "name": "SC25026-B",
+      "projectName": "Koeltoren Vilvoorde - Lastenboek herstellingen",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2816",
+      "name": "SC26033",
+      "projectName": "Fundering solventtanks Brenntag Deerlijk",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2663",
+      "name": "SC26021",
+      "projectName": "Plaatsbezoek beoordeling oorzaak schade",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2670",
+      "name": "Scheurvorming",
+      "projectName": "woning",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2887",
+      "name": "SC24006-E",
+      "projectName": "Koeltoren Drogenbos - Uitvoeringsdossier en opvolging herstel/onderhoud 2027",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2656",
+      "name": "SC25109-B",
+      "projectName": "Parking Schouwburg - Afdek -1",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2679",
+      "name": "SC26015",
+      "projectName": "Promenade Kapellen - scheuren in betonkolommen",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2681",
+      "name": "SC26027",
+      "projectName": "Sterkteberekening van bedrijfsvloer",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2868",
+      "name": "SC22256-F",
+      "projectName": "WT Dendermonde - Werfopvolging",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2664",
+      "name": "SC26023",
+      "projectName": "Werf Gentbrugge",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2749",
+      "name": "SC26026",
+      "projectName": "Drabstaat",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2726",
+      "name": "SC20212-E",
+      "projectName": "Monitoring testvlakken",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-3064",
+      "name": "SC26117",
+      "projectName": "HK plant controle betonplaat",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2789",
+      "name": "SC23152-E",
+      "projectName": "HUK D4 - 2026 - Controle uitvoering KB-installatie",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2706",
+      "name": "SC26040-A",
+      "projectName": "Voorbereiding + Planning",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2910",
+      "name": "SC23044-D",
+      "projectName": "Inventarisatie 2026 - Balken, consoles, kolommen KTR D4",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2963",
+      "name": "SC26042",
+      "projectName": "Lozingspaviljoen (LZP) + Lozingsrotonde (LZR) + Kanalen",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2786",
+      "name": "SC26073-A",
+      "projectName": "Delaminatie gepolierde betonvloer",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2815",
+      "name": "SC24098-C-02",
+      "projectName": "Bekken voorneutralisatie uitbreiding onderzoek",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2841",
+      "name": "SC23163-B",
+      "projectName": "Bewarende maatregelen - uitvoeringsdossier",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2793",
+      "name": "SC26050-A",
+      "projectName": "Betonplaat Parking Res. Wagner Gent",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2787",
+      "name": "SC26053",
+      "projectName": "Nazichtsberekening van een houten balkon",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2998",
+      "name": "SC25092",
+      "projectName": "Deel1: Overstortbak + overloopkanaal D3 - Bijkomend onderzoek",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2839",
+      "name": "SC26008-B",
+      "projectName": "Meting en monitoring scheurwijdte",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2808",
+      "name": "SC26064",
+      "projectName": "Schade met waterinfiltraties expertise",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2792",
+      "name": "SC26056",
+      "projectName": "Beproeven resistiviteit mortel Sika",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-3086",
+      "name": "SC26061",
+      "projectName": "Terrassen - Baron De Vironlaan 108 te Dilbeek",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2840",
+      "name": "SC26069",
+      "projectName": "Controle stabiliteit ifv nieuwe perslijn",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2798",
+      "name": "SC25184-B",
+      "projectName": "Aanvullende studie stabiliteit",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2785",
+      "name": "SC26065-A",
+      "projectName": "Schade betonverharding Ninove",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-3191",
+      "name": "SC26070",
+      "projectName": "Structurele analyse wenteltrap",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2909",
+      "name": "SC26074",
+      "projectName": "A-inspectie 2 kunstwerken (POC)",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-3093",
+      "name": "SC26078-B",
+      "projectName": "NORBERTUS - Inspectie Betonnen kroonlijst",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2801",
+      "name": "SC24025-D",
+      "projectName": "Gevels D4 - 2026 - Controle uitvoering KB-installatie",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2802",
+      "name": "SC24046-A",
+      "projectName": "Mantel KTR D4 - 2026 - Controle uitvoering KB-installatie",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2964",
+      "name": "SC26041",
+      "projectName": "KCD - OVG-gebouwen",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-3029",
+      "name": "SC26118",
+      "projectName": "KB-studie res. Royal Navy Middelkerke",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2832",
+      "name": "SC19018-C",
+      "projectName": "Technische bijstand in gerechtsexpertise",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2838",
+      "name": "SC19167-C",
+      "projectName": "Monitoring bestaand KB systeem",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2972",
+      "name": "SC25194-A-02",
+      "projectName": "Bijkomende analyse",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2844",
+      "name": "SC22098-C",
+      "projectName": "Schouw Mirom - Domeindeskundige i.h.k.v. gerechtsexpertise",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2993",
+      "name": "SC26081",
+      "projectName": "Vijzelgemaal B-trap (ST04-PP03)",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2995",
+      "name": "SC26082",
+      "projectName": "Egalisatiebekken (EQ02)",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2922",
+      "name": "SC25148-B-02",
+      "projectName": "Bijkomende opmeting kolomsecties",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2994",
+      "name": "SC26080",
+      "projectName": "Actief slibbekken (AS02)",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2894",
+      "name": "SC22314",
+      "projectName": "Werfopvolging KB - Prestaties 2026",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-3108",
+      "name": "SC26091",
+      "projectName": "A‑inspecties KWS‑installaties",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-3076",
+      "name": "SC26092-A",
+      "projectName": "Controle betondekking prefab elementen",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.865Z"
+    },
+    {
+      "id": "p-gripp-2925",
+      "name": "SC26102",
+      "projectName": "RWZI Harelbeke",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2878",
+      "name": "SC25057-C",
+      "projectName": "Vettanks Kubof - Aantasting - Vandemoortele Izegem",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2991",
+      "name": "SC26084",
+      "projectName": "Actief slibbekken (AS03)",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2990",
+      "name": "SC26085",
+      "projectName": "Nabezinktank (ST07)",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2976",
+      "name": "SC26121",
+      "projectName": "Cederlaan 6, Wilrijk- daktuin en fundering",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3061",
+      "name": "SC26095",
+      "projectName": "Betonrot gemeentelijk zwembad Beerse",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3085",
+      "name": "SC26115-A",
+      "projectName": "Res. Cabedelo - Conditiebepaling balkons",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3043",
+      "name": "SC25129-C",
+      "projectName": "Aanbestedingsdossier",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2921",
+      "name": "SC24035-D",
+      "projectName": "Monitoring bijkomende vervormingen",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3133",
+      "name": "SC26109",
+      "projectName": "Historisch stationsgebouw Gent-Sint-Pieters",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2975",
+      "name": "SC26108",
+      "projectName": "Dak Orangerie",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2966",
+      "name": "SC26107",
+      "projectName": "Stalen kolommen Komvest Brugge",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3214",
+      "name": "SC23116-C",
+      "projectName": "Schade metselwerk",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2911",
+      "name": "SC22311-D",
+      "projectName": "Berekening versterking",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3026",
+      "name": "SC26101-A-01",
+      "projectName": "Stabiliteit gevelmetselwerk Res. Balmoral Koksijde",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2919",
+      "name": "SC25057-D",
+      "projectName": "Vettanks Kubof 2026 - Vandemoortele Izegem",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2949",
+      "name": "SC26112",
+      "projectName": "Funderingsmassieven Reims - milieuklasse",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2927",
+      "name": "SC25031-B",
+      "projectName": "2026 - Opvolging monitoring KB-systeem HUK WAB",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2928",
+      "name": "SC25031-",
+      "projectName": "C - 2026 - Opvolging monitoring KB-systeem Kelder KTR D4",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2929",
+      "name": "SC25031-D",
+      "projectName": "2026 - Opvolging monitoring KB-systeem CW-leiding D4",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3087",
+      "name": "SC26104-A",
+      "projectName": "Werf JVG: Schadegeval prefabkolommen",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3022",
+      "name": "SC19064-D",
+      "projectName": "Maintenance T-RH monitoring Thiepval Memorial",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2997",
+      "name": "SC25120-C",
+      "projectName": "Studie uitvoering",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3048",
+      "name": "SC25015-B",
+      "projectName": "Promenade Kapellen - Onderzoek vloerplaat kelder",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2987",
+      "name": "SC26116",
+      "projectName": "Peter Benoitpark - Onderzoek mortel",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2973",
+      "name": "SC26113",
+      "projectName": "Bijstand discussie wegenisbeton Vilvoorde",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2960",
+      "name": "SC26114",
+      "projectName": "Studie opgelijmde wapening",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3054",
+      "name": "SC26135-A",
+      "projectName": "STAB - Kelder onder stortput",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3046",
+      "name": "SC26134",
+      "projectName": "studie opgelijmde wapening",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-2996",
+      "name": "SC26016",
+      "projectName": "VLOOT - Furnibo - trektesten op betonherstellingen",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3065",
+      "name": "SC26078-A",
+      "projectName": "NORBERTUS - Inspectie gevelpanelen",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3028",
+      "name": "SC26126",
+      "projectName": "Umicore Olen: Betononderzoek Dakliggers",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3134",
+      "name": "SC24046-C",
+      "projectName": "Drone-inspectie + Annotatie Schade",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.866Z"
+    },
+    {
+      "id": "p-gripp-3072",
+      "name": "SC26127-A",
+      "projectName": "Ferroscan Lutosa Waregem",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3107",
+      "name": "SC26128-A",
+      "projectName": "Rondgang op locatie - Brand Appartement nr. 67",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3219",
+      "name": "SC26172-A",
+      "projectName": "Schade kolommen Gramybel",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3049",
+      "name": "SC26077-A",
+      "projectName": "Campus Schoonmeersen - Gebouw C - Refter - Brandweerstand",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3103",
+      "name": "SC26131",
+      "projectName": "Uitvoering van 8 Proefbelastingen",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3162",
+      "name": "SC26140",
+      "projectName": "Residentie Eugene Van Marcke",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3165",
+      "name": "SC26144",
+      "projectName": "Magalie Bernard - versterking houten spanten",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3226",
+      "name": "SC26113-B",
+      "projectName": "Betononderzoek",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3084",
+      "name": "SC22115-H",
+      "projectName": "Buffertank",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3112",
+      "name": "SC26147",
+      "projectName": "Betonschade langs tramspoor - Luik - 2023",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3097",
+      "name": "SC23163",
+      "projectName": "Bewarende maatregelen - traject naar AV 03/10/2026",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3099",
+      "name": "SC26196-B",
+      "projectName": "Aanvullingen en replieken",
+      "color": "#b2762c",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.867Z"
+    },
+    {
+      "id": "p-gripp-3232",
+      "name": "SC26167-A",
+      "projectName": "TF Rechteroever Gent - Verkennend Betononderzoek",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3147",
+      "name": "SC26170",
+      "projectName": "Stoftoren - Betonplaat voor- en achteraan",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3151",
+      "name": "SC26158",
+      "projectName": "Res. Vanessa - Verkennend Betononderzoek",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3205",
+      "name": "SC26163",
+      "projectName": "Oud Oefenplein, Mechelen",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3130",
+      "name": "SC23152-F",
+      "projectName": "HUK D4 - Opmeting en analyse sectiereductie",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3177",
+      "name": "SC25148-C",
+      "projectName": "Bepaling windsysteem",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3196",
+      "name": "SC26178-A",
+      "projectName": "Analyse betonkolommen",
+      "color": "#3f8060",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3168",
+      "name": "SC26175-A",
+      "projectName": "Advies schoring",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3190",
+      "name": "SC26188",
+      "projectName": "PB - Scheurvorming Druklaag Welfsels",
+      "color": "#2f6f95",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3187",
+      "name": "SC26007-B",
+      "projectName": "Rodenhuize Koeltoren interne structuren - Onderzoek tijdens revisie",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3218",
+      "name": "SC26157-A",
+      "projectName": "Bepalen ernst chloridenproblematiek en restlevensduur - P.Vandammesluis Zeebrugge",
+      "color": "#3d7880",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3224",
+      "name": "SC26190",
+      "projectName": "Betondekking betonslab",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.868Z"
+    },
+    {
+      "id": "p-gripp-3231",
+      "name": "SC26092-B",
+      "projectName": "Domeindeskundige i.h.k.v. gerechtsexpertise",
+      "color": "#76539b",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.869Z"
+    },
+    {
+      "id": "p-gripp-3233",
+      "name": "SC22115-F",
+      "projectName": "FASE 4 - Zwembad Aalter - Ontwerp STAB-maatregelen",
+      "color": "#c23e3f",
+      "createdBy": "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw",
+      "createdAt": "2026-09-16T16:53:33.869Z"
     }
   ],
   "invitations": [
