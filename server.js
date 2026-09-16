@@ -113,7 +113,7 @@ function ensureScreenshotSchedule(db) {
     db.reservations = [];
   }
 
-  const memberId = "google-oauth2|109878178874705663606";
+  const memberId = "PnnJ84kLzIGsgPu7Fz5N27D0gIrt-4K7HD4NkGG3idw";
   const projects = [
     ["p-screenshot-sc26007", "SC26007 - Rodi"],
     ["p-screenshot-sc26078", "SC26078 - North"],
