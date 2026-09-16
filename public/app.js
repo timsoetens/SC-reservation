@@ -772,43 +772,58 @@ async function loadAuthConfig() {
   return request("/api/auth/config", {}, false);
 }
 
+function clearStuckMsalInteraction() {
+  // a crashed/interrupted redirect can leave this flag set, blocking any new login attempt
+  Object.keys(sessionStorage)
+    .filter((key) => key.includes(".interaction.status"))
+    .forEach((key) => sessionStorage.removeItem(key));
+}
+
+function getMsalClient(config) {
+  if (state.msalClient) {
+    return state.msalClient;
+  }
+  const msalConfig = {
+    auth: {
+      clientId: config.clientId,
+      authority: config.authority || `https://login.microsoftonline.com/${config.tenantId}`,
+      redirectUri: window.location.origin
+    },
+    cache: {
+      cacheLocation: "sessionStorage",
+      storeAuthStateInCookie: false
+    }
+  };
+  state.msalClient = new window.msal.PublicClientApplication(msalConfig);
+  state.msalConfig = {
+    scopes: config.apiScope ? [config.apiScope] : [config.apiAudience || "User.Read"]
+  };
+  return state.msalClient;
+}
+
 async function initializeLocalSession() {
   state.auth0Config = await loadAuthConfig();
 
   if (state.auth0Config.provider === "azure" && window.msal && state.auth0Config.clientId) {
-    const msalConfig = {
-      auth: {
-        clientId: state.auth0Config.clientId,
-        authority: state.auth0Config.authority || `https://login.microsoftonline.com/${state.auth0Config.tenantId}`,
-        redirectUri: window.location.origin
-      },
-      cache: {
-        cacheLocation: "sessionStorage",
-        storeAuthStateInCookie: false
-      }
-    };
+    clearStuckMsalInteraction();
+    const msalClient = getMsalClient(state.auth0Config);
 
-    state.msalClient = new window.msal.PublicClientApplication(msalConfig);
-    state.msalConfig = {
-      scopes: state.auth0Config.apiScope ? [state.auth0Config.apiScope] : [state.auth0Config.apiAudience || "User.Read"]
-    };
-
-    const redirectResult = await state.msalClient.handleRedirectPromise();
+    const redirectResult = await msalClient.handleRedirectPromise();
     if (redirectResult?.account) {
-      state.msalClient.setActiveAccount(redirectResult.account);
+      msalClient.setActiveAccount(redirectResult.account);
     }
 
-    const accounts = state.msalClient.getAllAccounts();
+    const accounts = msalClient.getAllAccounts();
     if (accounts.length > 0) {
       try {
         const account = accounts[0];
         const email = (account.username || "").toLowerCase();
         if (state.auth0Config.allowedEmailDomain && !email.endsWith(`@${state.auth0Config.allowedEmailDomain}`)) {
-          await state.msalClient.logoutRedirect({ account, postLogoutRedirectUri: window.location.origin });
+          await msalClient.logoutRedirect({ account, postLogoutRedirectUri: window.location.origin });
           return false;
         }
-        state.msalClient.setActiveAccount(account);
-        const silentResult = await state.msalClient.acquireTokenSilent({
+        msalClient.setActiveAccount(account);
+        const silentResult = await msalClient.acquireTokenSilent({
           account,
           scopes: state.msalConfig.scopes
         });
@@ -853,27 +868,22 @@ async function initializeLocalSession() {
 async function loginWithAuth0(screenHint) {
   const config = await loadAuthConfig();
   if (config.provider === "azure" && window.msal && config.clientId) {
-    const msalConfig = {
-      auth: {
-        clientId: config.clientId,
-        authority: config.authority || `https://login.microsoftonline.com/${config.tenantId}`,
-        redirectUri: window.location.origin
-      },
-      cache: {
-        cacheLocation: "sessionStorage",
-        storeAuthStateInCookie: false
-      }
-    };
-
-    state.msalClient = new window.msal.PublicClientApplication(msalConfig);
-    state.msalConfig = {
-      scopes: config.apiScope ? [config.apiScope] : [config.apiAudience || "User.Read"]
-    };
+    const msalClient = getMsalClient(config);
 
     try {
-      await state.msalClient.loginRedirect(state.msalConfig);
+      await msalClient.loginRedirect(state.msalConfig);
       return;
     } catch (error) {
+      if (error.errorCode === "interaction_in_progress") {
+        clearStuckMsalInteraction();
+        try {
+          await msalClient.loginRedirect(state.msalConfig);
+          return;
+        } catch (retryError) {
+          showLoginMessage("Microsoft login fout: " + retryError.message, "error");
+          return;
+        }
+      }
       showLoginMessage("Microsoft login fout: " + error.message, "error");
       return;
     }
