@@ -18,6 +18,7 @@ const AUTH0_ISSUER_BASE_URL = process.env.AUTH0_ISSUER_BASE_URL || (AUTH0_DOMAIN
 const AUTH0_CONNECTION = process.env.AUTH0_CONNECTION || "google-oauth2";
 const AZURE_TENANT_ID = process.env.AZURE_TENANT_ID || "";
 const AZURE_CLIENT_ID = process.env.AZURE_CLIENT_ID || "";
+const AZURE_CLIENT_SECRET = process.env.AZURE_CLIENT_SECRET || "";
 const AZURE_AUTHORITY = process.env.AZURE_AUTHORITY || (AZURE_TENANT_ID ? `https://login.microsoftonline.com/${AZURE_TENANT_ID}` : "");
 const AZURE_ISSUER = `${AZURE_AUTHORITY.replace(/\/$/, "")}/v2.0`;
 const AZURE_LEGACY_ISSUER = `https://sts.windows.net/${AZURE_TENANT_ID}/`;
@@ -37,6 +38,7 @@ const ADMIN_EMAILS = new Set(
 const PROJECT_COLORS = ["#c23e3f", "#2f6f95", "#3f8060", "#b2762c", "#76539b", "#3d7880"];
 
 const azureConfigured = Boolean(AZURE_TENANT_ID && AZURE_CLIENT_ID && AZURE_API_AUDIENCE);
+const graphPhotoSyncConfigured = Boolean(AZURE_TENANT_ID && AZURE_CLIENT_ID && AZURE_CLIENT_SECRET);
 const auth0Configured = Boolean(AUTH0_DOMAIN && AUTH0_CLIENT_ID && AUTH0_AUDIENCE && AUTH0_ISSUER_BASE_URL);
 const authConfigured = azureConfigured || auth0Configured;
 
@@ -319,6 +321,83 @@ function upsertAuthenticatedUser(claims, profile = {}) {
   return user;
 }
 
+let graphAppToken = null;
+
+async function getGraphAppToken() {
+  if (graphAppToken && graphAppToken.expiresAt > Date.now() + 60_000) {
+    return graphAppToken.value;
+  }
+
+  const response = await fetch(`https://login.microsoftonline.com/${AZURE_TENANT_ID}/oauth2/v2.0/token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_id: AZURE_CLIENT_ID,
+      client_secret: AZURE_CLIENT_SECRET,
+      scope: "https://graph.microsoft.com/.default",
+      grant_type: "client_credentials"
+    })
+  });
+
+  if (!response.ok) {
+    const details = await response.text();
+    throw new Error(`Kon geen Microsoft Graph token ophalen (${response.status}): ${details}`);
+  }
+
+  const payload = await response.json();
+  graphAppToken = { value: payload.access_token, expiresAt: Date.now() + payload.expires_in * 1000 };
+  return graphAppToken.value;
+}
+
+async function fetchGraphUserPhoto(token, email) {
+  const response = await fetch(`https://graph.microsoft.com/v1.0/users/${encodeURIComponent(email)}/photo/$value`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+  if (response.status === 404) {
+    return null;
+  }
+  if (!response.ok) {
+    return null;
+  }
+
+  const contentType = response.headers.get("content-type") || "image/jpeg";
+  const buffer = Buffer.from(await response.arrayBuffer());
+  return `data:${contentType};base64,${buffer.toString("base64")}`;
+}
+
+async function syncUserPhotosFromGraph() {
+  if (!graphPhotoSyncConfigured) {
+    throw new Error("Microsoft Graph is niet geconfigureerd (AZURE_CLIENT_SECRET ontbreekt).");
+  }
+
+  const token = await getGraphAppToken();
+  const db = readDb();
+  ensureUsersCollection(db);
+
+  let updatedCount = 0;
+  for (const user of db.users) {
+    if (!user.email || !isAllowedAzureEmail(user.email)) {
+      continue;
+    }
+    try {
+      const photo = await fetchGraphUserPhoto(token, user.email);
+      if (photo && photo !== user.picture) {
+        user.picture = photo;
+        updatedCount += 1;
+      }
+    } catch (error) {
+      console.error(`Kon foto voor ${user.email} niet ophalen:`, error.message);
+    }
+  }
+
+  if (updatedCount > 0) {
+    writeDb(db);
+  }
+
+  return { updatedCount, totalUsers: db.users.length };
+}
+
 function getLocalDemoUser() {
   const db = readDb();
   ensureUsersCollection(db);
@@ -433,7 +512,8 @@ app.get("/api/auth/config", (_req, res) => {
     redirectUri: AZURE_REDIRECT_URI,
     apiAudience: AZURE_API_AUDIENCE,
     apiScope: AZURE_API_SCOPE,
-    allowedEmailDomain: AZURE_ALLOWED_EMAIL_DOMAIN
+    allowedEmailDomain: AZURE_ALLOWED_EMAIL_DOMAIN,
+    photoSyncConfigured: graphPhotoSyncConfigured
   });
 });
 
@@ -536,6 +616,16 @@ app.delete("/api/users/:id", requireAuth, requireAdmin, (req, res) => {
   db.users = db.users.filter((item) => item.id !== user.id);
   writeDb(db);
   return res.status(204).end();
+});
+
+app.post("/api/users/sync-photos", requireAuth, requireAdmin, async (_req, res) => {
+  try {
+    const result = await syncUserPhotosFromGraph();
+    return res.json(result);
+  } catch (error) {
+    console.error("Foto-synchronisatie mislukt:", error.message);
+    return res.status(500).json({ error: error.message });
+  }
 });
 
 app.put("/api/devices/:id", requireAuth, (req, res) => {
@@ -674,6 +764,7 @@ app.get("/api/reservations", requireAuth, (_req, res) => {
         db.users.find((u) => u.id === reservation.memberId)?.name ||
         db.teamMembers?.find((m) => m.id === reservation.memberId)?.name ||
         reservation.memberId,
+      memberPicture: db.users.find((u) => u.id === reservation.memberId)?.picture || "",
       projectName: db.projects.find((project) => project.id === reservation.projectId)?.name || "",
       projectTitle: db.projects.find((project) => project.id === reservation.projectId)?.projectName || "",
       projectColor: (() => {
@@ -757,8 +848,14 @@ app.put("/api/reservations/:id", requireAuth, requireOwnerOrAdmin, (req, res) =>
     return res.status(404).json({ error: "Reservatie niet gevonden." });
   }
 
-  const { deviceId, start, end, note, projectId } = req.body;
-  const memberId = req.authUser.isAdmin ? currentReservation.memberId : req.authUser.id;
+  const { deviceId, start, end, note, projectId, memberId: requestedMemberId } = req.body;
+  let memberId = req.authUser.isAdmin ? currentReservation.memberId : req.authUser.id;
+  if (req.authUser.isAdmin && requestedMemberId && requestedMemberId !== currentReservation.memberId) {
+    if (!db.users.some((item) => item.id === requestedMemberId)) {
+      return res.status(404).json({ error: "Gebruiker niet gevonden." });
+    }
+    memberId = requestedMemberId;
+  }
 
   const device = db.devices.find((item) => item.id === deviceId);
   if (!device) {

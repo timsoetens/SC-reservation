@@ -20,8 +20,8 @@
           <img src="sanacon-logo-kleur.svg" alt="Sanacon" />
         </div>
         <nav class="sidebar-nav">
-          <a href="#dashboard" class="nav-item active" data-page="dashboard">Dashboard</a>
-          <a href="#schedule" class="nav-item" data-page="schedule">Schedule</a>
+          <a href="#dashboard" class="nav-item" data-page="dashboard">Dashboard</a>
+          <a href="#schedule" class="nav-item active" data-page="schedule">Schedule</a>
           <a href="#timesheets" class="nav-item" data-page="timesheets">Timesheets</a>
           <a href="#people" class="nav-item" data-page="people">People &amp; Resources</a>
           <a href="#projects" class="nav-item" data-page="projects">Projects &amp; Clients</a>
@@ -39,7 +39,7 @@
       </aside>
 
       <div class="workspace">
-        <header class="topbar">
+        <header class="topbar" hidden>
           <div class="topbar-view">Views <span class="chevron">v</span></div>
           <button id="today-week-btn" class="topbar-date toolbar-text-button" type="button">Today <span class="chevron">v</span></button>
           <div class="topbar-actions">
@@ -129,6 +129,10 @@
           </div>
           <label for="edit-device-select">Device</label>
           <select id="edit-device-select"></select>
+          <div id="edit-member-field" hidden>
+            <label for="edit-member-select">Gereserveerd door</label>
+            <select id="edit-member-select"></select>
+          </div>
           <label for="edit-start">Start</label>
           <input id="edit-start" type="datetime-local" required />
           <label for="edit-end">Einde</label>
@@ -160,6 +164,8 @@
           <h3>Gebruikers beheren</h3>
           <form id="invite-user-form" class="invite-user-form"><input id="invite-user-email" type="email" placeholder="naam@sanacon.be" required /><button type="submit">Gebruiker uitnodigen</button></form>
           <p id="invite-user-message" class="form-message"></p>
+          <button id="sync-photos-btn" class="ghost" type="button" hidden>Profielfoto's synchroniseren (Azure)</button>
+          <p id="sync-photos-message" class="form-message"></p>
         </div>
       </section>
 

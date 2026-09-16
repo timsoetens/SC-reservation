@@ -680,6 +680,20 @@ button.ghost {
   opacity: 0.85;
 }
 
+.reservation-member-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.reservation-member-avatar {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 .cell-empty {
   color: var(--text-soft);
   font-size: 0.75rem;

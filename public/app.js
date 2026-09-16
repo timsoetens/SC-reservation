@@ -11,6 +11,7 @@ const PROJECT_COLOR_PRESETS = [
 ];
 
 const elements = {
+  topbar: document.querySelector(".topbar"),
   authPanel: document.getElementById("auth-panel"),
   sessionPanel: document.getElementById("session-panel"),
   formPanel: document.getElementById("form-panel"),
@@ -34,6 +35,8 @@ const elements = {
   editDialog: document.getElementById("edit-dialog"),
   editForm: document.getElementById("edit-form"),
   editDeviceSelect: document.getElementById("edit-device-select"),
+  editMemberField: document.getElementById("edit-member-field"),
+  editMemberSelect: document.getElementById("edit-member-select"),
   editStart: document.getElementById("edit-start"),
   editEnd: document.getElementById("edit-end"),
   editProjectSelect: document.getElementById("edit-project-select"),
@@ -50,6 +53,8 @@ const elements = {
   inviteUserForm: document.getElementById("invite-user-form"),
   inviteUserEmail: document.getElementById("invite-user-email"),
   inviteUserMessage: document.getElementById("invite-user-message"),
+  syncPhotosButton: document.getElementById("sync-photos-btn"),
+  syncPhotosMessage: document.getElementById("sync-photos-message"),
   resourceDialog: document.getElementById("resource-dialog"),
   resourceForm: document.getElementById("resource-form"),
   resourceDialogName: document.getElementById("resource-dialog-name"),
@@ -119,7 +124,7 @@ const state = {
   msalConfig: null,
   msalClient: null,
   accessToken: "",
-  currentPage: "dashboard"
+  currentPage: "schedule"
 };
 
 function formatDateTime(dateString) {
@@ -159,7 +164,7 @@ function setAuthenticatedView(isAuthenticated) {
 
 function setPage(page, isAuthenticated = Boolean(state.currentUser)) {
   const validPages = ["dashboard", "schedule", "timesheets", "people", "projects", "reports", "help"];
-  state.currentPage = validPages.includes(page) ? page : "dashboard";
+  state.currentPage = validPages.includes(page) ? page : "schedule";
 
   document.querySelectorAll("[data-view]").forEach((panel) => {
     const views = panel.dataset.view.split(",");
@@ -169,6 +174,10 @@ function setPage(page, isAuthenticated = Boolean(state.currentUser)) {
   document.querySelectorAll("[data-page]").forEach((link) => {
     link.classList.toggle("active", link.dataset.page === state.currentPage);
   });
+
+  if (elements.topbar) {
+    elements.topbar.hidden = !isAuthenticated || state.currentPage !== "schedule";
+  }
 
   renderPageData();
   if (state.currentPage === "schedule" && isAuthenticated) {
@@ -234,6 +243,7 @@ function renderTimesheetsPage() {
 
 function renderPeoplePage() {
   elements.adminUserTools.hidden = !state.currentUser?.isAdmin;
+  elements.syncPhotosButton.hidden = !state.currentUser?.isAdmin || !state.auth0Config?.photoSyncConfigured;
   elements.peopleList.innerHTML = "";
   state.users.forEach((user) => {
     const tile = document.createElement("article");
@@ -992,6 +1002,18 @@ function openEditDialog(reservation) {
     elements.editProjectSelect.appendChild(option);
   });
 
+  elements.editMemberField.hidden = !state.currentUser?.isAdmin;
+  if (state.currentUser?.isAdmin) {
+    elements.editMemberSelect.innerHTML = "";
+    state.users.forEach((user) => {
+      const option = document.createElement("option");
+      option.value = user.id;
+      option.textContent = user.name;
+      option.selected = user.id === reservation.memberId;
+      elements.editMemberSelect.appendChild(option);
+    });
+  }
+
   elements.editStart.value = toDateTimeInputValue(reservation.start);
   elements.editEnd.value = toDateTimeInputValue(reservation.end);
   elements.editNote.value = reservation.note || "";
@@ -1027,7 +1049,8 @@ async function saveEditedReservation() {
         start: new Date(elements.editStart.value).toISOString(),
         end: new Date(elements.editEnd.value).toISOString(),
         projectId: elements.editProjectSelect.value,
-        note: elements.editNote.value.trim()
+        note: elements.editNote.value.trim(),
+        ...(state.currentUser?.isAdmin ? { memberId: elements.editMemberSelect.value } : {})
       })
     });
     closeEditDialog();
@@ -1469,7 +1492,17 @@ function renderPlanner() {
 
         const member = document.createElement("small");
         member.className = "reservation-member-label";
-        member.textContent = reservation.memberName || findMemberName(reservation.memberId);
+        const memberPicture = reservation.memberPicture || state.users.find((user) => user.id === reservation.memberId)?.picture || "";
+        if (memberPicture) {
+          const memberAvatar = document.createElement("img");
+          memberAvatar.className = "reservation-member-avatar";
+          memberAvatar.src = memberPicture;
+          memberAvatar.alt = "";
+          memberAvatar.loading = "lazy";
+          memberAvatar.addEventListener("error", () => memberAvatar.remove());
+          member.appendChild(memberAvatar);
+        }
+        member.appendChild(document.createTextNode(reservation.memberName || findMemberName(reservation.memberId)));
 
         const timing = document.createElement("small");
         timing.textContent = `${new Date(reservation.start).toLocaleTimeString("nl-BE", { hour: "2-digit", minute: "2-digit" })} - ${new Date(reservation.end).toLocaleTimeString("nl-BE", { hour: "2-digit", minute: "2-digit" })}`;
@@ -1883,6 +1916,24 @@ elements.inviteUserForm.addEventListener("submit", async (event) => {
   } catch (error) {
     elements.inviteUserMessage.textContent = error.message;
     elements.inviteUserMessage.className = "form-message error";
+  }
+});
+
+elements.syncPhotosButton.addEventListener("click", async () => {
+  elements.syncPhotosButton.disabled = true;
+  elements.syncPhotosMessage.textContent = "Synchroniseren...";
+  elements.syncPhotosMessage.className = "form-message";
+  try {
+    const result = await request("/api/users/sync-photos", { method: "POST" });
+    elements.syncPhotosMessage.textContent = `${result.updatedCount} van ${result.totalUsers} profielfoto's bijgewerkt.`;
+    elements.syncPhotosMessage.className = "form-message success";
+    await loadMeta();
+    renderPeoplePage();
+  } catch (error) {
+    elements.syncPhotosMessage.textContent = error.message;
+    elements.syncPhotosMessage.className = "form-message error";
+  } finally {
+    elements.syncPhotosButton.disabled = false;
   }
 });
 
