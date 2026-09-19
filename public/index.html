@@ -20,17 +20,16 @@
           <img src="sanacon-logo-kleur.svg" alt="Sanacon" />
         </div>
         <nav class="sidebar-nav">
-          <a href="#dashboard" class="nav-item" data-page="dashboard">Dashboard</a>
           <a href="#schedule" class="nav-item active" data-page="schedule">Schedule</a>
-          <a href="#timesheets" class="nav-item" data-page="timesheets">Timesheets</a>
-          <a href="#people" class="nav-item" data-page="people">People &amp; Resources</a>
-          <a href="#projects" class="nav-item" data-page="projects">Projects &amp; Clients</a>
-          <a href="#reports" class="nav-item" data-page="reports">Reports</a>
+          <a href="#people" class="nav-item" data-page="people">People</a>
+          <a href="#resources" class="nav-item" data-page="resources">Resources</a>
+          <a href="#projects" class="nav-item" data-page="projects">Opdrachten &amp; Offertes</a>
+          <a href="#reports" id="reports-nav" class="nav-item" data-page="reports">Reports</a>
         </nav>
         <div class="sidebar-footer">
           <section class="panel session-panel" id="session-panel" hidden>
             <p>Ingelogd als <strong id="current-user-label"></strong> <span id="current-user-role" class="role-badge"></span></p>
-            <button id="logout-btn" class="ghost" type="button">Logout</button>
+            <button id="logout-btn" class="ghost" type="button" data-icon="↪">Logout</button>
           </section>
 
           <a href="#help" class="nav-item" data-page="help">Help</a>
@@ -40,17 +39,12 @@
 
       <div class="workspace">
         <header class="topbar" hidden>
-          <div class="topbar-view">Views <span class="chevron">v</span></div>
-          <button id="today-week-btn" class="topbar-date toolbar-text-button" type="button">Today <span class="chevron">v</span></button>
+          <button id="today-week-btn" class="topbar-date toolbar-text-button" type="button" data-icon="⌂">Vandaag</button>
+          <button id="my-reservations-btn" class="toolbar-text-button" type="button" data-icon="●" aria-pressed="false">Mijn reservaties</button>
           <div class="topbar-actions">
-            <button id="prev-week-btn" class="toolbar-button" type="button" aria-label="Vorige week">&lt;</button>
-            <button id="next-week-btn" class="toolbar-button" type="button" aria-label="Volgende week">&gt;</button>
-            <span class="zoom-label">-</span>
-            <span class="zoom-track"><span class="zoom-thumb"></span></span>
-            <span class="zoom-label">+</span>
+            <button id="prev-week-btn" class="toolbar-button" type="button" data-icon="‹" aria-label="Vorige periode">Vorige periode</button>
+            <button id="next-week-btn" class="toolbar-button" type="button" data-icon="›" aria-label="Volgende periode">Volgende periode</button>
           </div>
-          <div class="topbar-project">Project <span class="chevron">v</span></div>
-          <div class="topbar-filter">All <span class="chevron">v</span></div>
         </header>
 
         <main class="layout">
@@ -63,21 +57,9 @@
         <h2>Toegang</h2>
         <p class="auth-provider">Meld je aan met je Microsoft 365-account of gebruik de lokale demo-sessie.</p>
         <div class="login-form">
-          <button id="login-btn" type="button">Aanmelden met Microsoft</button>
+          <button id="login-btn" type="button" data-icon="→">Aanmelden met Microsoft</button>
         </div>
         <p id="login-message" class="form-message"></p>
-      </section>
-
-      <section class="panel dashboard-panel page-panel" id="dashboard-panel" data-view="dashboard" hidden>
-        <div class="dashboard-header">
-          <div>
-            <p class="eyebrow">Overview</p>
-            <h2>Uw reservaties</h2>
-          </div>
-          <p class="dashboard-period">Komende 4 weken</p>
-        </div>
-        <div id="dashboard-summary" class="dashboard-summary"></div>
-        <div id="dashboard-reservations" class="dashboard-reservations"></div>
       </section>
 
       <section class="panel planner-panel page-panel" id="planner-panel" data-view="schedule" hidden>
@@ -99,25 +81,23 @@
       <dialog class="project-dialog" id="project-dialog">
         <form id="project-form">
           <div class="dialog-header">
-            <div><p class="eyebrow">Nieuwe reservatie</p><h2>Kies een project</h2></div>
-            <button id="project-cancel-btn" class="dialog-close" type="button" aria-label="Annuleren">x</button>
+            <div><p class="eyebrow">Nieuwe reservatie</p><h2>Kies een opdracht</h2></div>
+            <button id="project-cancel-btn" class="dialog-close" type="button" data-icon="×" aria-label="Annuleren"></button>
           </div>
           <p class="dialog-period" id="project-period"></p>
-          <label for="project-select">Bestaand SC-project</label>
-          <select id="project-select"></select>
+          <label for="project-select">Selecteer opdracht/offerte</label>
+          <div class="project-combobox"><input id="project-search" class="project-select-search" type="search" placeholder="Zoek opdracht of offerte..." autocomplete="off" /><div id="project-options" class="project-options" role="listbox" hidden></div></div>
+          <select id="project-select" hidden></select>
           <div class="new-project-fields" id="new-project-fields" hidden>
             <div class="new-project-row">
-            <label for="new-project-name">Projectcode</label>
+            <label for="new-project-name">Opdrachtnummer</label>
             <div class="new-project-input"><input id="new-project-name" type="text" placeholder="SC24025" pattern="SC.*" /></div>
             </div>
-            <label for="new-project-title">Projectnaam</label>
+            <label for="new-project-title">Opdrachtnaam</label>
             <input id="new-project-title" type="text" placeholder="Koeltoren KTR D4" />
-            <label for="new-project-color">Projectkleur</label>
-            <input id="new-project-color" type="hidden" value="#f3b6b6" />
-            <div id="new-project-palette" class="color-palette" aria-label="Kies een projectkleur"></div>
           </div>
           <p id="project-message" class="form-message"></p>
-          <div class="dialog-actions"><button id="project-submit-btn" type="button">Reservatie aanmaken</button></div>
+          <div class="dialog-actions"><button id="project-submit-btn" type="button" data-icon="＋">Reservatie aanmaken</button></div>
         </form>
       </dialog>
 
@@ -125,7 +105,7 @@
         <form id="edit-form">
           <div class="dialog-header">
             <div><p class="eyebrow">Reservatie</p><h2>Reservatie aanpassen</h2></div>
-            <button id="edit-cancel-btn" class="dialog-close" type="button" aria-label="Annuleren">x</button>
+            <button id="edit-cancel-btn" class="dialog-close" type="button" data-icon="×" aria-label="Annuleren"></button>
           </div>
           <label for="edit-device-select">Device</label>
           <select id="edit-device-select"></select>
@@ -137,72 +117,72 @@
           <input id="edit-start" type="datetime-local" required />
           <label for="edit-end">Einde</label>
           <input id="edit-end" type="datetime-local" required />
-          <label for="edit-project-select">Project</label>
-          <select id="edit-project-select"></select>
+          <label for="edit-project-select">Opdracht</label>
+          <div class="project-combobox"><input id="edit-project-search" class="project-select-search" type="search" placeholder="Zoek opdracht of offerte..." autocomplete="off" /><div id="edit-project-options" class="project-options" role="listbox" hidden></div></div>
+          <select id="edit-project-select" hidden></select>
           <label for="edit-note">Notitie</label>
           <input id="edit-note" type="text" maxlength="200" />
           <p id="edit-message" class="form-message"></p>
-          <div class="dialog-actions edit-actions"><button id="edit-delete-btn" class="delete-btn" type="button">Verwijderen</button><button id="edit-save-btn" type="submit">Wijzigingen opslaan</button></div>
+          <div class="dialog-actions edit-actions"><button id="edit-delete-btn" class="delete-btn" type="button" data-icon="🗑">Verwijderen</button><button id="edit-save-btn" type="submit" data-icon="✓">Wijzigingen opslaan</button></div>
         </form>
       </dialog>
 
-      <section class="panel page-panel information-panel" id="timesheets-panel" data-view="timesheets" hidden>
-        <div class="page-heading"><div><p class="eyebrow">Timesheets</p><h2>Gewerkte reservatietijd</h2></div><span class="page-badge">Deze periode</span></div>
-        <div id="timesheet-summary" class="metric-grid"></div>
-        <div id="timesheet-list" class="data-list"></div>
-      </section>
-
       <section class="panel page-panel information-panel" id="people-panel" data-view="people" hidden>
-        <div class="page-heading"><div><p class="eyebrow">People &amp; Resources</p><h2>Team en devices</h2></div></div>
-        <div class="section-tabs" role="tablist" aria-label="People en resources">
-          <button class="section-tab" type="button" data-section-tab="people">Personen</button>
-          <button class="section-tab active" type="button" data-section-tab="resources">Resources</button>
-        </div>
-        <div class="section-tab-panel" data-section-panel="people" hidden><h3>Teamleden</h3><div id="people-list" class="data-list"></div></div>
-        <div class="section-tab-panel" data-section-panel="resources"><h3>Resources</h3><div id="resource-list" class="resource-list"></div></div>
+        <div class="page-heading"><div><h2>People</h2></div><button id="sync-photos-btn" class="ghost" type="button" data-icon="↻" hidden>Foto's ophalen uit Azure</button></div>
+        <div id="people-list" class="data-list"></div>
         <div class="admin-user-tools" id="admin-user-tools" hidden>
           <h3>Gebruikers beheren</h3>
-          <form id="invite-user-form" class="invite-user-form"><input id="invite-user-email" type="email" placeholder="naam@sanacon.be" required /><button type="submit">Gebruiker uitnodigen</button></form>
+          <form id="invite-user-form" class="invite-user-form"><input id="invite-user-email" type="email" placeholder="naam@sanacon.be" required /><button type="submit" data-icon="＋">Gebruiker uitnodigen</button></form>
           <p id="invite-user-message" class="form-message"></p>
-          <button id="sync-photos-btn" class="ghost" type="button" hidden>Profielfoto's synchroniseren (Azure)</button>
           <p id="sync-photos-message" class="form-message"></p>
         </div>
       </section>
 
+      <section class="panel page-panel information-panel" id="resources-panel" data-view="resources" hidden>
+        <div class="page-heading"><div><h2>Resources</h2></div></div>
+        <div id="resource-list" class="resource-list"></div>
+      </section>
+
       <dialog class="project-dialog resource-dialog" id="resource-dialog">
         <form id="resource-form">
-          <div class="dialog-header"><div><p class="eyebrow">Resource</p><h2>Resource aanpassen</h2></div><button id="resource-cancel-btn" class="dialog-close" type="button">x</button></div>
+          <div class="dialog-header"><div><p class="eyebrow">Resource</p><h2>Resource aanpassen</h2></div><button id="resource-cancel-btn" class="dialog-close" type="button" data-icon="×" aria-label="Annuleren"></button></div>
           <p id="resource-dialog-name" class="dialog-period"></p>
           <label for="resource-photo-file">Foto uploaden</label>
           <input id="resource-photo-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
           <label for="resource-status-select">Status</label>
           <select id="resource-status-select"><option value="available">Beschikbaar</option><option value="out_of_use">Out of use</option><option value="defect">Defect</option></select>
           <p id="resource-message" class="form-message"></p>
-          <div class="dialog-actions edit-actions"><button id="resource-remove-btn" class="delete-btn" type="button">Remove</button><button id="resource-save-btn" type="submit">Opslaan</button></div>
+          <div class="dialog-actions edit-actions"><button id="resource-remove-btn" class="delete-btn" type="button" data-icon="🗑">Remove</button><button id="resource-save-btn" type="submit" data-icon="✓">Opslaan</button></div>
         </form>
       </dialog>
 
       <dialog class="project-dialog resource-dialog" id="user-dialog">
         <form id="user-form">
-          <div class="dialog-header"><div><p class="eyebrow">Gebruiker</p><h2>Gebruiker aanpassen</h2></div><button id="user-cancel-btn" class="dialog-close" type="button">x</button></div>
+          <div class="dialog-header"><div><p class="eyebrow">Gebruiker</p><h2>Gebruiker aanpassen</h2></div><button id="user-cancel-btn" class="dialog-close" type="button" data-icon="×" aria-label="Annuleren"></button></div>
           <label for="user-name-input">Naam</label>
           <input id="user-name-input" type="text" required />
           <label for="user-email-input">E-mailadres</label>
           <input id="user-email-input" type="email" />
           <p id="user-message" class="form-message"></p>
-          <div class="dialog-actions edit-actions"><button id="user-remove-btn" class="delete-btn" type="button">Verwijderen</button><button id="user-save-btn" type="submit">Opslaan</button></div>
+          <div class="dialog-actions edit-actions"><button id="user-remove-btn" class="delete-btn" type="button" data-icon="🗑">Verwijderen</button><button id="user-save-btn" type="submit" data-icon="✓">Opslaan</button></div>
         </form>
       </dialog>
 
       <section class="panel page-panel information-panel" id="projects-panel" data-view="projects" hidden>
-        <div class="page-heading"><div><p class="eyebrow">Projects &amp; Clients</p><h2>Resource planning</h2></div><button id="sync-gripp-btn" class="ghost" type="button" hidden>Synchroniseer met Gripp</button></div>
+        <div class="page-heading"><div><p class="eyebrow">Opdrachten &amp; Offertes</p><h2>Opdrachtenplanning</h2></div><button id="sync-gripp-btn" class="ghost" type="button" data-icon="↻" hidden>Synchroniseer met Gripp</button></div>
         <p id="sync-gripp-message" class="form-message"></p>
-        <div id="project-list" class="project-grid"></div>
+        <p id="latest-api-project" class="latest-api-project"></p>
+        <label class="project-search" for="project-search-input">
+          <span>Zoek opdracht</span>
+          <input id="project-search-input" type="search" placeholder="Opdrachtnummer of naam..." autocomplete="off" />
+        </label>
+        <div id="project-list" class="project-list" role="list"></div>
       </section>
 
       <section class="panel page-panel information-panel" id="reports-panel" data-view="reports" hidden>
-        <div class="page-heading"><div><p class="eyebrow">Reports</p><h2>Planningrapport</h2></div><span class="page-badge">Live data</span></div>
+        <div class="page-heading"><div><p class="eyebrow">Reports</p><h2>Planningrapport</h2></div><label class="report-year-control" for="report-year">Jaar<select id="report-year"></select></label></div>
         <div id="report-summary" class="metric-grid"></div>
+        <div class="report-charts"><section class="report-chart"><h3>Reservaties per maand</h3><div id="reservation-chart" class="bar-chart"></div></section><section class="report-chart"><h3>Gebruiksuren per maand</h3><div id="hours-chart" class="bar-chart"></div></section></div>
         <div id="report-list" class="data-list"></div>
       </section>
 

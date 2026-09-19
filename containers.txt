@@ -1,0 +1,234 @@
+Gripp containers export - 2026-09-19T10:52:29.828Z
+Alle fasen, exclusief archief en archief-containers
+ID | Nummer | Naam
+
+50 | 23043 | KTR D4 - Sokkels - KCD
+51 | 23044 | KTR D4 - Balken boven pakking
+52 | 23045 | KCD D4 & D3 - Waterleidingen KT + Overstortbakken
+61 | 23053 | Gebouw C310
+63 | 23055 | Soprema Ambior Tongeren
+64 | 23056 | Toison d'Or brussel
+67 | 23058 | Zwijnaardekanaalbrug B15
+70 | 23061 | Nuscience Inkuiping
+75 | 23066 | Testvloer Labo WarringtonFire
+76 | 23067 | Koeltorens Nikkelafdeling
+85 | 23076 | Europabrug
+88 | 23079 | Parkeertoren Volvo Car Gent
+89 | 23080 | Loods Verhille
+93 | 23084 | WZC Ter Durme
+94 | 23085 | SANACON - R&D
+96 | 23087 | ZNA Middelheim - Inkom
+101 | 23092 | RWZI Gent
+109 | 23100 | Betonvloer Motix Heverlee
+119 | 23109 | Brug 10T hal Tessenderlo
+122 | 23112 | Louiza en Stefania Tunnel Brussel
+123 | 23113 | Vesaliusmuseum Leuven
+124 | 23114 | Cocon site Sint-Niklaas
+125 | 23115 | Interne Draagstructuur KT Zandvliet
+126 | 23116 | Silogebouw Site Arvesta Aalter
+128 | 23118 | Ringbalk KTR D4
+129 | 23119 | Kelder machinezaal D4
+141 | 23127 | Bionerga site
+142 | 23128 | Parking P2 - Brussels Airport
+144 | 23130 | Vloerplaat Zoo Antwerpen
+146 | 23132 | Leliestraat Gent
+147 | 23133 | WZI AGFA Mortsel
+148 | 23134 | Budabrug Kortrijk
+149 | 23135 | Res. Armeria - Knokke
+152 | 23138 | Algeco site Beringen
+154 | 23140 | Operations
+155 | 23141 | Zwembad Aalter
+156 | 23142 | SC20042 - Koeltoren Knippegroen
+159 | 23145 | SC22298 - Kaasmakerij Passendale
+161 | 23147 | Acidulatie PB Gelatins
+164 | 23150 | Zwembad Prinsenpark Maasmechelen
+165 | 23151 | RWZI Brugge
+166 | 23152 | KCD D4 HUK
+167 | 23153 | Hal "Brug 12T"
+168 | 23154 | SC20212 - Mantel KT Zandvliet
+169 | 23155 | Koeltoren B0 (BASF)
+170 | 23156 | Expertisedossier schade "Levi"
+171 | 23157 | SF² - Doel KCD - Besix (SC21277)
+172 | 23158 | Ijzertoren
+175 | 23161 | Rookgaswassing - Imog Harelbeke
+176 | 23162 | Silo Van Maercke prefab Kluisbergen
+177 | 23163 | Res. Westdiep De Panne
+179 | 23165 | Scheuren Vloer Van Marcke
+180 | 23166 | DBM Premetro Antwerpen
+186 | 23172 | Heliport 1 Brussel
+190 | 23176 | Vloerplaten Green Logistics Herentals
+192 | 23178 | Sandwichpanelen Diegem
+196 | 23182 | Res.Casino - Nieuwpoort
+198 | 23184 | Fundering Aurubis
+199 | 23185 | RWZI Kortenberg
+200 | 23186 | Mouterij Albert 1+3 Sint-Amands
+202 | 23188 | Res. Museumstraat - Antwerpen
+204 | 23190 | KB-systemen Covestro
+213 | 24009 | Koninklijk Circus Brussel
+217 | 24013 | Fietstunnel West "The loop"
+220 | 24016 | SC22206 - ZW Strop Gent - KB
+221 | 24017 | SC22311 - Res. Relaxie Oostduinkerke
+222 | 24018 | Vrachtwagenparking BIONERGA
+229 | 24025 | KCD D4 - LTO ALGEMEEN en GEVELS
+231 | 24027 | KCD D4 - GCP
+232 | 24028 | KCD D4 - Transfo's
+233 | 24029 | KCD D4 - Slibkanaal
+239 | 24035 | Showroom Cardoen
+241 | 24037 | Beverentunnel
+245 | 24041 | P5 P20 - Brussels Airport
+246 | 24042 | Top off site
+247 | 24043 | Drogerij Wienerberger
+248 | 24044 | Expertise betonvloer
+249 | 24045 | Residentie Witger
+252 | 24048 | Buitentrap Drongen (FARYS)
+258 | 24054 | VIAMAR - Delaminatie betonvloer
+259 | 24055 | Thiepval Memorial
+261 | 24057 | Gebouw 84 (koelcentrale) Agfa Gevaert
+262 | 24058 | SCK-CEN - BR2-cluster
+264 | 24060 | Sportvloer Blankenberge
+265 | 24061 | Militair Hospitaal
+266 | 24062 | Penthouse van Peter Temmerman
+269 | 24065 | KMO-park Heidester
+270 | 24066 | Embuild gebouw Antwerpen
+283 | 24079 | SC21214 - Bodemplaat KTR D4
+284 | 24080 | SC22315 - Noord-Zuid Viaduct Zaventem
+286 | 24082 | Renovatie 3 Vuurtorens - Blankenberge, Oostende en Nieuwpoort
+288 | 24084 | Expertise Dokstoelen Engine Deck Repair (EDR)
+289 | 24085 | RWZI - Arendonk
+295 | 24091 | Kraanbalk Insteekdok Smulders Projects
+297 | 24093 | Plafond Delhaize Niv +2 BAC
+299 | 24095 | Buitenpasserelle - Rijnkaai 22
+300 | 24096 | Congressen, studiedagen, workshops (2024-2025)
+302 | 24098 | Janssen pharmaceutica - Inkuipingen SITE GEEL
+305 | 24101 | Apron Brussels Airport
+317 | 24113 | SC22256 - Watertoren Dendermonde
+318 | 24114 | Administratief Gebouw PEMCO International
+319 | 24115 | Afvalwaterput 9271 (site Covestro)
+320 | 24116 | Gevels 6359 (site Covestro)
+323 | 24119 | Loods 66 - Sint-Truiden
+326 | 24122 | Residentie te Ninove - Graanmarkt 38-40
+328 | 24124 | Betonnen Buitenverharding Galico
+332 | 24128 | VME NOVUS + DOMUS
+334 | 24129 | Kraanbalk Q1-Q100
+335 | 24130 | ILVO Melle - Mestvaalt
+337 | 24132 | EA EF Tanks KCD D4 (SC19179)
+340 | 24135 | Betonvloer Kantoorgebouw Stillix
+341 | 24136 | Kammenstraat (life.be)
+344 | 24139 | Silo's Aveve Aalter
+347 | 25003 | Biostoom Oostende
+352 | 25008 | ACP Aurore 9
+355 | 25011 | Jan Breydel stadion Club Brugge
+358 | 25014 | Residentie MAYA
+360 | 25016 | YARA hal - Tessenderlo Kerley Ham
+371 | 25027 | Afvalbunker Mirom
+372 | 25028 | Schouw afvalverbrandingsoven Mirom
+373 | 25029 | Imelda bonheiden
+375 | 25031 | Opvolging + Monitoring KB-systemen - Site KCD
+378 | 25034 | Opleidingen, studiedagen, workshops - 2025
+381 | 25037 | Brenntag Deerlijk - Bovengronds tankpark Z&B
+382 | 25038 | NIKE Laakdal
+384 | 25040 | Koeltorens Eastman Gent-Noord
+386 | 25042 | Niras / Cat-A
+389 | 25045 | Verlorenkostbrug Gent
+390 | 25046 | Brug E314 Albertkanaal Heusden-Zolder
+392 | 25048 | Spi.R0 - A201xR0 Zaventem
+398 | 25054 | De Oogappel
+404 | 25059 | Nieuw raamcontract afdeling kust
+405 | 25060 | Jan De Vos Tunnel
+409 | 25064 | Nougat Vital
+416 | 25070 | Avenue de Roovere 16
+417 | 25071 | R4WO
+418 | 25072 | Res. Salt - Troonstraat 10 Oostende
+419 | 25073 | REO Roeselaere
+428 | 25082 | MG PARC ROELERS - Holtes vloerplaat
+430 | 25084 | Joenshoek Kruisem
+438 | 25092 | Overstortbak + Wateruitlaat D3
+443 | 25097 | FLEXITALLIC BENELUX
+445 | 25099 | Gerechtsexpertise Pot- en Zuidhoutstraat 10, 9990 Maldegem
+447 | 25101 | Basisschool Het Groene Lilare
+455 | 25109 | Parking Schouwburg Kortrijk
+457 | 25111 | VME Charles de Kerchove
+465 | 25119 | KCD - D4 - WAB/SITE
+466 | 25120 | Analyse Betonnen bufferbekkens site MTD
+475 | 25129 | Stalton plafond halfopen woning
+476 | 25130 | SBSO 't Vurstjen
+480 | 25133 | Site ArcelorMittal - Koeltoren HOA + HOB
+481 | 25134 | Paalfunderingen Agristo Escaudoeuvres
+487 | 25140 | Oud WPC Eeklo
+488 | 25141 | Milcobel Moorslede
+491 | 25143 | Tunnelrenovatie Metro Antwerpen, Fase 1: Linkeroever - Driehoek
+496 | 25148 | Pijlstraat
+499 | 25151 | D0 - Drone-inspecties gevels
+508 | 25160 | Staalvezelgehalte - Vloerplaat Loeters
+514 | 25166 | Allimex magazijnvloer
+516 | 25168 | Viaduct Vilvoorde monitoring
+519 | 25171 | Delaminatie Pré-Muren - Ineos Project One
+522 | 25174 | Magazijnvloer Edibo
+532 | 25184 | Parking Bilzen
+541 | 25193 | Brandschade Van Heede Dottenijs
+542 | 25194 | Zwembad De Kouter Poperinge
+543 | 25195 | Werfopvolging Eurosilo
+544 | 25196 | MANUTTI INVEST/GPL BV - Schade aan gevel
+545 | 25197 | Werf STOLAA - Buitenkolommen
+547 | 26001 | INTERN 2026
+548 | 26002 | Business development
+549 | 26003 | HR
+553 | 26007 | Rodenhuize Koeltoren
+554 | 26008 | Magazijngebouwen - KBC Real Estate Milmort
+556 | 26010 | Sales
+562 | 26016 | Vloot-Oostende
+563 | 26017 | RB De Brabander
+567 | 26021 | BAC Parking P24/25
+572 | 26026 | Drabstraat
+573 | 26027 | Vloer Samsonite
+579 | 26033 | Tankpark - Solventtanks - Brenntag Deerlijk
+586 | 26040 | KCD LTO 2026 - Overkoepelend / Voorbereiding
+588 | 26042 | KCD - Lozingsconstructies
+596 | 26050 | Residentie Wagner Gent
+599 | 26053 | Het Witte Paard
+602 | 26056 | Resistiviteit testen op mortels
+610 | 26064 | Peter Vercammen - Waterschade huis en vraag of het betonrot is
+611 | 26065 | Betonverharding KGT Trading Ninove
+613 | 26067 | Appartementsgebouw Baron De Vironlaan - STAARC
+615 | 26069 | Lissabon Aalter
+616 | 26070 | Abdijkerk Vlierbeek
+620 | 26073 | Res. Pur Sang
+622 | 26074 | A-inspecties BAC
+623 | 26075 | Gedimat De Groote
+625 | 26077 | HoGent - Campus Schoonmeersen - Gebouw C
+626 | 26078 | Norbertus - Gevelonderzoek
+629 | 26081 | Janssen Pharmaceutica - Vijzelgemaal B-trap ST04-PP03
+630 | 26082 | Janssen Pharmaceutica - Egalisatiebekken EQ02
+639 | 26091 | KWS-installaties site BAC
+640 | 26092 | Appartementen Bredene Woonsprong
+642 | 26094 | Opleidingen, studiedagen, workshops - 2026
+643 | 26095 | Zwembad Beerse
+652 | 26104 | JVG Deurne - Prefabkolommen
+655 | 26107 | Komvest Brugge
+656 | 26108 | Plantentuin Meise
+660 | 26112 | Funderingsmassieven Reims Altez
+663 | 26115 | Res. Cabedelo - Conditiebepaling balkons Gent
+664 | 26116 | Peter Benoitpark - Sint-Niklaas
+665 | 26117 | HK plant betonplaat - Evonik
+666 | 26118 | Residenties Ambassador, Royal Navy & Balmoral - Middelkerke
+669 | 26121 | Cederlaan 6, Wilrijk- daktuin en fundering
+674 | 26126 | PLW970 IRX Olen
+675 | 26127 | Kolommen Lutosa Waregem
+676 | 26128 | Belvédèreweg 2 - Appartement nr. 67 - Thuispunt Gent
+679 | 26131 | Voormalige Stuivenbergziekenhuis-site
+683 | 26135 | Proxani Kortrijk
+685 | 26137 | Dochterfirma's Sanacon
+688 | 26140 | VME res. Eugene Van Marcke
+692 | 26144 | Frasnes - Magalie Bernard
+695 | 26147 | Betonnen elementen langs tramlijn Luik
+700 | 26152 | Scheurvorming Woning
+705 | 26157 | P. Vandammesluis Zeebrugge
+709 | 26161 | Sporthal Pionier Wervik
+711 | 26163 | Oud Oefenplein
+715 | 26167 | Elia Rechterover Gent
+718 | 26170 | Meubar Vloerplaat Stoftoren
+720 | 26172 | Clarebout (Simplot) Moeskroen
+736 | 26188 | Busstelplaats Marly Neder-Over-Heembeek
+738 | 26190 | ENGIE Vilvoorde Batterijpark
+
+TOTAAL CONTAINERS: 228

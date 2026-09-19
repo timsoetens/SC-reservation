@@ -10,6 +10,53 @@ const PROJECT_COLOR_PRESETS = [
   "#d8d49f", "#b9d2a5", "#a8cdb7", "#a9cdd0", "#b5cee2", "#c1c5df"
 ];
 
+function compareProjectLabels(first, second) {
+  return first.localeCompare(second, "nl", { numeric: true, sensitivity: "base" });
+}
+
+function formatProjectOptionLabel(label) {
+  const maxLength = 48;
+  return label.length > maxLength ? `${label.slice(0, maxLength - 1).trimEnd()}...` : label;
+}
+
+function getProjectTypeLabel(project) {
+  if (project.projectType === "offerte") {
+    return "Offerte";
+  }
+  return project.projectType === "opdracht" ? "Opdracht" : "Container";
+}
+
+function getProjectDisplayLabel(project) {
+  const label = project.projectName ? `${project.name} - ${project.projectName}` : project.name;
+  const number = project.projectType === "offerte"
+    ? (project.offerteNummer ? ` #${project.offerteNummer}` : "")
+    : project.projectType === "opdracht"
+    ? (project.opdrachtNummer ? ` #${project.opdrachtNummer}` : "")
+    : (project.containerNummer ? ` #${project.containerNummer}` : "");
+  return `${label}${number} [${getProjectTypeLabel(project)}]`;
+}
+
+function getReservationProjectLabel(project) {
+  if (project.projectType === "project-container") {
+      const number = project.containerNummer ? `(SC${project.containerNummer}) ` : "";
+    return `${number}${project.name}`;
+  }
+  return getProjectDisplayLabel(project);
+}
+
+function getReservationProjects(selectedProjectId = "") {
+  const projects = state.projects.filter((project) => isExternalCustomer(project) && ["opdracht", "offerte"].includes(project.projectType) && project.name?.trim());
+  const selectedProject = state.projects.find((project) => project.id === selectedProjectId);
+  if (selectedProject && !projects.some((project) => project.id === selectedProject.id)) {
+    projects.push(selectedProject);
+  }
+  return projects;
+}
+
+function isExternalCustomer(project) {
+  return String(project.customerName || "").trim().toLowerCase() !== "sanacon";
+}
+
 const elements = {
   topbar: document.querySelector(".topbar"),
   authPanel: document.getElementById("auth-panel"),
@@ -22,11 +69,11 @@ const elements = {
   projectDialog: document.getElementById("project-dialog"),
   projectForm: document.getElementById("project-form"),
   projectPeriod: document.getElementById("project-period"),
+  newProjectSearchInput: document.getElementById("project-search"),
+  projectOptions: document.getElementById("project-options"),
   projectSelect: document.getElementById("project-select"),
   newProjectName: document.getElementById("new-project-name"),
   newProjectTitle: document.getElementById("new-project-title"),
-  newProjectColor: document.getElementById("new-project-color"),
-  newProjectPalette: document.getElementById("new-project-palette"),
   newProjectFields: document.getElementById("new-project-fields"),
   createProjectButton: document.getElementById("create-project-btn"),
   projectCancelButton: document.getElementById("project-cancel-btn"),
@@ -39,6 +86,8 @@ const elements = {
   editMemberSelect: document.getElementById("edit-member-select"),
   editStart: document.getElementById("edit-start"),
   editEnd: document.getElementById("edit-end"),
+  editProjectSearch: document.getElementById("edit-project-search"),
+  editProjectOptions: document.getElementById("edit-project-options"),
   editProjectSelect: document.getElementById("edit-project-select"),
   editNote: document.getElementById("edit-note"),
   editMessage: document.getElementById("edit-message"),
@@ -74,11 +123,17 @@ const elements = {
   userSaveButton: document.getElementById("user-save-btn"),
   syncGrippButton: document.getElementById("sync-gripp-btn"),
   syncGrippMessage: document.getElementById("sync-gripp-message"),
+  latestApiProject: document.getElementById("latest-api-project"),
   projectList: document.getElementById("project-list"),
+  projectSearchInput: document.getElementById("project-search-input"),
   reportSummary: document.getElementById("report-summary"),
+  reportYear: document.getElementById("report-year"),
+  reservationChart: document.getElementById("reservation-chart"),
+  hoursChart: document.getElementById("hours-chart"),
   reportList: document.getElementById("report-list"),
   loginButton: document.getElementById("login-btn"),
   loginMessage: document.getElementById("login-message"),
+  reportsNav: document.getElementById("reports-nav"),
   currentUserLabel: document.getElementById("current-user-label"),
   currentUserRole: document.getElementById("current-user-role"),
   logoutButton: document.getElementById("logout-btn"),
@@ -89,6 +144,7 @@ const elements = {
   message: document.getElementById("schedule-message"),
   prevWeekButton: document.getElementById("prev-week-btn"),
   todayWeekButton: document.getElementById("today-week-btn"),
+  myReservationsButton: document.getElementById("my-reservations-btn"),
   nextWeekButton: document.getElementById("next-week-btn"),
   weekLabel: document.getElementById("week-label"),
   weekAxis: document.getElementById("week-axis"),
@@ -126,7 +182,8 @@ const state = {
   msalConfig: null,
   msalClient: null,
   accessToken: "",
-  currentPage: "schedule"
+  currentPage: "schedule",
+  myReservationsOnly: false
 };
 
 function formatDateTime(dateString) {
@@ -137,6 +194,15 @@ function formatDateTime(dateString) {
     hour: "2-digit",
     minute: "2-digit"
   });
+}
+
+function getReadableReservationColor(color) {
+  const match = /^#?([0-9a-f]{6})$/i.exec(color || "");
+  if (!match) {
+    return "#f7d7d7";
+  }
+  const channels = [0, 2, 4].map((offset) => parseInt(match[1].slice(offset, offset + 2), 16));
+  return `#${channels.map((channel) => Math.round(channel + (255 - channel) * 0.72).toString(16).padStart(2, "0")).join("")}`;
 }
 
 function showMessage(text, type) {
@@ -159,14 +225,17 @@ function setAuthenticatedView(isAuthenticated) {
   if (elements.formPanel) {
     elements.formPanel.hidden = !isAuthenticated;
   }
-  elements.dashboardPanel.hidden = !isAuthenticated;
   elements.plannerPanel.hidden = !isAuthenticated;
+  elements.reportsNav.hidden = !isAuthenticated || !state.currentUser?.isAdmin;
   setPage(state.currentPage, isAuthenticated);
 }
 
 function setPage(page, isAuthenticated = Boolean(state.currentUser)) {
-  const validPages = ["dashboard", "schedule", "timesheets", "people", "projects", "reports", "help"];
+  const validPages = ["schedule", "people", "resources", "projects", "reports", "help"];
   state.currentPage = validPages.includes(page) ? page : "schedule";
+  if (state.currentPage === "reports" && !state.currentUser?.isAdmin) {
+    state.currentPage = "schedule";
+  }
 
   document.querySelectorAll("[data-view]").forEach((panel) => {
     const views = panel.dataset.view.split(",");
@@ -285,11 +354,13 @@ function renderPeoplePage() {
       const editButton = document.createElement("button");
       editButton.className = "ghost";
       editButton.type = "button";
+      editButton.dataset.icon = "✎";
       editButton.textContent = "Edit";
       editButton.addEventListener("click", () => openUserDialog(user));
       const removeButton = document.createElement("button");
       removeButton.className = "ghost";
       removeButton.type = "button";
+      removeButton.dataset.icon = "⌫";
       removeButton.textContent = "Remove";
       removeButton.addEventListener("click", () => removeUser(user));
       actions.append(editButton, removeButton);
@@ -300,7 +371,9 @@ function renderPeoplePage() {
     elements.peopleList.appendChild(tile);
   });
   elements.resourceList.innerHTML = "";
-  state.devices.forEach((device) => {
+  [...state.devices]
+    .sort((first, second) => first.name.localeCompare(second.name, "nl", { numeric: true, sensitivity: "base" }))
+    .forEach((device) => {
     const usage = state.reservations.filter((reservation) => reservation.deviceId === device.id).length;
     const card = document.createElement("article");
     card.className = `resource-card resource-status-${device.status || "available"}`;
@@ -331,7 +404,7 @@ function renderPeoplePage() {
     content.querySelector(".resource-remove").addEventListener("click", () => removeResource(device));
     card.append(photo, content);
     elements.resourceList.appendChild(card);
-  });
+    });
 }
 
 function openResourceDialog(device) {
@@ -515,59 +588,77 @@ function renderColorPalette(container, selectedColor, onSelect, unavailableColor
 
 function renderProjectsPage() {
   elements.syncGrippButton.hidden = !state.currentUser?.isAdmin || !state.auth0Config?.grippSyncConfigured;
+  const latestApiProject = state.projects
+    .filter((project) => project.grippCreatedAt)
+    .sort((first, second) => new Date(second.grippCreatedAt) - new Date(first.grippCreatedAt))[0];
+  elements.latestApiProject.textContent = latestApiProject
+    ? `Laatste opdracht uit Gripp: ${getProjectDisplayLabel(latestApiProject)}`
+    : "";
   elements.projectList.innerHTML = "";
-  if (!state.projects.length) {
+  const searchTerm = elements.projectSearchInput.value.trim().toLowerCase();
+  const filteredProjects = state.projects.filter((project) => isExternalCustomer(project) && ["opdracht", "offerte"].includes(project.projectType)).filter((project) => {
+    const searchableText = `${project.name} ${project.projectName || ""} ${project.opdrachtNummer || ""} ${project.offerteNummer || ""} ${project.customerName || ""} ${project.containerNummer || ""} ${project.containerName || ""} ${getProjectTypeLabel(project)}`.toLowerCase();
+    return searchableText.includes(searchTerm);
+  }).sort((first, second) => compareProjectLabels(first.name, second.name));
+  const reservationCounts = new Map();
+  state.reservations.forEach((reservation) => {
+    if (reservation.projectId) {
+      reservationCounts.set(reservation.projectId, (reservationCounts.get(reservation.projectId) || 0) + 1);
+    }
+  });
+
+  if (!filteredProjects.length) {
     const empty = document.createElement("p");
-    empty.className = "dashboard-empty";
-    empty.textContent = "Nog geen SC-projecten aangemaakt.";
+    empty.className = "project-list-empty";
+    empty.textContent = state.projects.some((project) => isExternalCustomer(project) && ["opdracht", "offerte"].includes(project.projectType)) ? "Geen opdrachten of offertes gevonden." : "Geen externe opdrachten of offertes gevonden.";
     elements.projectList.appendChild(empty);
     return;
   }
 
-  state.projects.forEach((project) => {
-    const card = document.createElement("article");
-    card.className = "project-card";
-    card.innerHTML = "<span>PROJECT</span><h3></h3><p></p><div class=\"project-color-row\"><div class=\"color-picker\"><button class=\"color-preview\" type=\"button\" aria-label=\"Open projectkleuren\"></button><div class=\"color-palette\" aria-label=\"Kies een projectkleur\" hidden></div></div><button class=\"ghost\" type=\"button\">Kleur opslaan</button></div>";
-    card.querySelector("h3").textContent = project.projectName ? `${project.name} - ${project.projectName}` : project.name;
-    const reservationCount = state.reservations.filter((reservation) => reservation.projectId === project.id).length;
-    card.querySelector("p").textContent = `${reservationCount} reservaties`;
-    let selectedColor = project.color || PROJECT_COLOR_PRESETS[0];
-    const saveButton = card.querySelector(".project-color-row > .ghost");
-    const palette = card.querySelector(".color-palette");
-    const preview = card.querySelector(".color-preview");
-    preview.style.backgroundColor = selectedColor;
-    preview.addEventListener("click", () => {
-      palette.hidden = !palette.hidden;
-    });
-    const usedByOtherProjects = state.projects
-      .filter((item) => item.id !== project.id)
-      .map((item) => item.color)
-      .filter(Boolean);
-    renderColorPalette(palette, selectedColor, (color) => {
-      selectedColor = color;
-      preview.style.backgroundColor = color;
-      palette.hidden = true;
-    }, usedByOtherProjects);
-    saveButton.addEventListener("click", async () => {
-      saveButton.disabled = true;
-      try {
-        const updatedProject = await request(`/api/projects/${project.id}`, {
-          method: "PUT",
-          body: JSON.stringify({ color: selectedColor })
-        });
-        project.color = updatedProject.color;
-        await loadReservations();
-      } catch (error) {
-        alert(error.message);
-      } finally {
-        saveButton.disabled = false;
-      }
-    });
-    elements.projectList.appendChild(card);
+  const table = document.createElement("table");
+  table.className = "project-table";
+  table.innerHTML = "<thead><tr><th>Nummer</th><th>Opdracht / offerte</th><th>Klant</th><th>Type</th><th>Reservaties</th></tr></thead><tbody></tbody>";
+  const tableBody = table.querySelector("tbody");
+  filteredProjects.forEach((project) => {
+    const row = document.createElement("tr");
+    row.className = `project-table-row project-type-${project.projectType}`;
+    const number = project.projectType === "offerte" ? project.offerteNummer : project.opdrachtNummer;
+    const title = project.projectName ? `${project.name} - ${project.projectName}` : project.name;
+    const reservationCount = reservationCounts.get(project.id) || 0;
+    row.innerHTML = "<td class=\"project-table-number\"></td><td class=\"project-table-title\"></td><td class=\"project-table-customer\"></td><td><span class=\"project-type-badge\"></span></td><td class=\"project-table-count\"></td>";
+    row.querySelector(".project-table-number").textContent = number ? `#${number}` : "-";
+    row.querySelector(".project-table-title").textContent = title;
+    row.querySelector(".project-table-customer").textContent = project.customerName || "-";
+    row.querySelector(".project-type-badge").textContent = getProjectTypeLabel(project);
+    row.querySelector(".project-table-count").textContent = reservationCount;
+    tableBody.appendChild(row);
   });
+  elements.projectList.appendChild(table);
 }
 
 function renderReportsPage() {
+  const years = [...new Set(state.reservations.map((reservation) => new Date(reservation.start).getFullYear()).filter((year) => Number.isFinite(year)))].sort((first, second) => second - first);
+  if (!years.includes(2026)) {
+    years.push(2026);
+  }
+  years.sort((first, second) => second - first);
+  const selectedYear = Number(elements.reportYear.value) || 2026;
+  elements.reportYear.innerHTML = years.map((year) => `<option value="${year}">${year}</option>`).join("");
+  elements.reportYear.value = String(years.includes(selectedYear) ? selectedYear : years[0]);
+  const year = Number(elements.reportYear.value);
+  const monthNames = ["Jan", "Feb", "Mrt", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"];
+  const monthlyReservations = Array(12).fill(0);
+  const monthlyHours = Array(12).fill(0);
+  state.reservations.forEach((reservation) => {
+    const start = new Date(reservation.start);
+    const end = new Date(reservation.end);
+    if (start.getFullYear() === year) {
+      monthlyReservations[start.getMonth()] += 1;
+      monthlyHours[start.getMonth()] += Math.max(0, end - start) / 3600000;
+    }
+  });
+  renderBarChart(elements.reservationChart, monthNames, monthlyReservations, (value) => String(value));
+  renderBarChart(elements.hoursChart, monthNames, monthlyHours, (value) => `${value.toFixed(1)} u`);
   const activeReservations = state.reservations.filter((reservation) => new Date(reservation.end) > new Date()).length;
   const busiestDevice = state.devices
     .map((device) => ({ device, count: state.reservations.filter((reservation) => reservation.deviceId === device.id).length }))
@@ -582,9 +673,25 @@ function renderReportsPage() {
     elements.reportSummary.appendChild(item);
   });
   elements.reportList.innerHTML = "";
-  state.devices.forEach((device) => {
+  [...state.devices]
+    .sort((first, second) => first.name.localeCompare(second.name, "nl", { numeric: true, sensitivity: "base" }))
+    .forEach((device) => {
     const count = state.reservations.filter((reservation) => reservation.deviceId === device.id).length;
     elements.reportList.appendChild(createDataRow(device.name, device.type || "Device", `${count} reservaties`));
+  });
+}
+
+function renderBarChart(container, labels, values, formatValue) {
+  const maximum = Math.max(...values, 1);
+  container.innerHTML = "";
+  values.forEach((value, index) => {
+    const row = document.createElement("div");
+    row.className = "bar-chart-row";
+    row.innerHTML = "<span class=\"bar-chart-label\"></span><span class=\"bar-chart-track\"><span class=\"bar-chart-fill\"></span></span><b class=\"bar-chart-value\"></b>";
+    row.querySelector(".bar-chart-label").textContent = labels[index];
+    row.querySelector(".bar-chart-fill").style.width = `${(value / maximum) * 100}%`;
+    row.querySelector(".bar-chart-value").textContent = formatValue(value);
+    container.appendChild(row);
   });
 }
 
@@ -592,8 +699,6 @@ function renderPageData() {
   if (!state.currentUser) {
     return;
   }
-  renderDashboard();
-  renderTimesheetsPage();
   renderPeoplePage();
   renderProjectsPage();
   renderReportsPage();
@@ -807,10 +912,17 @@ async function initializeLocalSession() {
   state.auth0Config = await loadAuthConfig();
 
   if (state.auth0Config.provider === "azure" && window.msal && state.auth0Config.clientId) {
-    clearStuckMsalInteraction();
     const msalClient = getMsalClient(state.auth0Config);
 
-    const redirectResult = await msalClient.handleRedirectPromise();
+    let redirectResult;
+    try {
+      redirectResult = await msalClient.handleRedirectPromise();
+    } catch (error) {
+      if (error.errorCode !== "interaction_in_progress") {
+        throw error;
+      }
+      clearStuckMsalInteraction();
+    }
     if (redirectResult?.account) {
       msalClient.setActiveAccount(redirectResult.account);
     }
@@ -994,7 +1106,9 @@ function toDateTimeInputValue(dateString) {
 function openEditDialog(reservation) {
   state.editingReservation = reservation;
   elements.editDeviceSelect.innerHTML = "";
-  state.devices.forEach((device) => {
+  [...state.devices]
+    .sort((first, second) => first.name.localeCompare(second.name, "nl", { numeric: true, sensitivity: "base" }))
+    .forEach((device) => {
     const option = document.createElement("option");
     option.value = device.id;
     option.textContent = `${device.name} (${device.type})`;
@@ -1002,18 +1116,9 @@ function openEditDialog(reservation) {
     elements.editDeviceSelect.appendChild(option);
   });
 
-  elements.editProjectSelect.innerHTML = "";
-  const noProject = document.createElement("option");
-  noProject.value = "";
-  noProject.textContent = "Geen project";
-  elements.editProjectSelect.appendChild(noProject);
-  state.projects.forEach((project) => {
-    const option = document.createElement("option");
-    option.value = project.id;
-    option.textContent = project.projectName ? `${project.name} - ${project.projectName}` : project.name;
-    option.selected = project.id === reservation.projectId;
-    elements.editProjectSelect.appendChild(option);
-  });
+  elements.editProjectSearch.value = "";
+  renderEditProjectOptions(reservation.projectId);
+  elements.editProjectSearch.value = elements.editProjectSelect.selectedOptions[0]?.dataset.label || elements.editProjectSelect.selectedOptions[0]?.textContent || "";
 
   elements.editMemberField.hidden = !state.currentUser?.isAdmin;
   if (state.currentUser?.isAdmin) {
@@ -1036,6 +1141,34 @@ function openEditDialog(reservation) {
   } else {
     elements.editDialog.setAttribute("open", "open");
   }
+}
+
+function renderEditProjectOptions(selectedProjectId = "") {
+  const projects = getReservationProjects(selectedProjectId)
+    .map((project) => ({
+      project,
+      label: getReservationProjectLabel(project)
+    }))
+    .sort((first, second) => compareProjectLabels(first.label, second.label));
+
+  elements.editProjectSelect.innerHTML = "";
+  elements.editProjectOptions.innerHTML = "";
+  const noProject = document.createElement("option");
+  noProject.value = "";
+  noProject.textContent = "Geen opdracht";
+  noProject.dataset.label = "Geen opdracht";
+  noProject.selected = !selectedProjectId;
+  elements.editProjectSelect.appendChild(noProject);
+
+  projects.forEach(({ project, label }) => {
+    const option = document.createElement("option");
+    option.value = project.id;
+    option.textContent = formatProjectOptionLabel(`${label} · ${project.customerName || "Onbekende klant"}`);
+    option.dataset.label = label;
+    option.dataset.search = `${label} ${project.customerName || ""}`.toLowerCase();
+    option.selected = project.id === selectedProjectId;
+    elements.editProjectSelect.appendChild(option);
+  });
 }
 
 function closeEditDialog() {
@@ -1118,7 +1251,8 @@ function renderDashboard() {
     const device = document.createElement("strong");
     device.textContent = reservation.deviceName;
     const time = document.createElement("span");
-    time.textContent = `${formatDateTime(reservation.start)} - ${formatDateTime(reservation.end)}`;
+    const customer = reservation.customerName ? ` · ${reservation.customerName}` : "";
+    time.textContent = `${formatDateTime(reservation.start)} - ${formatDateTime(reservation.end)}${customer}`;
     item.append(device, time);
     elements.dashboardReservations.appendChild(item);
   });
@@ -1191,16 +1325,29 @@ async function finishPlannerSelection() {
 }
 
 function renderProjectOptions() {
+  const selectedProjectId = elements.projectSelect.value;
+  const projects = getReservationProjects()
+    .map((project) => ({
+      project,
+      label: getReservationProjectLabel(project)
+    }))
+    .sort((first, second) => compareProjectLabels(first.label, second.label));
+
   elements.projectSelect.innerHTML = "";
-  state.projects.forEach((project) => {
+  projects.forEach(({ project, label }) => {
     const option = document.createElement("option");
     option.value = project.id;
-    option.textContent = project.projectName ? `${project.name} - ${project.projectName}` : project.name;
+    option.textContent = formatProjectOptionLabel(`${label} · ${project.customerName || "Onbekende klant"}`);
+    option.dataset.label = label;
+    option.dataset.search = `${label} ${project.customerName || ""}`.toLowerCase();
+    option.selected = project.id === selectedProjectId;
     elements.projectSelect.appendChild(option);
   });
   const newOption = document.createElement("option");
   newOption.value = "__new_project__";
   newOption.textContent = "Nieuw project...";
+  newOption.dataset.label = "Nieuw project...";
+  newOption.selected = selectedProjectId === "__new_project__";
   elements.projectSelect.appendChild(newOption);
 }
 
@@ -1208,6 +1355,33 @@ function updateNewProjectVisibility() {
   const isNewProject = elements.projectSelect.value === "__new_project__";
   elements.newProjectFields.hidden = !isNewProject;
   elements.newProjectName.required = isNewProject;
+}
+
+function syncProjectCombobox(input, select) {
+  const searchValue = input.value.trim().toLowerCase();
+  const matchingOption = [...select.options].find((option) => (option.dataset.label || option.textContent).toLowerCase() === searchValue);
+  select.value = matchingOption?.value || "";
+}
+
+function renderProjectOptionList(input, list, select, onSelect) {
+  const searchTerm = input.value.trim().toLowerCase();
+  list.innerHTML = "";
+  [...select.options]
+    .filter((option) => (option.dataset.search || option.dataset.label || option.textContent).toLowerCase().includes(searchTerm))
+    .forEach((option) => {
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "project-option";
+      item.textContent = option.textContent;
+      item.addEventListener("click", () => {
+        select.value = option.value;
+        input.value = option.dataset.label || option.textContent;
+        list.hidden = true;
+        onSelect?.();
+      });
+      list.appendChild(item);
+    });
+  list.hidden = list.children.length === 0;
 }
 
 function openProjectDialog() {
@@ -1224,14 +1398,10 @@ function openProjectDialog() {
   const defaultProjectName = `SC${new Date(pending.start).toISOString().slice(0, 10).replace(/-/g, "")}`;
   elements.newProjectName.value = state.projects.length ? "" : defaultProjectName;
   elements.newProjectTitle.value = "";
-  const usedProjectColors = state.projects.map((project) => project.color).filter(Boolean);
-  const firstAvailableColor = PROJECT_COLOR_PRESETS.find((color) => !usedProjectColors.includes(color)) || PROJECT_COLOR_PRESETS[0];
-  elements.newProjectColor.value = firstAvailableColor;
-  renderColorPalette(elements.newProjectPalette, elements.newProjectColor.value, (color) => {
-    elements.newProjectColor.value = color;
-  }, usedProjectColors);
+  elements.newProjectSearchInput.value = "";
   renderProjectOptions();
   elements.projectSelect.value = state.projects.length ? state.projects[0].id : "__new_project__";
+  elements.newProjectSearchInput.value = elements.projectSelect.selectedOptions[0]?.dataset.label || "Nieuw project...";
   updateNewProjectVisibility();
   if (typeof elements.projectDialog.showModal === "function") {
     elements.projectDialog.showModal();
@@ -1269,6 +1439,8 @@ function updateWeekLabel() {
 }
 
 function renderPlanner() {
+  elements.myReservationsButton.classList.toggle("active", state.myReservationsOnly);
+  elements.myReservationsButton.setAttribute("aria-pressed", String(state.myReservationsOnly));
   elements.deviceRows.innerHTML = "";
   const weekDays = getWeekDays();
   const weekStart = state.weekStart;
@@ -1350,9 +1522,14 @@ function renderPlanner() {
 
   updateWeekLabel();
 
-  const reservationMap = new Map(state.reservations.map((reservation) => [reservation.id, reservation]));
+  const visibleReservations = state.myReservationsOnly
+    ? state.reservations.filter((reservation) => reservation.memberId === state.currentUser?.id)
+    : state.reservations;
+  const reservationMap = new Map(visibleReservations.map((reservation) => [reservation.id, reservation]));
 
-  state.devices.forEach((device) => {
+  [...state.devices]
+    .sort((first, second) => first.name.localeCompare(second.name, "nl", { numeric: true, sensitivity: "base" }))
+    .forEach((device) => {
     const node = elements.deviceRowTemplate.content.cloneNode(true);
     const row = node.querySelector(".device-row");
     const weekGrid = node.querySelector(".device-week-grid");
@@ -1378,6 +1555,31 @@ function renderPlanner() {
     row.querySelector(".device-meta").prepend(deviceThumb);
     row.querySelector(".device-name").textContent = device.name;
     row.querySelector(".device-type").textContent = device.type;
+
+    const deviceReservations = state.reservations.filter((reservation) => reservation.deviceId === device.id);
+    const reservationLanes = new Map();
+    const laneEndTimes = [];
+    [...deviceReservations]
+      .sort((first, second) => new Date(first.start) - new Date(second.start))
+      .forEach((reservation) => {
+        const reservationStart = new Date(reservation.start).getTime();
+        const reservationEnd = new Date(reservation.end).getTime();
+        let lane = laneEndTimes.findIndex((laneEnd) => laneEnd <= reservationStart);
+        if (lane === -1) {
+          lane = laneEndTimes.length;
+        }
+        laneEndTimes[lane] = reservationEnd;
+        reservationLanes.set(reservation.id, lane);
+      });
+    const overlapDates = new Set(weekDays
+      .filter((dayDate) => {
+        const dayStart = new Date(dayDate);
+        const dayEnd = addDays(dayStart, 1);
+        return deviceReservations.filter((reservation) => new Date(reservation.start) < dayEnd && new Date(reservation.end) > dayStart).length > 1;
+      })
+      .map((dayDate) => getDateKey(dayDate)));
+    row.classList.toggle("row-has-overlap", overlapDates.size > 0);
+    row.style.setProperty("--device-row-height", `${laneEndTimes.length > 1 ? 128 + (laneEndTimes.length - 2) * 64 : 72}px`);
 
     weekDays.forEach((dayDate) => {
       const cell = document.createElement("div");
@@ -1445,7 +1647,7 @@ function renderPlanner() {
       const dayStart = new Date(dayDate);
       const dayEnd = addDays(dayStart, 1);
 
-      const overlappingReservations = state.reservations
+      const overlappingReservations = visibleReservations
         .filter((reservation) => reservation.deviceId === device.id)
         .filter((reservation) => {
           const reservationStart = new Date(reservation.start);
@@ -1457,6 +1659,16 @@ function renderPlanner() {
           const reservationEnd = new Date(reservation.end);
           return reservationEnd > weekStart && reservationStart < weekEndExclusive;
         });
+
+      if (overlappingReservations.length > 1) {
+        cell.classList.add("has-overlap");
+        const overlapMarker = document.createElement("span");
+        overlapMarker.className = "overlap-marker";
+        overlapMarker.textContent = "!";
+        overlapMarker.title = "Meerdere reservaties overlappen op deze dag";
+        overlapMarker.setAttribute("aria-label", "Meerdere reservaties overlappen op deze dag");
+        cell.appendChild(overlapMarker);
+      }
 
       const firstVisibleDateKey = getDateKey(weekStart);
       const reservationItems = overlappingReservations.filter((reservation) => {
@@ -1475,6 +1687,9 @@ function renderPlanner() {
       reservationItems.forEach((reservation) => {
         const block = document.createElement("div");
         block.className = "reservation-block reservation-span";
+        const reservationLane = reservationLanes.get(reservation.id) || 0;
+        block.style.gridRow = String(reservationLane + 1);
+        block.style.transform = `translateY(${reservationLane * 64}px)`;
         const reservationStart = new Date(reservation.start);
         const reservationEnd = new Date(reservation.end);
         const spanDays = weekDays.filter((visibleDay) => {
@@ -1482,17 +1697,17 @@ function renderPlanner() {
           return reservationStart < visibleDayEnd && reservationEnd > visibleDay;
         }).length;
         block.style.setProperty("--reservation-days", String(Math.max(1, spanDays)));
-        if (reservation.projectColor) {
-          block.style.background = reservation.projectColor;
-          block.style.borderLeft = `4px solid ${reservation.projectColor}`;
-        }
+        const reservationColor = getReadableReservationColor(reservation.projectColor);
+        block.style.background = reservationColor;
+        block.style.borderLeft = `4px solid ${reservationColor}`;
         const canManageReservation = state.currentUser?.isAdmin || reservation.memberId === state.currentUser?.id;
         let wasDragged = false;
+        let wasResized = false;
         block.draggable = canManageReservation;
         block.dataset.reservationId = reservation.id;
         block.addEventListener("mousedown", (event) => event.stopPropagation());
         block.addEventListener("click", () => {
-          if (canManageReservation && !wasDragged) {
+          if (canManageReservation && !wasDragged && !wasResized) {
             openEditDialog(reservation);
           }
         });
@@ -1515,9 +1730,12 @@ function renderPlanner() {
           memberAvatar.addEventListener("error", () => memberAvatar.remove());
           member.appendChild(memberAvatar);
         }
-        member.appendChild(document.createTextNode(reservation.memberName || findMemberName(reservation.memberId)));
+        const memberName = reservation.memberName || findMemberName(reservation.memberId);
+        member.title = memberName;
+        member.appendChild(document.createTextNode(memberName));
 
         const timing = document.createElement("small");
+        timing.className = "reservation-timing";
         timing.textContent = `${new Date(reservation.start).toLocaleTimeString("nl-BE", { hour: "2-digit", minute: "2-digit" })} - ${new Date(reservation.end).toLocaleTimeString("nl-BE", { hour: "2-digit", minute: "2-digit" })}`;
 
         block.appendChild(project);
@@ -1527,10 +1745,14 @@ function renderPlanner() {
         const startHandle = document.createElement("span");
         startHandle.className = "reservation-resize-handle start-handle";
         startHandle.title = "Sleep om start aan te passen";
-        startHandle.addEventListener("mousedown", (event) => event.stopPropagation());
+        startHandle.addEventListener("mousedown", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        });
         startHandle.addEventListener("pointerdown", (event) => {
           event.preventDefault();
           event.stopPropagation();
+          wasResized = true;
           state.resizingReservation = { reservation, edge: "start", originalStart: reservation.start, originalEnd: reservation.end, targetDate: getDateKey(new Date(reservation.start)) };
           document.body.classList.add("is-resizing-reservation");
           startHandle.setPointerCapture?.(event.pointerId);
@@ -1540,10 +1762,14 @@ function renderPlanner() {
         const endHandle = document.createElement("span");
         endHandle.className = "reservation-resize-handle end-handle";
         endHandle.title = "Sleep om einde aan te passen";
-        endHandle.addEventListener("mousedown", (event) => event.stopPropagation());
+        endHandle.addEventListener("mousedown", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        });
         endHandle.addEventListener("pointerdown", (event) => {
           event.preventDefault();
           event.stopPropagation();
+          wasResized = true;
           state.resizingReservation = { reservation, edge: "end", originalStart: reservation.start, originalEnd: reservation.end, targetDate: getDateKey(new Date(reservation.end)) };
           document.body.classList.add("is-resizing-reservation");
           endHandle.setPointerCapture?.(event.pointerId);
@@ -1762,7 +1988,11 @@ function updateReservationResizeTarget(event) {
   if (!state.resizingReservation) {
     return;
   }
-  const cell = document.elementsFromPoint(event.clientX, event.clientY).find((item) => item.classList?.contains("week-cell"));
+  const targetCells = document.querySelectorAll(`.week-cell[data-device-id="${state.resizingReservation.reservation.deviceId}"]`);
+  const cell = [...targetCells].find((candidate) => {
+    const bounds = candidate.getBoundingClientRect();
+    return event.clientX >= bounds.left && event.clientX < bounds.right && event.clientY >= bounds.top && event.clientY < bounds.bottom;
+  });
   if (cell && cell.dataset.deviceId === state.resizingReservation.reservation.deviceId) {
     state.resizingReservation.targetDate = cell.dataset.date;
     document.querySelectorAll(".week-cell.resize-target").forEach((item) => item.classList.remove("resize-target"));
@@ -1779,6 +2009,27 @@ async function loadMeta() {
     fillSelect(elements.deviceSelect, data.devices, "Kies device");
   }
   renderCurrentUser();
+}
+
+async function syncAzurePhotosForAdmin() {
+  if (!state.currentUser?.isAdmin || !state.auth0Config?.photoSyncConfigured) {
+    return;
+  }
+
+  const syncKey = `azure-photo-sync:${window.location.origin}`;
+  if (sessionStorage.getItem(syncKey) === "done") {
+    return;
+  }
+
+  try {
+    const result = await request("/api/users/sync-photos", { method: "POST" });
+    sessionStorage.setItem(syncKey, "done");
+    if (result.updatedCount > 0) {
+      await loadMeta();
+    }
+  } catch (error) {
+    console.warn("Azure-profielfoto's konden niet automatisch worden gesynchroniseerd:", error.message);
+  }
 }
 
 async function loadProjects() {
@@ -1818,19 +2069,56 @@ elements.loginButton.addEventListener("click", () => {
   void loginWithAuth0();
 });
 
-elements.logoutButton.addEventListener("click", () => {
-  void logoutFromAuth0();
+elements.newProjectSearchInput.addEventListener("input", () => {
+  syncProjectCombobox(elements.newProjectSearchInput, elements.projectSelect);
+  updateNewProjectVisibility();
+  renderProjectOptionList(elements.newProjectSearchInput, elements.projectOptions, elements.projectSelect, updateNewProjectVisibility);
 });
 
-elements.projectCancelButton.addEventListener("click", () => {
-  closeProjectDialog();
+elements.newProjectSearchInput.addEventListener("focus", (event) => {
+  event.target.value = "";
+  elements.projectSelect.value = "";
+  updateNewProjectVisibility();
+  renderProjectOptionList(elements.newProjectSearchInput, elements.projectOptions, elements.projectSelect, updateNewProjectVisibility);
 });
+
+elements.editProjectSearch.addEventListener("input", () => {
+  syncProjectCombobox(elements.editProjectSearch, elements.editProjectSelect);
+  renderProjectOptionList(elements.editProjectSearch, elements.editProjectOptions, elements.editProjectSelect);
+});
+
+elements.editProjectSearch.addEventListener("focus", (event) => {
+  event.target.value = "";
+  elements.editProjectSelect.value = "";
+  renderProjectOptionList(elements.editProjectSearch, elements.editProjectOptions, elements.editProjectSelect);
+});
+
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".project-combobox")) {
+    document.querySelectorAll(".project-options").forEach((list) => {
+      list.hidden = true;
+    });
+  }
+});
+
 
 elements.projectSelect.addEventListener("change", () => {
   updateNewProjectVisibility();
   if (elements.projectSelect.value === "__new_project__") {
     elements.newProjectName.focus();
   }
+});
+
+elements.projectCancelButton.addEventListener("click", () => {
+  closeProjectDialog();
+});
+
+elements.logoutButton.addEventListener("click", () => {
+  void logoutFromAuth0();
+});
+
+elements.projectSearchInput.addEventListener("input", () => {
+  renderProjectsPage();
 });
 
 async function handleProjectSubmit() {
@@ -1848,9 +2136,9 @@ async function handleProjectSubmit() {
       }
       const project = await request("/api/projects", {
         method: "POST",
-        body: JSON.stringify({ name: newProjectName, projectName: elements.newProjectTitle.value.trim(), color: elements.newProjectColor.value })
+        body: JSON.stringify({ name: newProjectName, projectName: elements.newProjectTitle.value.trim() })
       });
-      state.projects = [...state.projects, project].sort((first, second) => first.name.localeCompare(second.name));
+      state.projects = [...state.projects, project].sort((first, second) => compareProjectLabels(first.name, second.name));
       renderProjectOptions();
       projectId = project.id;
     }
@@ -1950,27 +2238,50 @@ elements.syncPhotosButton.addEventListener("click", async () => {
   }
 });
 
-elements.syncGrippButton.addEventListener("click", async () => {
-  elements.syncGrippButton.disabled = true;
-  elements.syncGrippMessage.textContent = "Synchroniseren met Gripp...";
-  elements.syncGrippMessage.className = "form-message";
+async function syncGrippProjects(silent = false) {
+  if (!silent) {
+    elements.syncGrippButton.disabled = true;
+    elements.syncGrippMessage.textContent = "Synchroniseren met Gripp...";
+    elements.syncGrippMessage.className = "form-message";
+  }
   try {
-    const result = await request("/api/projects/sync-gripp", { method: "POST" });
-    elements.syncGrippMessage.textContent = `${result.createdCount} nieuwe en ${result.updatedCount} bijgewerkte projecten (van ${result.totalGrippProjects} lopende Gripp-projecten, ${result.skippedCount} zonder SC-code overgeslagen).`;
-    elements.syncGrippMessage.className = "form-message success";
+    const result = await request("/api/projects/sync-gripp", { method: "POST", body: JSON.stringify({ force: !silent }) });
+    if (!silent) {
+      elements.syncGrippMessage.textContent = `${result.createdCount} nieuwe, ${result.updatedCount} bijgewerkte en ${result.removedCount || 0} ongebruikte lokale projecten verwijderd (van ${result.totalGrippProjects} lopende Gripp-records, ${result.skippedCount} lege records overgeslagen).`;
+      elements.syncGrippMessage.className = "form-message success";
+    }
     await loadProjects();
     renderProjectsPage();
   } catch (error) {
-    elements.syncGrippMessage.textContent = error.message;
-    elements.syncGrippMessage.className = "form-message error";
+    if (!silent) {
+      elements.syncGrippMessage.textContent = error.message;
+      elements.syncGrippMessage.className = "form-message error";
+    } else {
+      console.warn("Automatische Gripp-synchronisatie mislukt:", error.message);
+    }
   } finally {
-    elements.syncGrippButton.disabled = false;
+    if (!silent) {
+      elements.syncGrippButton.disabled = false;
+    }
   }
+}
+
+elements.syncGrippButton.addEventListener("click", () => {
+  void syncGrippProjects();
 });
 
 elements.prevWeekButton.addEventListener("click", () => {
   state.weekStart = addDays(state.weekStart, -NAVIGATION_STEP_DAYS);
   renderPlanner();
+});
+
+elements.myReservationsButton.addEventListener("click", () => {
+  state.myReservationsOnly = !state.myReservationsOnly;
+  renderPlanner();
+});
+
+elements.reportYear.addEventListener("change", () => {
+  renderReportsPage();
 });
 
 elements.todayWeekButton.addEventListener("click", () => {
@@ -2007,10 +2318,26 @@ document.querySelectorAll("[data-page]").forEach((link) => {
 document.querySelectorAll("[data-section-tab]").forEach((tab) => {
   tab.addEventListener("click", () => {
     const selectedTab = tab.dataset.sectionTab;
-    document.querySelectorAll("[data-section-tab]").forEach((item) => item.classList.toggle("active", item === tab));
+    document.querySelectorAll("[data-section-tab]").forEach((item) => {
+      item.classList.toggle("active", item === tab);
+      item.setAttribute("aria-selected", String(item === tab));
+    });
     document.querySelectorAll("[data-section-panel]").forEach((panel) => {
       panel.hidden = panel.dataset.sectionPanel !== selectedTab;
     });
+  });
+});
+
+document.querySelectorAll("dialog").forEach((dialog) => {
+  dialog.addEventListener("click", (event) => {
+    if (event.target !== dialog) {
+      return;
+    }
+    if (typeof dialog.close === "function") {
+      dialog.close();
+    } else {
+      dialog.removeAttribute("open");
+    }
   });
 });
 
@@ -2032,6 +2359,10 @@ async function start() {
 
     await syncAuthenticatedProfile();
     await loadMeta();
+    await syncAzurePhotosForAdmin();
+    if (state.currentUser?.isAdmin && state.auth0Config?.grippSyncConfigured) {
+      await syncGrippProjects(true);
+    }
     await loadProjects();
     await loadReservations();
     state.scheduleRefreshTimer = window.setInterval(() => {

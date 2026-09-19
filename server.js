@@ -31,6 +31,7 @@ const AZURE_API_SCOPE = process.env.AZURE_API_SCOPE || "";
 const AZURE_ALLOWED_EMAIL_DOMAIN = (process.env.AZURE_ALLOWED_EMAIL_DOMAIN || "sanacon.be").trim().toLowerCase().replace(/^@/, "");
 const GRIPP_API_TOKEN = process.env.GRIPP_API_TOKEN || "";
 const GRIPP_API_URL = "https://api.gripp.com/public/api3.php";
+const GRIPP_CACHE_TTL_MS = Number(process.env.GRIPP_CACHE_TTL_MS || 5 * 60 * 1000);
 const grippConfigured = Boolean(GRIPP_API_TOKEN);
 const ADMIN_EMAILS = new Set(
   (process.env.ADMIN_EMAILS || "")
@@ -38,7 +39,7 @@ const ADMIN_EMAILS = new Set(
     .map((email) => email.trim().toLowerCase())
     .filter(Boolean)
 );
-const PROJECT_COLORS = ["#c23e3f", "#2f6f95", "#3f8060", "#b2762c", "#76539b", "#3d7880"];
+const PROJECT_COLORS = ["#d9f0f2", "#dcebd2", "#f7e6b5", "#f6d8cf", "#e2d9f3", "#d8e3f7", "#f1d9e4", "#dce8df", "#f3dfc4", "#d7edf0", "#e8e1c9", "#e3d9e8"];
 
 const azureConfigured = Boolean(AZURE_TENANT_ID && AZURE_CLIENT_ID && AZURE_API_AUDIENCE);
 const graphPhotoSyncConfigured = Boolean(AZURE_TENANT_ID && AZURE_CLIENT_ID && AZURE_CLIENT_SECRET);
@@ -85,11 +86,6 @@ function readDb() {
     writeDb(db);
   }
 
-  const scheduleChanged = ensureScreenshotSchedule(db);
-  if (scheduleChanged) {
-    writeDb(db);
-  }
-
   return db;
 }
 
@@ -106,6 +102,24 @@ function ensureUsersCollection(db) {
 function ensureProjectsCollection(db) {
   if (!Array.isArray(db.projects)) {
     db.projects = [];
+  }
+  let changed = false;
+  db.projects.forEach((project) => {
+    if (!project.grippNumber || project.opdrachtNummer !== undefined || project.containerNummer !== undefined) {
+      return;
+    }
+    if (project.projectType === "opdracht") {
+      project.opdrachtNummer = String(project.grippNumber);
+      project.containerNummer = project.containerName?.match(/\((\d+)\)\s*$/)?.[1] || "";
+    } else {
+      project.opdrachtNummer = "";
+      project.containerNummer = String(project.grippNumber);
+    }
+    delete project.grippNumber;
+    changed = true;
+  });
+  if (changed) {
+    writeDb(db);
   }
 }
 
@@ -190,11 +204,15 @@ function normalizeDevice(device) {
 }
 
 function getProjectColor(project) {
-  if (project.color) {
-    return project.color;
-  }
   const hash = [...project.name].reduce((total, character) => total + character.charCodeAt(0), 0);
   return PROJECT_COLORS[hash % PROJECT_COLORS.length];
+}
+
+function hasLinkedOffer(project) {
+  return Array.isArray(project.projectlines) && project.projectlines.some((line) => {
+    const offerBaseId = line.offerprojectbase?.id;
+    return offerBaseId && String(offerBaseId) !== String(project.id);
+  });
 }
 
 function isValidProjectColor(color) {
@@ -325,6 +343,9 @@ function upsertAuthenticatedUser(claims, profile = {}) {
 }
 
 let graphAppToken = null;
+let grippProjectCache = { expiresAt: 0, projects: null };
+let grippOfferCache = { expiresAt: 0, offers: null };
+let grippProjectRequest = null;
 
 async function getGraphAppToken() {
   if (graphAppToken && graphAppToken.expiresAt > Date.now() + 60_000) {
@@ -423,57 +444,149 @@ async function callGripp(method, params) {
   return result?.result;
 }
 
-async function fetchGrippActiveProjects() {
-  const pageSize = 250;
-  const filters = [{ field: "project.archived", operator: "equals", value: false }];
-  const projects = [];
-  let offset = 0;
-
-  while (true) {
-    const page = await callGripp("project.get", [
-      filters,
-      { paging: { firstresult: offset, maxresults: pageSize }, orderings: [{ field: "project.number", direction: "asc" }] }
-    ]);
-    const rows = page?.rows || [];
-    projects.push(...rows);
-    if (rows.length < pageSize) {
-      break;
-    }
-    offset += pageSize;
+async function fetchGrippProjects(forceRefresh = false) {
+  if (!forceRefresh && grippProjectCache.projects && grippProjectCache.expiresAt > Date.now()) {
+    return grippProjectCache.projects;
+  }
+  if (grippProjectRequest) {
+    return grippProjectRequest;
   }
 
-  return projects;
+  grippProjectRequest = fetchGrippProjectsFromApi();
+  try {
+    const projects = await grippProjectRequest;
+    grippProjectCache = { projects, expiresAt: Date.now() + GRIPP_CACHE_TTL_MS };
+    return projects;
+  } finally {
+    grippProjectRequest = null;
+  }
 }
 
-async function syncProjectsFromGripp(adminUserId) {
+async function fetchGrippProjectsFromApi() {
+  const pageSize = 250;
+  async function fetchRows(filters) {
+    const rows = [];
+    let offset = 0;
+    while (true) {
+      const page = await callGripp("project.get", [
+        filters,
+        { paging: { firstresult: offset, maxresults: pageSize }, orderings: [{ field: "project.number", direction: "asc" }] }
+      ]);
+      const pageRows = page?.rows || [];
+      rows.push(...pageRows);
+      if (pageRows.length < pageSize) {
+        break;
+      }
+      offset += pageSize;
+    }
+    return rows;
+  }
+
+  const projects = await fetchRows([]);
+  const rootProjects = await fetchRows([{ field: "project.umbrellaproject", operator: "isnull", value: true }]);
+  const uniqueProjects = new Map(projects.map((project) => [String(project.id), project]));
+  rootProjects.forEach((project) => uniqueProjects.set(String(project.id), project));
+  return [...uniqueProjects.values()];
+}
+
+async function fetchGrippOpenOffers(forceRefresh = false) {
+  if (!forceRefresh && grippOfferCache.offers && grippOfferCache.expiresAt > Date.now()) {
+    return grippOfferCache.offers;
+  }
+  const offers = [];
+  let offset = 0;
+  while (true) {
+    const result = await callGripp("offer.get", [[], { paging: { firstresult: offset, maxresults: 250 }, orderings: [{ field: "offer.number", direction: "asc" }] }]);
+    const rows = Array.isArray(result.rows) ? result.rows : [];
+    offers.push(...rows.filter((offer) => offer.archived !== true));
+    if (rows.length < 250) {
+      break;
+    }
+    offset += 250;
+  }
+  grippOfferCache = { offers, expiresAt: Date.now() + GRIPP_CACHE_TTL_MS };
+  return offers;
+}
+
+async function syncProjectsFromGripp(adminUserId, forceRefresh = false) {
   if (!grippConfigured) {
     throw new Error("Gripp is niet geconfigureerd (GRIPP_API_TOKEN ontbreekt).");
   }
 
-  const grippProjects = await fetchGrippActiveProjects();
+  const [allGrippProjects, grippOffers] = await Promise.all([
+    fetchGrippProjects(forceRefresh),
+    fetchGrippOpenOffers(forceRefresh)
+  ]);
+  const grippProjectById = new Map(allGrippProjects.map((project) => [String(project.id), project]));
+  const grippProjects = allGrippProjects.filter((project) => project.archived !== true);
   const db = readDb();
   ensureProjectsCollection(db);
 
   let createdCount = 0;
   let updatedCount = 0;
   let skippedCount = 0;
+  const containerProjects = new Map();
 
   for (const grippProject of grippProjects) {
     const grippName = String(grippProject.name || "").trim();
-    if (!/^SC/i.test(grippName)) {
+    if (!grippName) {
+      skippedCount += 1;
+      continue;
+    }
+    if (!grippProject.umbrellaproject && !hasLinkedOffer(grippProject)) {
       skippedCount += 1;
       continue;
     }
 
-    // code is the first whitespace-separated token, optionally followed by "- " before the description
-    const match = grippName.match(/^(\S+)\s*-?\s*(.*)$/);
-    const name = (match ? match[1] : grippName).replace(/[:,]+$/, "");
-    const projectName = match ? match[2].trim() : "";
+    // SC names contain a code and description; other Gripp names are kept intact.
+    const match = grippName.match(/^SC\S*\s*-?\s*(.*)$/i);
+    const name = match ? grippName.split(/\s+/)[0].replace(/[:,]+$/, "") : grippName;
+    const projectName = match ? match[1].trim() : "";
+    const projectType = grippProject.umbrellaproject ? "opdracht" : "project-container";
+    const containerName = grippProject.umbrellaproject?.searchname || "";
+    const customerName = grippProject.company?.searchname || "";
+    const customerId = grippProject.company?.id || "";
+    const opdrachtNummer = projectType === "opdracht" ? String(grippProject.number || "") : "";
+    const containerNummer = projectType === "opdracht"
+      ? containerName.match(/\((\d+)\)\s*$/)?.[1] || ""
+      : String(grippProject.number || "");
+    const grippCreatedAt = grippProject.createdon?.date || "";
+    if (grippProject.umbrellaproject) {
+      const container = grippProject.umbrellaproject;
+      const containerRecord = grippProjectById.get(String(container.id));
+      if (containerRecord?.archived !== true) {
+        const containerSearchName = String(container.searchname || "");
+        const containerLabel = containerSearchName.replace(/\s*\(\d+\)\s*$/, "").trim();
+        const containerNumber = containerSearchName.match(/\((\d+)\)\s*$/)?.[1] || "";
+        containerProjects.set(String(container.id), { id: container.id, name: containerLabel, number: containerNumber });
+      }
+    }
 
-    const existing = db.projects.find((project) => project.name.toLowerCase() === name.toLowerCase());
+    const existing = db.projects.find((project) => project.id === `p-gripp-${grippProject.id}`)
+      || db.projects.find((project) => project.name.toLowerCase() === name.toLowerCase() && project.projectType === projectType);
     if (existing) {
       if (projectName && existing.projectName !== projectName) {
         existing.projectName = projectName;
+        updatedCount += 1;
+      }
+      if (existing.projectType !== projectType || existing.containerName !== containerName) {
+        existing.projectType = projectType;
+        existing.containerName = containerName;
+        updatedCount += 1;
+      }
+      if (existing.opdrachtNummer !== opdrachtNummer || existing.containerNummer !== containerNummer) {
+        existing.opdrachtNummer = opdrachtNummer;
+        existing.containerNummer = containerNummer;
+        delete existing.grippNumber;
+        updatedCount += 1;
+      }
+      if (existing.grippCreatedAt !== grippCreatedAt) {
+        existing.grippCreatedAt = grippCreatedAt;
+        updatedCount += 1;
+      }
+      if (existing.customerName !== customerName || String(existing.customerId || "") !== String(customerId)) {
+        existing.customerName = customerName;
+        existing.customerId = customerId;
         updatedCount += 1;
       }
       continue;
@@ -483,6 +596,13 @@ async function syncProjectsFromGripp(adminUserId) {
       id: `p-gripp-${grippProject.id}`,
       name,
       projectName,
+      opdrachtNummer,
+      containerNummer,
+      grippCreatedAt,
+      projectType,
+      containerName,
+      customerName,
+      customerId,
       color: getProjectColor({ name }),
       createdBy: adminUserId,
       createdAt: new Date().toISOString()
@@ -490,11 +610,92 @@ async function syncProjectsFromGripp(adminUserId) {
     createdCount += 1;
   }
 
-  if (createdCount > 0 || updatedCount > 0) {
+  for (const offer of grippOffers) {
+    const offerName = String(offer.name || "").trim();
+    if (!offerName || !offer.company?.searchname || offer.company.searchname.toLowerCase() === "sanacon") {
+      skippedCount += 1;
+      continue;
+    }
+    const offerId = `p-gripp-offer-${offer.id}`;
+    const existing = db.projects.find((project) => project.id === offerId);
+    const offerData = {
+      name: offerName,
+      projectName: "",
+      projectType: "offerte",
+      containerName: "",
+      opdrachtNummer: "",
+      containerNummer: "",
+      offerteNummer: String(offer.number || ""),
+      customerName: offer.company.searchname,
+      customerId: offer.company.id || "",
+      offerPhase: offer.phase?.searchname || "",
+      grippCreatedAt: offer.createdon?.date || ""
+    };
+    if (existing) {
+      Object.assign(existing, offerData);
+      updatedCount += 1;
+    } else {
+      db.projects.push({ id: offerId, ...offerData, color: getProjectColor({ name: offerName }), createdBy: adminUserId, createdAt: new Date().toISOString() });
+      createdCount += 1;
+    }
+  }
+
+  for (const container of containerProjects.values()) {
+    if (!container.name) {
+      continue;
+    }
+    const existing = db.projects.find((project) => project.id === `p-gripp-${container.id}` || project.name.toLowerCase() === container.name.toLowerCase());
+    if (existing) {
+      if (existing.projectType !== "project-container") {
+        existing.projectType = "project-container";
+        updatedCount += 1;
+      }
+      if (existing.containerNummer !== container.number || existing.opdrachtNummer) {
+        existing.containerNummer = container.number;
+        existing.opdrachtNummer = "";
+        delete existing.grippNumber;
+        updatedCount += 1;
+      }
+      continue;
+    }
+    db.projects.push({
+      id: `p-gripp-${container.id}`,
+      name: container.name,
+      projectName: "",
+      opdrachtNummer: "",
+      containerNummer: container.number,
+      projectType: "project-container",
+      containerName: "",
+      color: getProjectColor({ name: container.name }),
+      createdBy: adminUserId,
+      createdAt: new Date().toISOString()
+    });
+    createdCount += 1;
+  }
+
+  const grippNames = new Set(
+    grippProjects
+      .map((project) => String(project.name || "").trim())
+      .filter(Boolean)
+      .map((name) => {
+        const match = name.match(/^SC\S*\s*-?\s*(.*)$/i);
+        return (match ? name.split(/\s+/)[0] : name).replace(/[:,]+$/, "").toLowerCase();
+      })
+  );
+  for (const container of containerProjects.values()) {
+    grippNames.add(container.name.toLowerCase());
+  }
+  const reservedProjectIds = new Set(db.reservations.map((reservation) => reservation.projectId).filter(Boolean));
+  const openOfferIds = new Set(grippOffers.map((offer) => `p-gripp-offer-${offer.id}`));
+  const projectCountBeforeCleanup = db.projects.length;
+  db.projects = db.projects.filter((project) => grippNames.has(project.name.toLowerCase()) || openOfferIds.has(project.id) || reservedProjectIds.has(project.id) || project.keepWhenNotInGripp);
+  const removedCount = projectCountBeforeCleanup - db.projects.length;
+
+  if (createdCount > 0 || updatedCount > 0 || removedCount > 0) {
     writeDb(db);
   }
 
-  return { createdCount, updatedCount, skippedCount, totalGrippProjects: grippProjects.length };
+  return { createdCount, updatedCount, removedCount, skippedCount, totalGrippProjects: grippProjects.length };
 }
 
 function getLocalDemoUser() {
@@ -767,23 +968,49 @@ app.delete("/api/devices/:id", requireAuth, (req, res) => {
   return res.status(204).end();
 });
 
-app.get("/api/projects", requireAuth, (_req, res) => {
+app.get("/api/projects", requireAuth, async (_req, res) => {
   const db = readDb();
   ensureProjectsCollection(db);
-  res.json(db.projects
-    .filter((project) => project.name.toUpperCase().startsWith("SC"))
+  const projects = [...db.projects];
+  if (grippConfigured) {
+    try {
+      const offers = await fetchGrippOpenOffers();
+      const knownIds = new Set(projects.map((project) => project.id));
+      offers.forEach((offer) => {
+        const offerName = String(offer.name || "").trim();
+        if (!offerName || !offer.company?.searchname || offer.company.searchname.toLowerCase() === "sanacon") {
+          return;
+        }
+        const id = `p-gripp-offer-${offer.id}`;
+        if (!knownIds.has(id)) {
+          projects.push({
+            id,
+            name: offerName,
+            projectName: "",
+            projectType: "offerte",
+            offerteNummer: String(offer.number || ""),
+            customerName: offer.company.searchname,
+            customerId: offer.company.id || "",
+            offerPhase: offer.phase?.searchname || "",
+            color: getProjectColor({ name: offerName })
+          });
+        }
+      });
+    } catch (error) {
+      console.warn("Open offertes konden niet live worden opgehaald:", error.message);
+    }
+  }
+  res.json(projects
+    .filter((project) => project.name.trim())
+    .sort((first, second) => first.name.localeCompare(second.name, "nl", { numeric: true, sensitivity: "base" }))
     .map((project) => ({ ...project, color: getProjectColor(project) })));
 });
 
 app.post("/api/projects", requireAuth, (req, res) => {
   const name = String(req.body?.name || "").trim();
   const projectName = String(req.body?.projectName || "").trim();
-  const color = req.body?.color || "#c23e3f";
-  if (!/^SC/i.test(name)) {
-    return res.status(400).json({ error: "Een projectnaam moet met SC beginnen." });
-  }
-  if (!isValidProjectColor(color)) {
-    return res.status(400).json({ error: "Kies een geldige projectkleur." });
+  if (!name) {
+    return res.status(400).json({ error: "Een projectnaam is verplicht." });
   }
   if (!projectName) {
     return res.status(400).json({ error: "Geef ook een projectnaam op." });
@@ -803,7 +1030,11 @@ app.post("/api/projects", requireAuth, (req, res) => {
     id: `p${Date.now()}`,
     name,
     projectName,
-    color,
+    projectType: "project-container",
+    containerName: "",
+    opdrachtNummer: "",
+    containerNummer: "",
+    color: getProjectColor({ name }),
     createdBy: req.authUser.id,
     createdAt: new Date().toISOString()
   };
@@ -835,7 +1066,7 @@ app.put("/api/projects/:id", requireAuth, (req, res) => {
 
 app.post("/api/projects/sync-gripp", requireAuth, requireAdmin, async (req, res) => {
   try {
-    const result = await syncProjectsFromGripp(req.authUser.id);
+    const result = await syncProjectsFromGripp(req.authUser.id, req.body?.force === true);
     return res.json(result);
   } catch (error) {
     console.error("Gripp-synchronisatie mislukt:", error.message);
@@ -877,6 +1108,7 @@ app.get("/api/reservations", requireAuth, (_req, res) => {
       memberPicture: db.users.find((u) => u.id === reservation.memberId)?.picture || "",
       projectName: db.projects.find((project) => project.id === reservation.projectId)?.name || "",
       projectTitle: db.projects.find((project) => project.id === reservation.projectId)?.projectName || "",
+      customerName: db.projects.find((project) => project.id === reservation.projectId)?.customerName || "",
       projectColor: (() => {
         const project = db.projects.find((item) => item.id === reservation.projectId);
         return project ? getProjectColor(project) : "";
@@ -908,7 +1140,7 @@ app.post("/api/reservations", requireAuth, (req, res) => {
 
   const dbProjectStore = readDb();
   ensureProjectsCollection(dbProjectStore);
-  if (projectId && !dbProjectStore.projects.some((project) => project.id === projectId && project.name.toUpperCase().startsWith("SC"))) {
+  if (projectId && !dbProjectStore.projects.some((project) => project.id === projectId && project.name.trim())) {
     return res.status(404).json({ error: "Project niet gevonden." });
   }
 
@@ -977,7 +1209,7 @@ app.put("/api/reservations/:id", requireAuth, requireOwnerOrAdmin, (req, res) =>
 
   const projectStore = readDb();
   ensureProjectsCollection(projectStore);
-  if (projectId && !projectStore.projects.some((project) => project.id === projectId && project.name.toUpperCase().startsWith("SC"))) {
+  if (projectId && !projectStore.projects.some((project) => project.id === projectId && project.name.trim())) {
     return res.status(404).json({ error: "Project niet gevonden." });
   }
 
